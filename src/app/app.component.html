@@ -27,14 +27,13 @@
   <contact-list></contact-list>
 </div>
 -->
-<p id="text">something</p>
+<p class="title">something</p>
 <ul id="messages"></ul>
 
     <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+      <input id="m" autocomplete="off" /><button (click)="toggleTitle">Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/jquery/jquery.js"></script>
     <script>
     /*
       $(function(){
@@ -50,10 +49,5 @@
           })
       });
       */
-      ngAfterViewChecked(){
-        let self = this;
-        
-        $('#text').text('else');
-        
-      }
+      
     </script>
