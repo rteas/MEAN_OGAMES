@@ -11,6 +11,6 @@ declare var $ :any;
 export class AppComponent {
   title = 'app';
   toggleTitle(){
-    $('.title').slideToggle();
+    $('.title').slideToggle(); //
   }
 }
