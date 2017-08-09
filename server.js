@@ -5,12 +5,7 @@ var ObjectID = mongodb.ObjectID;
 
 var CONTACTS_COLLECTION = "contacts";
 
-
 var app = express();
-
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
 app.use(bodyParser.json());
 
 // Create link to Angular build directory
@@ -19,19 +14,6 @@ app.use(express.static(distDir));
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
-
-// Messages for sockets
-
-io.on('connection', function(socket){
-    console.log('a user connected');
-    socket.on('disconnect', function(){
-       console.log('user disconnected'); 
-    });
-    socket.on('chat-message', function(msg){
-        io.emit('msg', msg);
-    });
-    
-});
 
 // Connect to the database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
