@@ -11,5 +11,6 @@ export class AppComponent {
   title = 'app';
   toggleTitle() {
         alert('toggled');
+        jQuery('#title').text('jQUERRY');
     }
 }
