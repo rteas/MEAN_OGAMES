@@ -7,6 +7,8 @@ import { ContactListComponent } from './contacts/contact-list/contact-list.compo
 import { FormsModule }   from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+declare var $: any;
+
 @NgModule({
   declarations: [
     AppComponent,
