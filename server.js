@@ -14,7 +14,7 @@ app.use(express.static(distDir));
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
-
+var server;
 // Connect to the database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   if (err) {
@@ -27,10 +27,22 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   console.log("Database connection ready");
 
   // Initialize the app.
-  var server = app.listen(process.env.PORT || 8080, function () {
+  server = app.listen(process.env.PORT || 8080, function () {
     var port = server.address().port;
     console.log("App now running on port", port);
   });
+});
+
+var io = require('socket.io')(server);
+io.on('connection', function(socket){
+    console.log('a user connected');
+    socket.on('disconnect', function(){
+       console.log('user disconnected'); 
+    });
+    socket.on('chat-message', function(msg){
+        io.emit('msg', msg);
+    });
+    
 });
 
 // CONTACTS API ROUTES BELOW
