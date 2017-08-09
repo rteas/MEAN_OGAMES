@@ -25,9 +25,10 @@
     "@angular/router": "^4.0.0",
     "body-parser": "^1.17.2",
     "core-js": "^2.4.1",
-    "express": "^4.15.3",
+    "express": "4.15.4",
     "mongodb": "^2.2.30",
     "rxjs": "^5.4.1",
+    "socket.io": "2.0.3",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
