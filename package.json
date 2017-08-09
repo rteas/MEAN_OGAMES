@@ -30,6 +30,7 @@
     "jquery": "^3.2.1",
     "mongodb": "^2.2.30",
     "rxjs": "^5.4.1",
+    "semantic-ui-css": "^2.2.12",
     "socket.io": "2.0.3",
     "zone.js": "^0.8.14"
   },

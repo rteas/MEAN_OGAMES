@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-declare var jquery:any;
+declare var jQuery: any;
 declare var $ :any;
 
 @Component({
@@ -10,7 +10,7 @@ declare var $ :any;
 })
 export class AppComponent {
   title = 'app';
-  toggleTitle(){
-    $('.title').slideToggle(); //
+  alertUser(){
+    jQuery('.title').slideToggle(); //
   }
 }

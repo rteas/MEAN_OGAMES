@@ -27,27 +27,23 @@
   <contact-list></contact-list>
 </div>
 -->
-<h1 class="title">{{title}}</h1>
-<ul id="messages"></ul>
+<h1>
+{{title}}
+</h1>
 
-    <form action="">
-      <input id="m" autocomplete="off" /><button (click)="toggleTitle">Clicky</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-    /*
-      $(function(){
-          var socket = io();
-          $('form').submit(function(){
-            console.log('clicked');
-              socket.emit('chat-message', $('#m').val());
-              $('#m').val('');
-              return false;
-          });
-          socket.on('msg', function(msg){
-              $('#messages').append($('<li>').text(msg));
-          })
-      });
-      */
-      
-    </script>
+<div class="ui left demo vertical inverted sidebar labeled icon menu" id="sidenav">
+<a class="item">
+    <i class="home icon"></i>
+    Home
+</a>
+<a class="item">
+    <i class="block layout icon"></i>
+    Topics
+</a>
+<a class="item">
+    <i class="smile icon"></i>
+    Friends
+</a>
+</div>
+
+<button (click)="onToggle()">Toggle Me</button>
