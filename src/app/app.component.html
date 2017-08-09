@@ -27,14 +27,16 @@
   <contact-list></contact-list>
 </div>
 -->
-
+<p id="text">something</p>
 <ul id="messages"></ul>
+
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/jquery/jquery.js"></script>
     <script>
+    /*
       $(function(){
           var socket = io();
           $('form').submit(function(){
@@ -47,4 +49,6 @@
               $('#messages').append($('<li>').text(msg));
           })
       });
+      */
+      $('#text').text('else');
     </script>
