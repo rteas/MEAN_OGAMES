@@ -9,7 +9,7 @@ declare var jquery: any;
 })
 export class AppComponent {
   title = 'app';
-  onToggle() {
-        jQuery('.ui.sidebar').sidebar('setting', 'transition', 'push').sidebar('toggle');
+  toggleTitle() {
+        alert('toggled');
     }
 }
