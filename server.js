@@ -33,6 +33,10 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   });
 });
 
+app.get('/jquery/jquery.js', function(req, res) {
+    res.sendfile(__dirname + '/node_modules/jquery/dist/jquery.min.js');
+});
+
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
     console.log('a user connected');
