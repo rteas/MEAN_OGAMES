@@ -1,9 +1,12 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var mongodb = require("mongodb");
-var ObjectID = mongodb.ObjectID;
+//var mongo = require("mongodb");
+var mongo = require("mongoose");
+var Schema = mongo.schema;
+//var ObjectID = mongo.ObjectID;
 
-var CONTACTS_COLLECTION = "contacts";
+var USER_COLLECTION = "users";
+var ROOM_COLLECTION = "rooms";
 
 var app = express();
 app.use(bodyParser.json());
@@ -12,11 +15,17 @@ app.use(bodyParser.json());
 var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
+var users = require('./routes/user');
+var rooms = require('./routes/room');
+app.use('/api/users', users);
+app.use('/api/rooms', rooms);
+
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 var server;
+
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
+mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -29,7 +38,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   // Initialize the app.
   server = app.listen(process.env.PORT || 8080, function () {
     var port = server.address().port;
-    console.log("App now running on port", port);
+    console.log("App now running on " + process.env.IP +":"+ process.env.PORT);
   });
 });
 
@@ -49,8 +58,9 @@ io.on('connection', function(socket){
     
 });
 
-// CONTACTS API ROUTES BELOW
+// USER API ROUTES BELOW
 
+/*
 // Generic error handler used by all endpoints
 function handleError(res, reason, message, code){
     console.log("ERROR: " + reason);
@@ -62,8 +72,9 @@ function handleError(res, reason, message, code){
 * POST: creates a new contact
 */
 
-app.get("/api/contacts", function(req,res){
-    db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs){
+/*
+app.get("/api/users", function(req,res){
+    db.collection(USER_COLLECTION).find({}).toArray(function(err, docs){
         if (err) {
             handleError(res, err.message, "failed to get contacts");
         }
@@ -73,14 +84,14 @@ app.get("/api/contacts", function(req,res){
     })
 });
 
-app.post("/api/contacts", function(req, res){
+app.post("/api/users", function(req, res){
     var newContact = req.body;
     
     if (!req.body.name){
         handleError(res, "invalid user  input", "must provide a name.", 400);
     }
     
-    db.collection(CONTACTS_COLLECTION).insertOne( newContact, function (err, doc) {
+    db.collection(USER_COLLECTION).insertOne( newContact, function (err, doc) {
         if (err) {
             handleError(res, err.message, 'failed to create new contact.');
         }
@@ -89,6 +100,7 @@ app.post("/api/contacts", function(req, res){
         }
     });
 });
+*/
 
 
 /* '/api/contacts/:id'
@@ -97,8 +109,9 @@ app.post("/api/contacts", function(req, res){
 * DELETE: deletes the contact by id
 */
 
-app.get("/api/contacts/:id", function(req, res) {
-  db.collection(CONTACTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
+/*
+app.get("/api/users/:id", function(req, res) {
+  db.collection(USER_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get contact");
     } else {
@@ -107,22 +120,22 @@ app.get("/api/contacts/:id", function(req, res) {
   });
 });
 
-app.put("/api/contacts/:id", function(req, res) {
+app.put("/api/users/:id", function(req, res) {
   var updateDoc = req.body;
-  delete updateDoc._id;
+  // delete updateDoc._id;
 
-  db.collection(CONTACTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+  db.collection(USER_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to update contact");
     } else {
-      updateDoc._id = req.params.id;
+      // updateDoc._id = req.params.id;
       res.status(200).json(updateDoc);
     }
   });
 });
 
-app.delete("/api/contacts/:id", function(req, res) {
-  db.collection(CONTACTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+app.delete("/api/users/:id", function(req, res) {
+  db.collection(USER_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete contact");
     } else {
@@ -130,3 +143,4 @@ app.delete("/api/contacts/:id", function(req, res) {
     }
   });
 });
+*/

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-declare var jQuery: any;
+declare var $: any;
 
 @Component({
   selector: 'app-root',
@@ -11,6 +11,6 @@ export class AppComponent {
   title = 'app';
   toggleTitle() {
         alert('toggled');
-        jQuery('#title').text('jQUERRY');
+        $('#title').text('jQUERRY');
     }
 }

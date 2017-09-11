@@ -1,0 +1,8 @@
+<h2>Rooms</h2>
+<button>Create Room</button>
+<ul>
+    <li 
+    *ngFor="let room of rooms">
+        {{room.name}} - {{room.population}}/4 <span><button (click)="enterRoom(room,user)">Join!</button></span>
+    </li>
+</ul>
