@@ -1,0 +1,21 @@
+ul {
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+ul:hoover{
+    background-color: gray;
+}
+
+.message{
+    height:auto;
+    max-height:150%;
+    word-wrap: break-word;
+    
+}
+
+.chatbox-div{
+    overflow-y: auto;
+}

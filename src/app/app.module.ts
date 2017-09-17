@@ -6,6 +6,7 @@ import { RoutingModule } from './routing/routing.module';
 import { UserService } from './users/user.service';
 import { GlobalService } from './globals.service';
 import { RoomService } from './rooms/room.service';
+import { ChatService } from './chat/chat.service';
 
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
@@ -22,6 +23,7 @@ import { RoomComponent } from './rooms/room/room.component';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ChatboxComponent } from './chat/chatbox/chatbox.component';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,13 @@ import { ChatboxComponent } from './chat/chatbox/chatbox.component';
     HttpModule,
     RoutingModule
   ],
-  providers: [UserService, GlobalService, RoomService, { provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    UserService, 
+    GlobalService, 
+    RoomService, 
+    ChatService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

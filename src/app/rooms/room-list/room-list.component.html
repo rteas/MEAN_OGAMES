@@ -1,8 +1,14 @@
-<h2>Rooms</h2>
-<button>Create Room</button>
-<ul>
-    <li 
-    *ngFor="let room of rooms">
-        {{room.name}} - {{room.population}}/4 <span><button (click)="enterRoom(room,user)">Join!</button></span>
-    </li>
-</ul>
+<h2 id="roomlist-title">Rooms</h2>
+
+<div class="row" [style.height.px]="roomListHeight">
+    <ul>
+        <li 
+        *ngFor="let room of rooms">
+            {{room.name}} - {{room.population}}/4 <span><button class="btn btn-default" (click)="enterRoom(room,user)">Join!</button></span>
+        </li>
+    </ul>
+</div>
+
+<div class="row" id="roomlist-controls">
+    <button class="btn btn-default">Create Room</button>
+</div>

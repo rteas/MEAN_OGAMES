@@ -1,9 +1,44 @@
-<p>
+<p id="chatbox-title">
   Chat
 </p>
 
-<ul>
-    <li>Chatbox</li>
-</ul>
-
-<!--input [(ngModel)]="message"/> <button (click)="sendMessage()">Send</button-->
+<div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
+  <div class="col chatbox-div" id="messages-box">
+    <ul>
+        <li>Chatbox</li>
+        <li class="message" *ngFor="let msg of chatService.messages">
+          {{msg}}
+        </li>
+    </ul>
+  </div>
+  
+  <div class="col-2 chatbox-div" id="users-box" >
+    <ul>
+      <li>Users</li>
+      <li class="user" *ngFor="let user of users">
+        {{user.username}}
+      </li>
+    </ul>
+    
+  </div>
+  
+</div>
+<div class="row" id="chat-input">
+  <form class="col">
+    <div class="input-group">
+      <input 
+        id="chat-input"
+        (keypress)="keyHandler($event)" 
+        [(ngModel)]="message" 
+        [ngModelOptions]="{standalone: true}" 
+        type="text" class="form-control"  
+        placeholder="message"
+      />
+      <span class="input-group-btn">
+          <button (click)="sendMessage()"class="btn btn-default" type="button">Send!</button>
+      </span>
+    </div>
+  </form>
+</div>
+ 
+<!--button (click)="joinRoom('testroom')">Join room test</button-->

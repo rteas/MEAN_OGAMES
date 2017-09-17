@@ -5,6 +5,10 @@ var mongo = require("mongoose");
 var Schema = mongo.schema;
 //var ObjectID = mongo.ObjectID;
 
+var socketio = require('socket.io');
+
+//var http = require('http');
+
 var USER_COLLECTION = "users";
 var ROOM_COLLECTION = "rooms";
 
@@ -15,6 +19,8 @@ app.use(bodyParser.json());
 var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
+var HashMap = require('hashmap');
+
 var users = require('./routes/user');
 var rooms = require('./routes/room');
 app.use('/api/users', users);
@@ -23,6 +29,9 @@ app.use('/api/rooms', rooms);
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 var server;
+var io
+
+var roomMap = new HashMap();
 
 // Connect to the database before starting the application server.
 mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
@@ -40,23 +49,60 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
     var port = server.address().port;
     console.log("App now running on " + process.env.IP +":"+ process.env.PORT);
   });
+  
+  // setup socket.io
+  
+  io = socketio.listen(server);
+  var testNamespace = io.of('/testnamespace');
+  
+  testNamespace.on('connection', function(socket){
+    console.log('joined testnamespace!');
+    
+    socket.on('join room', (roomname) => {
+      console.log('joining room...',roomname);
+      socket.join(roomname);
+      console.log('User has joined room: ' + roomname);
+      socket.in(roomname).emit(roomname, 'Room message here!');
+    });
+    
+  });
+  
+  io.on('connection', function(socket){
+    
+    io.emit('greetings', 'hi');
+    console.log('user connected');
+    
+    socket.on('join room', (roomname) => {
+      console.log('joining room...',roomname);
+      socket.join(roomname);
+      console.log('User has joined room: ' + roomname);
+      socket.in(roomname).emit(roomname, 'Room message here!');
+    });
+    
+    socket.on('message', (msg) => {
+      console.log('message sending:',msg);
+      io.emit('message', msg);
+    });
+    
+    socket.on('disconnect', function(){
+       console.log('user disconnected'); 
+    });
+    
+    socket.on('user login', (username)=>{
+      console.log('user: '+username+' conneted!');
+      io.emit('user login', username);
+    });
+    socket.on('chat-message', function(msg){
+        io.emit('msg', msg);
+    });
+  });
+  
 });
 
 app.get('/jquery/jquery.js', function(req, res) {
     res.sendfile(__dirname + '/node_modules/jquery/dist/jquery.min.js');
 });
 
-var io = require('socket.io')(server);
-io.on('connection', function(socket){
-    console.log('a user connected');
-    socket.on('disconnect', function(){
-       console.log('user disconnected'); 
-    });
-    socket.on('chat-message', function(msg){
-        io.emit('msg', msg);
-    });
-    
-});
 
 // USER API ROUTES BELOW
 

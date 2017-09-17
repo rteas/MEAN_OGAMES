@@ -8,8 +8,11 @@
     {{user.topScore}} - {{user.username}}  : {{user.status}}
   </li>
 </ul>
+<div class="row">
+  
+</div>
 <ul>
-    <li>Create chatbox with socket.io</li>
+    <app-chatbox [user]="user" [users]="users"></app-chatbox>
     <li>Update room & user when user leaves/room is removed</li>
     <li>Add slots minigame</li>
 </ul>

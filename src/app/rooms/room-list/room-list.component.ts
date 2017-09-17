@@ -3,7 +3,8 @@ import { Room } from '../room';
 import { User } from '../../users/user';
 import { RoomService } from '../room.service';
 import { GlobalService } from '../../globals.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-room-list',
@@ -13,6 +14,8 @@ import { Router } from '@angular/router'
 export class RoomListComponent implements OnInit {
   user: User;
   rooms: Room[];
+  
+  roomListHeight: number;
   
   constructor(private roomService: RoomService,
               private globalService: GlobalService,
@@ -27,8 +30,21 @@ export class RoomListComponent implements OnInit {
             return room;
           });
         });
+    //this.setRoomHeight();
   }
   
+  setRoomHeight(){
+    var body = document.body,
+    html = document.documentElement;
+
+    var windowHeight = $(window).height();
+    
+    var titleHeight = $('#roomlist-title').offset().top + $('#roomlist-title').outerHeight(true);
+    var roomControlHeight = $('#roomlist-controls').outerHeight();
+    
+    this.roomListHeight = windowHeight - (titleHeight + 2*roomControlHeight);
+    
+  }
   enterRoom(room: Room, user: User){
     console.log('ENTERING ROOM:'+ room._id);
     /*
