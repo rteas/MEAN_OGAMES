@@ -23,6 +23,9 @@ router.post('/create', roomController.create);
 // PUT: Add user to a room
 router.put('/:id/addUser', roomController.addUser);
 
+// PUT: Remove user from a room
+router.put('/:id/removeUser', roomController.removeUser);
+
 // PUT: removes nulls, only for development purposes
 router.put('/:id/removeNulls', roomController.removeNulls);
 

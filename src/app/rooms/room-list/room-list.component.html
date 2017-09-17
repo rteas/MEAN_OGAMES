@@ -1,6 +1,6 @@
 <h2 id="roomlist-title">Rooms</h2>
 
-<div class="row" [style.height.px]="roomListHeight">
+<div class="row" (window:resize)="resizeRoomList()" [style.height.px]="roomListHeight">
     <ul>
         <li 
         *ngFor="let room of rooms">

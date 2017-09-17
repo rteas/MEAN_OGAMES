@@ -1,18 +1,20 @@
-<p>
+<p *ngIf="room">
   Welcome to room: {{room.name}}
 </p>
 
-<h3>TODOS:</h3>
+
 <ul>
   <li *ngFor="let user of users">
     {{user.topScore}} - {{user.username}}  : {{user.status}}
   </li>
 </ul>
-<div class="row">
-  
-</div>
+
+<app-chatbox [user]="user" [users]="users"></app-chatbox>
+
 <ul>
-    <app-chatbox [user]="user" [users]="users"></app-chatbox>
+    
+    <h3>TODOS:</h3>
+    <li>Update socket.io to change user-chatbox for room only</li>
     <li>Update room & user when user leaves/room is removed</li>
     <li>Add slots minigame</li>
 </ul>

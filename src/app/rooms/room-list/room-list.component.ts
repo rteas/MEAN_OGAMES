@@ -14,8 +14,10 @@ declare var $: any;
 export class RoomListComponent implements OnInit {
   user: User;
   rooms: Room[];
+  selectedRoom: Room;
   
   roomListHeight: number;
+  resizeInProgress: boolean = false;
   
   constructor(private roomService: RoomService,
               private globalService: GlobalService,
@@ -30,7 +32,16 @@ export class RoomListComponent implements OnInit {
             return room;
           });
         });
-    //this.setRoomHeight();
+    this.setRoomHeight();
+  }
+  
+  resizeRoomList(){
+    if(this.resizeInProgress) return;
+    this.resizeInProgress=true;
+    setTimeout(()=>{
+      this.setRoomHeight();
+      this.resizeInProgress = false;
+    }, 250);
   }
   
   setRoomHeight(){
@@ -46,17 +57,20 @@ export class RoomListComponent implements OnInit {
     
   }
   enterRoom(room: Room, user: User){
-    console.log('ENTERING ROOM:'+ room._id);
-    /*
+    // console.log('ENTERING ROOM:'+ room._id);
     this.roomService
     .addUserToRoom(room, user)
-    .then((room => {
-      console.log("room: " + room);
-    }))
-    .then(() => this.router.navigate(['/room/'+room._id]));
-    */
-    let link = ['/room', room._id]
-    this.router.navigate(link);
+    .then(() => {
+      this.selectedRoom = room;
+      // console.log(this.selectedRoom);
+      if(room){
+        this.router.navigate(['/room/'+room._id])
+      }
+      else{
+        console.log('room full');
+      }
+    });
+    
   }
 
 }

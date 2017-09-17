@@ -63,6 +63,7 @@ exports.details = function(req, res){
 exports.addUser = function(req, res){
     Room.findById(req.params.id, function(err, room){
         if (err) { handleError(res, err); }
+        console.log('BODY-REQUEST: ');
         console.log(req.body);
         
         var user_id = req.body._id;
@@ -117,6 +118,7 @@ exports.removeNulls = function(req, res){
 }
 
 exports.removeUser = function(req, res){
+    console.log('removing user..');
     var user_id = req.body._id;
     Room.findById(req.params.id, function(err, room){
         if (err) { handleError(res, err); }
@@ -134,7 +136,7 @@ exports.removeUser = function(req, res){
         
         room.save(function(err, room){
             if (err) { handleError(res, err); }
-            res.status(200).json(room);
+            return res.status(200).json(room);
         });
     });
 }

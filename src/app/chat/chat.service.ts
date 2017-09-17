@@ -7,8 +7,8 @@ export class ChatService {
     
     socket: any;
     message: string = "";
-    username: string = "";
-    messages: String[] = [];
+    messages: string[] = [];
+    username: string;
     url: string = 'http://slots-party-rteas-1.c9users.io:8080';
     
     

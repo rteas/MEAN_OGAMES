@@ -29,18 +29,22 @@ export class RoomService {
   // adds user id to room, updates room count
   addUserToRoom(room: Room, user: User): Promise<void | Room> {
       const apiUrl = this.roomsUrl+'/'+room._id+'/addUser';
-      return this.http.put(apiUrl, JSON.stringify(user), this.headers)
+      return this.http.put(apiUrl, user, this.headers)
                         .toPromise()
                         .then(response => response.json() as Room)
                         .catch(this.handleError);
   }
   
 
-  /*
+  
   removeUserFromRoom(room: Room, user: User): Promise<void> {
-      
+      const apiUrl = this.roomsUrl+'/'+room._id+'/removeUser';
+      return this.http.put(apiUrl, user, this.headers)
+                        .toPromise()
+                        .then(response => response.json() as Room)
+                        .catch(this.handleError);
   }
-  */
+  
   getRoom(id: string): Promise<Room> {
       const apiUrl = this.roomsUrl+'/'+id;
       return this.http.get(apiUrl)

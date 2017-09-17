@@ -36,7 +36,7 @@
   
   
   <!--button (click)="toggleTitle()">Toggle Me</button>
-  
   <app-user-list></app-user-list-->
+  <app-top-nav *ngIf="globalService.userInfo"></app-top-nav> 
   <router-outlet></router-outlet>
 </div>
