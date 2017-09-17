@@ -3,13 +3,13 @@
 </p>
 
 
-<ul>
+<!--ul>
   <li *ngFor="let user of users">
     {{user.topScore}} - {{user.username}}  : {{user.status}}
   </li>
-</ul>
+</ul-->
 
-<app-chatbox [user]="user" [users]="users"></app-chatbox>
+<app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
 
 <ul>
     

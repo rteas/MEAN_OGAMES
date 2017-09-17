@@ -118,11 +118,15 @@ exports.removeNulls = function(req, res){
 }
 
 exports.removeUser = function(req, res){
-    console.log('removing user..');
+    
     var user_id = req.body._id;
+    
     Room.findById(req.params.id, function(err, room){
+        console.log("ROOM FOUND FOR USER: " + user_id);
+        console.log(room);
         if (err) { handleError(res, err); }
-        for(var i = 0; i < room.length; i++){
+        for(var i = 0; i < room.users.length; i++){
+            
             if(room.users[i].toString() === user_id){
                 room.users.splice(i,1);
                 // update user location

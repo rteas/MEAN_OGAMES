@@ -28,7 +28,7 @@
   <contact-list></contact-list>
 </div>
 -->
-
+<app-top-nav *ngIf="globalService.userInfo"></app-top-nav> 
 <div class="container">
   <h1 id="title">
   {{title}}
@@ -37,6 +37,6 @@
   
   <!--button (click)="toggleTitle()">Toggle Me</button>
   <app-user-list></app-user-list-->
-  <app-top-nav *ngIf="globalService.userInfo"></app-top-nav> 
+  
   <router-outlet></router-outlet>
 </div>

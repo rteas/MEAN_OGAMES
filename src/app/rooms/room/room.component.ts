@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,  OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy,  DoCheck } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { RoomService } from '../room.service';
 import { UserService } from '../../users/user.service';
@@ -16,7 +16,7 @@ import { ChatboxComponent } from '../../chat/chatbox/chatbox.component';
   providers: [ChatboxComponent]
 })
 
-export class RoomComponent implements OnInit, OnDestroy,  OnChanges {
+export class RoomComponent implements OnInit, OnDestroy {
 
   room: Room;
   user: User;
@@ -54,15 +54,12 @@ export class RoomComponent implements OnInit, OnDestroy,  OnChanges {
                           this.users.push(tempUser)
                         });
         }
+      })
+      .then(() => {
+        console.log("users gathered and loaded?")
+        this.chatboxComponent.resizeChatBox();
       });
 
-  }
-  
-  
-  ngOnChanges() {
-    // reset chatbox view
-    console.log('inited');
-    this.chatboxComponent.resizeChatBox();
   }
   
   ngOnDestroy(){
