@@ -11,7 +11,7 @@
     Friends (lol):
 </p>
 <ul>
-    <li *ngFor="let friend of globalService.userInfo.friends">
-        {{friend}}
+    <li *ngFor="let friend of userFriends">
+        {{friend.username}}
     </li>
 </ul>
