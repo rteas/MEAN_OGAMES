@@ -1,3 +1,17 @@
+<h3>
+    {{globalService.userInfo.username}}
+</h3>
 <p>
-  user-details works!
+    Top Score: {{globalService.userInfo.topScore}}
 </p>
+<p>
+    Location: {{globalService.userInfo.location}}
+</p>
+<p>
+    Friends (lol):
+</p>
+<ul>
+    <li *ngFor="let friend of globalService.userInfo.friends">
+        {{friend}}
+    </li>
+</ul>

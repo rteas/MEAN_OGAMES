@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../globals.service';
+import { User } from '../users/user';
 
 @Component({
   selector: 'app-top-nav',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopNavComponent implements OnInit {
   
-  constructor() { }
+  user: User;
+  
+  constructor(private globalService: GlobalService) { }
 
   ngOnInit() {
+    //this.user = this.globalService.userInfo;
   }
 
 }

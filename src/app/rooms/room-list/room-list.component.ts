@@ -64,7 +64,7 @@ export class RoomListComponent implements OnInit {
       this.selectedRoom = room;
       // console.log(this.selectedRoom);
       if(room){
-        this.router.navigate(['/room/'+room._id])
+        this.router.navigate(['/rooms/'+room._id]);
       }
       else{
         console.log('room full');

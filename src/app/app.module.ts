@@ -24,6 +24,7 @@ import { RoomComponent } from './rooms/room/room.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ChatboxComponent } from './chat/chatbox/chatbox.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
+import { SlotsGameComponent } from './games/slots-game/slots-game.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { TopNavComponent } from './top-nav/top-nav.component';
     RoomDetailsComponent,
     RoomComponent,
     ChatboxComponent,
-    TopNavComponent
+    TopNavComponent,
+    SlotsGameComponent
   ],
   imports: [
     BrowserModule,

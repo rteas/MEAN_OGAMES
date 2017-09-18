@@ -8,6 +8,7 @@ import 'rxjs/add/operator/switchMap';
 import { GlobalService } from '../../globals.service';
 import { ChatService } from '../../chat/chat.service';
 import { ChatboxComponent } from '../../chat/chatbox/chatbox.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room',
@@ -27,7 +28,8 @@ export class RoomComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private globalService: GlobalService,
               private chatboxComponent: ChatboxComponent,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     
@@ -38,12 +40,12 @@ export class RoomComponent implements OnInit, OnDestroy {
     if(this.chatService.username && this.user){
       this.chatService.joinRoom(id);
     }
-    
 
     this.roomService.getRoom(id)
       .then(room => {
         console.log(room);
         this.room = room;
+        this.globalService.roomInfo = room;
       })
       // get users from the room
       .then(() => {
@@ -62,10 +64,16 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   }
   
+  leaveRoom(){
+    this.roomService.removeUserFromRoom(this.room, this.user);
+    this.globalService.roomInfo = null;
+    this.router.navigate(['/lobby']);
+  }
+  
   ngOnDestroy(){
     // removing user...
-    console.log('removing user...');
-    this.roomService.removeUserFromRoom(this.room, this.user);
+    //console.log('removing user...');
+    //this.roomService.removeUserFromRoom(this.room, this.user);
   }
   
 

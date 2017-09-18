@@ -24,7 +24,7 @@ export class LobbyComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.globalService.userInfo;
-    
+    console.log(this.user);
     // Create connection to socket.io chat
     if(!this.chatService.username && this.user){
       this.chatService.join(this.user.username);

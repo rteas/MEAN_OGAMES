@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
         if(user){
           this.user = user
           this.results = 'success';
-          this.router.navigate(['/lobby']);
           this.globals.userInfo = user;
+          this.router.navigate(['/lobby']);
           console.log('success');
         }
         // unsuccessful verification
