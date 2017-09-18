@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 import { Http } from '@angular/http';
 
@@ -9,6 +10,7 @@ export class ChatService {
     message: string = "";
     messages: string[] = [];
     username: string;
+    chatLocation: string;
     url: string = 'http://slots-party-rteas-1.c9users.io:8080';
     
     
@@ -19,17 +21,22 @@ export class ChatService {
   join(username: string): void{
       this.username = username;
       this.socket = io(this.url);
-      this.socket.emit('user login', username);
+      this.socket.emit('user-login', username);
       this.socket.on('greetings', (msg) => {
           console.log('connected.', msg);
       });
       
-      this.socket.on('user login', (username) => {
+      this.socket.on('user-login', (username) => {
           this.messages.push(username+ " has joined!")
-      })
+      });
       
       this.socket.on('message', msg => {
           this.messages.push(msg);
+      });
+      
+      this.socket.on('disconnect', msg => {
+          console.log(msg);
+          this.messages.push(msg+ " left");
       });
       
       /*
@@ -51,20 +58,47 @@ export class ChatService {
       })
   }
   
+  switchChatLocation(location: string){
+    if(location.length > 0){
+      this.chatLocation = location;
+    }
+    else{
+      this.chatLocation="lobby";
+    }
+    
+  }
   sendMessage(message: string): void {
-      this.socket.emit('message', this.username+": "+message);
+      console.log("LOCATION: "+this.chatLocation);
+      if(this.chatLocation === "lobby" || !this.chatLocation){
+          this.socket.emit('message', '['+this.chatLocation+'] '+this.username+": "+message);
+      }
+      else{
+          this.sendRoomMessage(this.chatLocation, '['+this.chatLocation+'] '+this.username+": "+message);
+      }
+      
   }
   
-  /*
-  listen(event: string): Observable<any> {
-      return new Observable(observer => {
-          this.socket.on(event, data => {
-              observer.next(data);
-          });
-          
-          
-      });
+  sendRoomMessage(room: string, message: string){
+      var data = { message: message, room: room }
+      this.socket.emit('room-message', data);
+      
   }
-  */
+  
+  listen(event: string): Observable<any> {
+
+    return new Observable(observer => {
+
+      this.socket.on(event, data => {
+        observer.next(data);
+      });
+
+      // observable is disposed
+      return () => {
+        this.socket.off(event);
+      }
+
+    });
+
+  }
 
 }

@@ -17,13 +17,11 @@ export class ChatboxComponent implements OnInit {
   usersHeight: number;
   resizeInProgress: boolean = false;
   
-  constructor(public chatService: ChatService) { }
+  constructor(private chatService: ChatService) { }
 
   ngOnInit() {
     this.setChatBoxHeight();
   }
-  
-  
   
   resizeChatBox(){
    //alert($(window).height());
@@ -50,6 +48,8 @@ export class ChatboxComponent implements OnInit {
     
   }
   
+
+  
   joinRoom(roomName: string){
     this.chatService.joinRoom(roomName);
   }
@@ -58,7 +58,7 @@ export class ChatboxComponent implements OnInit {
     if(this.message){
       // TODO: clean the message
       if(this.message.length > 0){
-        console.log(this.message.length);
+        
         this.chatService.sendMessage(this.message);
         this.message = "";
       }

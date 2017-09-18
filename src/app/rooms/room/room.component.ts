@@ -34,6 +34,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     this.user = this.globalService.userInfo;
+
+    if(!this.globalService.userInfo){
+      this.router.navigate(['/']);
+    }
     
     let id = this.route.snapshot.paramMap.get('id').toString();
     
@@ -45,6 +49,8 @@ export class RoomComponent implements OnInit, OnDestroy {
       .then(room => {
         console.log(room);
         this.room = room;
+        this.chatService.joinRoom(room._id);
+        this.chatService.switchChatLocation(room._id);
         this.globalService.roomInfo = room;
       })
       // get users from the room
@@ -58,7 +64,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         }
       })
       .then(() => {
-        console.log("users gathered and loaded?")
+        console.log("users gathered and loaded?");
         this.chatboxComponent.resizeChatBox();
       });
 
@@ -74,6 +80,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     // removing user...
     //console.log('removing user...');
     //this.roomService.removeUserFromRoom(this.room, this.user);
+    // switch user location
+    this.chatService.switchChatLocation("lobby");
   }
   
 

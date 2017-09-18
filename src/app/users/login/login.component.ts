@@ -19,9 +19,13 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService,
               private http: Http,
               private router: Router,
-              private globals: GlobalService) { }
+              private globalService: GlobalService) { }
 
   ngOnInit() {
+    if(this.globalService.userInfo){
+      this.router.navigate(['/lobby']);
+    }
+    
     this.initializeUser();
   }
   
@@ -47,7 +51,7 @@ export class LoginComponent implements OnInit {
         if(user){
           this.user = user
           this.results = 'success';
-          this.globals.userInfo = user;
+          this.globalService.userInfo = user;
           this.router.navigate(['/lobby']);
           console.log('success');
         }

@@ -76,7 +76,7 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
       console.log('joining room...',roomname);
       socket.join(roomname);
       console.log('User has joined room: ' + roomname);
-      socket.in(roomname).emit(roomname, 'Room message here!');
+      socket.in(roomname).emit(roomname, 'welcome to room ' + roomname+"!");
     });
     
     socket.on('message', (msg) => {
@@ -85,17 +85,28 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
     });
     
     socket.on('disconnect', function(){
-       console.log('user disconnected'); 
+       console.log(socket.username, 'disconnected'); 
+       io.emit('disconnect', socket.username);
     });
     
-    socket.on('user login', (username)=>{
+    socket.on('user-login', (username)=>{
+      socket.username = username;
       console.log('user: '+username+' conneted!');
-      io.emit('user login', username);
+      io.emit('user-login', socket.username);
     });
+    
     socket.on('chat-message', function(msg){
         io.emit('msg', msg);
     });
+    
+    socket.on('room-message', function(data){
+      console.log("room-msg:");
+      console.log(data);
+      io.to(data.room).emit('message', data.message);
+    });
   });
+  
+  
   
 });
 

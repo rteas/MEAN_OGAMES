@@ -9,7 +9,7 @@ import { User } from '../users/user';
 })
 export class TopNavComponent implements OnInit {
   
-  user: User;
+  //user: User;
   
   constructor(private globalService: GlobalService) { }
 
