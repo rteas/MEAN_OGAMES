@@ -25,6 +25,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ChatboxComponent } from './chat/chatbox/chatbox.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import { SlotsGameComponent } from './games/slots-game/slots-game.component';
+import { LogoutComponent } from './users/logout/logout.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { SlotsGameComponent } from './games/slots-game/slots-game.component';
     RoomComponent,
     ChatboxComponent,
     TopNavComponent,
-    SlotsGameComponent
+    SlotsGameComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

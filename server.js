@@ -91,7 +91,7 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
        io.emit('disconnect', socket.username);
        userSocketMap.forEach((socket, username) => {
         console.log(username); 
-      })
+      });
        
     });
     
@@ -115,8 +115,6 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
       io.to(data.room).emit('message', data.message);
     });
   });
-  
-  
   
 });
 

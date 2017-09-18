@@ -21,11 +21,17 @@
     <li class="nav-item">
       <a class="nav-link" routerLink="/lobby" routerLinkActive="active">Lobby</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
+    </li>
     <li class="nav-item" *ngIf="globalService.roomInfo">
       <a class="nav-link" routerLink="/rooms/{{globalService.roomInfo._id}}" routerLinkActive="active">Room</a>
     </li>
   </ul>
   <ul class="nav navbar-nav">
+    <li class="nav-item" *ngIf="globalService.userInfo">
+      <a class="nav-link" routerLink="/logout" routerLinkActive="active">Logout</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" href="#"><i class="fa fa-medium" aria-hidden="true"></i></a>
     </li>
