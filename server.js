@@ -21,6 +21,7 @@ app.use(express.static(distDir));
 
 var HashMap = require('hashmap');
 
+var userSocketMap = new HashMap();
 var users = require('./routes/user');
 var rooms = require('./routes/room');
 app.use('/api/users', users);
@@ -86,13 +87,22 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
     
     socket.on('disconnect', function(){
        console.log(socket.username, 'disconnected'); 
+       userSocketMap.delete(socket.username);
        io.emit('disconnect', socket.username);
+       userSocketMap.forEach((socket, username) => {
+        console.log(username); 
+      })
+       
     });
     
     socket.on('user-login', (username)=>{
       socket.username = username;
-      console.log('user: '+username+' conneted!');
+      userSocketMap.set(username, socket);
       io.emit('user-login', socket.username);
+      console.log('user: '+username+' conneted!');
+      userSocketMap.forEach((socket, username) => {
+        console.log(username); 
+      })
     });
     
     socket.on('chat-message', function(msg){
