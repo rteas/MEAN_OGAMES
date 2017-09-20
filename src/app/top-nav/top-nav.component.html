@@ -16,6 +16,9 @@
   <a class="navbar-brand" href="#">Game Society</a>
   <ul class="nav navbar-nav mr-auto">
     <li class="nav-item" *ngIf="globalService.userInfo">
+      <a class="nav-link" routerLink="/lobby">Welcome</a>
+    </li>
+    <li class="nav-item" *ngIf="globalService.userInfo">
       <a class="nav-link" routerLink="/users/{{globalService.userInfo._id}}" routerLinkActive="active">{{globalService.userInfo.username}}</a>
     </li>
     <li class="nav-item">
@@ -39,7 +42,7 @@
       <a class="nav-link" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#"><i class="fa fa-github" aria-hidden="true"></i></a>
+      <a class="nav-link" href="https://github.com/rteas"><i class="fa fa-github" aria-hidden="true"></i></a>
     </li>
   </ul>
 </nav>

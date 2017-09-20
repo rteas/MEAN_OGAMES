@@ -86,12 +86,16 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
     });
     
     socket.on('disconnect', function(){
-       console.log(socket.username, 'disconnected'); 
-       userSocketMap.delete(socket.username);
-       io.emit('disconnect', socket.username);
-       userSocketMap.forEach((socket, username) => {
-        console.log(username); 
-      });
+        
+       if(socket.username){
+         console.log(socket.username, 'disconnected');
+         userSocketMap.delete(socket.username);
+         io.emit('disconnect', socket.username);
+         userSocketMap.forEach((socket, username) => {
+          console.log(username); 
+        });
+       }
+       
        
     });
     

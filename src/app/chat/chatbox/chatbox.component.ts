@@ -48,7 +48,9 @@ export class ChatboxComponent implements OnInit {
     
   }
   
-
+  scrollChatDown(){
+ 
+  }
   
   joinRoom(roomName: string){
     this.chatService.joinRoom(roomName);
