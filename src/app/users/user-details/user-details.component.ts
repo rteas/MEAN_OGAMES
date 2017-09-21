@@ -10,8 +10,8 @@ import { User } from '../user';
 })
 export class UserDetailsComponent implements OnInit {
 
-  constructor(private globalService: GlobalService,
-              private userService: UserService) { }
+  constructor(public globalService: GlobalService,
+              public userService: UserService) { }
   userFriends : User[] = [];
   
   ngOnInit() {

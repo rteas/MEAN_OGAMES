@@ -11,7 +11,7 @@ export class TopNavComponent implements OnInit {
   
   //user: User;
   
-  constructor(private globalService: GlobalService) { }
+  constructor(public globalService: GlobalService) { }
 
   ngOnInit() {
     //this.user = this.globalService.userInfo;
