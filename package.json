@@ -16,6 +16,13 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "^1.4.1",
+    "@angular/compiler-cli": "^4.3.6",
+    "@angular/language-service": "^4.3.6",
+    "@types/jasmine": "^2.5.54",
+    "@types/jasminewd2": "^2.0.3",
+    "@types/jquery": "^3.2.12",
+    "@types/node": "^6.0.88",
     "@angular/animations": "^4.3.6",
     "@angular/common": "^4.3.6",
     "@angular/compiler": "^4.3.6",
@@ -42,13 +49,6 @@
     "zone.js": "^0.8.17"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.1",
-    "@angular/compiler-cli": "^4.3.6",
-    "@angular/language-service": "^4.3.6",
-    "@types/jasmine": "^2.5.54",
-    "@types/jasminewd2": "^2.0.3",
-    "@types/jquery": "^3.2.12",
-    "@types/node": "^6.0.88",
     "codelyzer": "~3.0.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
