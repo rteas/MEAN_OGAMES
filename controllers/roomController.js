@@ -161,6 +161,7 @@ exports.deleteRoom = function (req, res){
     
     // Remove room
     Room.findByIdAndRemove(req.params.id, function(err){
-        if (err) { handleError(res,err); }
+        if (err) { handleError(res, err); }
+        res.status(200).json({ status: 'success'});
     });
 }

@@ -18,7 +18,7 @@ router.post('/create', roomController.create);
 //router.put('/:id/update', roomController.updateRoom);
 
 // POST: Delete room
-//router.post('/:id/delete', roomController.deleteRoom);
+router.post('/:id/delete', roomController.deleteRoom);
 
 // PUT: Add user to a room
 router.put('/:id/addUser', roomController.addUser);
