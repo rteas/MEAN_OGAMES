@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "preinstall":   "npm install -g http-server"
+    "preinstall":   "npm install -g http-server",
     "postinstall": "ng build --prod"
   },
   "private": true,
