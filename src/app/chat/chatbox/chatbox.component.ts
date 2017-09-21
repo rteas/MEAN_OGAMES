@@ -17,7 +17,7 @@ export class ChatboxComponent implements OnInit {
   usersHeight: number;
   resizeInProgress: boolean = false;
   
-  constructor(private chatService: ChatService) { }
+  constructor(public chatService: ChatService) { }
 
   ngOnInit() {
     this.setChatBoxHeight();
