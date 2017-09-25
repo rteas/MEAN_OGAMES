@@ -4,3 +4,7 @@ ul {
     overflow-y: auto;
     overflow-x: auto;
 }
+
+#roomlist-title{
+    width:100%;
+}

@@ -1,14 +1,34 @@
-<h2 id="roomlist-title">Rooms</h2>
+<!--p id="roomlist-title"><span>Rooms</span> <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2"></p-->
 
+<div id="roomlist-title" class="input-group">
+    <span class="input-group-addon" id="sizing-addon2">Rooms</span>
+    <input type="text" class="form-control" placeholder="TODO: Implement room search function" aria-describedby="sizing-addon2">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">Go!</button>
+    </span>
+</div>
 <div class="row" (window:resize)="resizeRoomList()" [style.height.px]="roomListHeight">
-    <ul>
+    <!--ul>
         <li 
         *ngFor="let room of rooms">
-            {{room.name}} - {{room.population}}/4 <span><button class="btn btn-default" (click)="enterRoom(room,user)">Join!</button></span>
+            {{room.name}} - {{room.population}}/4 <span></span>
         </li>
-    </ul>
+    </ul-->
+    <table class="table table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Users</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let room of rooms">
+            <td>{{room.name}}</td>
+            <td>{{room.population}}/4</td>
+            <td><button class="btn btn-primary" (click)="enterRoom(room,user)">Join!</button></td>
+        </tr>
+        
+    </table>
 </div>
 
 <div class="row" id="roomlist-controls">
-    <button class="btn btn-default">Ok</button>
+    <app-room-create></app-room-create>
 </div>

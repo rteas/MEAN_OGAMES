@@ -43,7 +43,8 @@ exports.create = function(req, res){
                         name: req.body.name, 
                         password: req.body.password,
                         population: 1,
-                        users: [req.body.user]
+                        users: [req.body.user],
+                        owner: [req.body.user]
                     });
     newRoom.save(function(err, room){
         if (err) { handleError(res, err); }
@@ -116,7 +117,8 @@ exports.removeNulls = function(req, res){
         });
     });
 }
-
+// Remove user, if the user is the room owner, change the room owner to
+// one of the remaining users in the room
 exports.removeUser = function(req, res){
     
     var user_id = req.body._id;
@@ -128,12 +130,22 @@ exports.removeUser = function(req, res){
         for(var i = 0; i < room.users.length; i++){
             
             if(room.users[i].toString() === user_id){
+                // remove user
                 room.users.splice(i,1);
+                
+                // update room owner (if needed)
+                if(room.users[i] === room.owner){
+                    if(room.users.length > 0){
+                        room.owner = room.users[0];
+                    }
+                }
+                
                 // update user location
                 User.findById(user_id, function(err, user){
                     if (err) { handleError(res, err); }
                     user.location = null;
                 });
+                
                 room.population--;
             }
         }

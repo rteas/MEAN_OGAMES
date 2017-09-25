@@ -2,11 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { RoutingModule } from './routing/routing.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { UserService } from './users/user.service';
 import { GlobalService } from './globals.service';
 import { RoomService } from './rooms/room.service';
 import { ChatService } from './chat/chat.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
@@ -27,6 +29,8 @@ import { TopNavComponent } from './top-nav/top-nav.component';
 import { SlotsGameComponent } from './games/slots-game/slots-game.component';
 import { LogoutComponent } from './users/logout/logout.component';
 
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { RoomCreateComponent } from './rooms/room-create/room-create.component';
 
 @NgModule({
   declarations: [
@@ -43,9 +47,12 @@ import { LogoutComponent } from './users/logout/logout.component';
     ChatboxComponent,
     TopNavComponent,
     SlotsGameComponent,
-    LogoutComponent
+    LogoutComponent,
+    RoomCreateComponent
   ],
   imports: [
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -56,6 +63,7 @@ import { LogoutComponent } from './users/logout/logout.component';
     GlobalService, 
     RoomService, 
     ChatService,
+    BsModalService,
     { provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]

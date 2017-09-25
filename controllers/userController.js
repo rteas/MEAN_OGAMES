@@ -52,11 +52,11 @@ exports.createUser = function(req, res){
                     });
                 newUser.save(function(err){
                    if (err) { handleError(res, err); }
-                   res.status(200).json(user);
+                   res.status(200).json(newUser);
                 });
            }
            else{
-               res.status(200).json(user);
+               res.status(200).json(null);
            }
         });
     
@@ -104,16 +104,6 @@ exports.updateUserProfile = function(req,res){
                 
         });
         
-        /*
-        User.findByIdAndUpdate(req.params.id, {
-            username: req.body.username, 
-            password: req.body.password, 
-            location: req.body.location
-        }, function(err, user){
-            if (err) { handleError(res, err); }
-            res.status(200).json(user);
-        });
-        */
 }
 
 exports.updateUserScore = function(req, res){

@@ -7,9 +7,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var RoomSchema = new Schema({
-    name: { type: String, min: 1, max: 30 },
+    name: { type: String, min: 1, max: 20 },
     password: { type: String },
     population: { type: Number, min: 0, max: 4 },
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
 

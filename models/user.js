@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-    username: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true, min: 3, max: 20 },
     password: { type: String, required: true },
     topScore: { type: Number, default: 0 },
     status: { type: String, default: "Offline" },

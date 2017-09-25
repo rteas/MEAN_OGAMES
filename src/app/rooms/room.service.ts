@@ -54,5 +54,14 @@ export class RoomService {
       
   }
   
+  createRoom(room: Room, userId: String): Promise<void | Room>{
+      const apiUrl = this.roomsUrl+'/'+room._id+'/create';
+      var roomParams = { name: room.name, password: room.password, user: userId };
+      return this.http.post(apiUrl, roomParams, this.headers)
+                    .toPromise()
+                    .then(response => response.json() as Room)
+                    .catch(this.handleError);
+  }
+  
     
 }

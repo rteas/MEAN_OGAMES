@@ -4,4 +4,5 @@ export class Room {
     password: string;
     population: number;
     users: string[];
+    owner: string;
 }
