@@ -38,7 +38,6 @@ var roomMap = new HashMap();
 var SocketManager = require('./socket-manager.js');
 var userSockets = new SocketManager();
 
-
 // Connect to the database before starting the application server.
 mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
   if (err) {
@@ -66,7 +65,7 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
     console.log('user connected');
     
     socket.on('join room', (roomname) => {
-      console.log('joining room...',roomname);
+      console.log('joining room...', roomname);
       socket.join(roomname);
       console.log('User has joined room: ' + roomname);
       socket.in(roomname).emit(roomname, 'welcome to room ' + roomname+"!");
@@ -105,7 +104,6 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
          console.log(socket.username, 'disconnected');
          userSockets.removeSocket(socket.username);
          io.emit('disconnect', socket.username);
-         
        }
        
     });

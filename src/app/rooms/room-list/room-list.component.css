@@ -9,7 +9,10 @@ ul {
     width:100%;
 }
 
+#roomlist-items{
+    overflow: auto;
+}
 table {
     padding: 0;
-    overflow-y: scroll;
+    overflow: auto;
 }
