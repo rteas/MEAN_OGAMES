@@ -73,41 +73,43 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
     });
     
     socket.on('message', (msg) => {
-      console.log('message sending:',msg);
+      console.log('message sending:', msg);
       io.emit('message', msg);
     });
-    
-    socket.on('disconnect', function(){
-        
-       if(socket.username){
-         console.log(socket.username, 'disconnected');
-         userSocketMap.delete(socket.username);
-         io.emit('disconnect', socket.username);
-         
-       }
-       
-       
-    });
-    
-    socket.on('user-login', (username)=>{
-      socket.username = username;
-      userSocketMap.set(username, socket);
-      io.emit('user-login', socket.username);
-      console.log('user: '+username+' conneted!');
-      userSocketMap.forEach((socket, username) => {
-        console.log(username); 
-      })
-    });
-    
+
     socket.on('chat-message', function(msg){
         io.emit('msg', msg);
     });
     
     socket.on('room-message', function(data){
+      
       console.log("room-msg:");
       console.log(data);
       io.to(data.room).emit('message', data.message);
+      
+    });    
+    
+    socket.on('user-login', (username)=>{
+      
+      socket.username = username;
+      userSockets.addSocket(username, socket);
+      io.emit('user-login', socket.username);
+      console.log('user: '+username+' conneted!');
+      userSockets.print();
+      
     });
+    
+    socket.on('disconnect', () => {
+        
+       if(socket.username){
+         console.log(socket.username, 'disconnected');
+         userSockets.delete(socket.username);
+         io.emit('disconnect', socket.username);
+         
+       }
+       
+    });
+    
   });
   
   // Test namespace

@@ -29,6 +29,10 @@ class SocketManager{
         });
     }
     
+    removeSocket(username){
+        this.userSocketMap.delete(username);
+    }
+    
 }
 
 module.exports = SocketManager;
