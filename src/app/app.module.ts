@@ -31,6 +31,7 @@ import { LogoutComponent } from './users/logout/logout.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { RoomCreateComponent } from './rooms/room-create/room-create.component';
+import { PongGameComponent } from './games/pong-game/pong-game.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { RoomCreateComponent } from './rooms/room-create/room-create.component';
     TopNavComponent,
     SlotsGameComponent,
     LogoutComponent,
-    RoomCreateComponent
+    RoomCreateComponent,
+    PongGameComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

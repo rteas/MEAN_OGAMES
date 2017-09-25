@@ -133,11 +133,16 @@ exports.removeUser = function(req, res){
                 // remove user
                 room.users.splice(i,1);
                 
+                // remove room if there are no users
+                room.population--;
+                if(room.users.length == 0){
+                    room.remove();
+                    return res.status(200).json({status: "success"});
+                }
+                
                 // update room owner (if needed)
                 if(room.users[i] === room.owner){
-                    if(room.users.length > 0){
-                        room.owner = room.users[0];
-                    }
+                    room.owner = room.users[0];
                 }
                 
                 // update user location
@@ -146,12 +151,7 @@ exports.removeUser = function(req, res){
                     user.location = null;
                 });
                 
-                // remove room if there are no users
-                room.population--;
-                if(room.population == 0){
-                    room.remove();
-                    return res.status(200).json({status: "success"});
-                }
+                
             }
         }
         
@@ -175,10 +175,11 @@ exports.roomInfo = function(req,res){
 exports.deleteRoom = function (req, res){
     
     // TODO: Remove users from room
-    
     // Remove room
+    console.log('removing room..?');
     Room.findByIdAndRemove(req.params.id, function(err){
         if (err) { handleError(res, err); }
-        res.status(200).json({ status: 'success'});
+        console.log('removed!');
+        return res.status(200).json(null);
     });
 }

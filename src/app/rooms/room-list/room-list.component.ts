@@ -63,16 +63,30 @@ export class RoomListComponent implements OnInit {
     this.roomService
     .addUserToRoom(room, user)
     .then(() => {
-      this.selectedRoom = room;
-      // console.log(this.selectedRoom);
+      
       if(room){
         this.router.navigate(['/rooms/'+room._id]);
       }
       else{
         console.log('room full');
       }
+      
     });
     
+  }
+  
+  deleteRoom(room: Room): void{
+    this.roomService.deleteRoom(room)
+        .then(()=> {
+          this.roomService
+          .getRooms()
+          .then((rooms: Room[]) => {
+            this.rooms = rooms.map((room) => {
+              return room;
+            });
+          });
+          this.setRoomHeight();
+        });
   }
 
 }

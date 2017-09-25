@@ -31,6 +31,7 @@ export class RoomCreateComponent implements OnInit {
             name: '',
             population: 1,
             password: '',
+            owner: '',
             users: ['']
       };
   }
@@ -45,8 +46,6 @@ export class RoomCreateComponent implements OnInit {
           console.log(room._id);
           this.router.navigate(['/rooms/'+room._id])
         }
-        
-      
     })
     console.log("room created!");
   }

@@ -63,11 +63,10 @@ export class RoomService {
                     .catch(this.handleError);
   }
   
-  deleteRoom(room: Room): Promise<void>{
+  deleteRoom(room: Room): Promise<void | Room>{
       const apiUrl = this.roomsUrl+'/'+room._id+'/delete';
-      return this.http.post(apiUrl, this.headers)
+      return this.http.get(apiUrl)
                         .toPromise()
-                        .then(response => response.json())
                         .catch(this.handleError);
   }
   
