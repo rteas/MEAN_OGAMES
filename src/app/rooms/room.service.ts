@@ -63,5 +63,13 @@ export class RoomService {
                     .catch(this.handleError);
   }
   
+  deleteRoom(room: Room): Promise<void>{
+      const apiUrl = this.roomsUrl+'/'+room._id+'/delete';
+      return this.http.post(apiUrl, this.headers)
+                        .toPromise()
+                        .then(response => response.json())
+                        .catch(this.handleError);
+  }
+  
     
 }

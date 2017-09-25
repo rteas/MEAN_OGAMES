@@ -5,6 +5,7 @@ import { RoomService } from '../room.service';
 import { GlobalService } from '../../globals.service';
 import { Room } from '../room';
 import { User } from '../../users/user';
+import { Router } from '@angular/router'
 
 
 @Component({
@@ -20,7 +21,8 @@ export class RoomCreateComponent implements OnInit {
   public modalRef: BsModalRef;
   constructor(private modalService: BsModalService,
               public roomService: RoomService,
-              public globalService: GlobalService) {}
+              public globalService: GlobalService,
+              private router : Router) {}
 
   ngOnInit() {
     this.user = this.globalService.userInfo;
@@ -39,8 +41,11 @@ export class RoomCreateComponent implements OnInit {
   public createRoom():void{
     this.roomService.createRoom(this.room, this.user._id )
     .then(room => {
+        if(room){
+          console.log(room._id);
+          this.router.navigate(['/rooms/'+room._id])
+        }
         
-        //this.router.navigate(['/rooms/'+room._id])
       
     })
     console.log("room created!");

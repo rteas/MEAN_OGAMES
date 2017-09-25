@@ -3,6 +3,6 @@ export class Room {
     name: string;
     password: string;
     population: number;
-    users: string[];
     owner: string;
+    users: string[];
 }

@@ -146,7 +146,12 @@ exports.removeUser = function(req, res){
                     user.location = null;
                 });
                 
+                // remove room if there are no users
                 room.population--;
+                if(room.population == 0){
+                    room.remove();
+                    return res.status(200).json({status: "success"});
+                }
             }
         }
         

@@ -18,11 +18,12 @@
         <tr>
             <th>Name</th>
             <th>Users</th>
-            <th></th>
+            <!--th>Owner</th-->
         </tr>
         <tr *ngFor="let room of rooms">
             <td>{{room.name}}</td>
             <td>{{room.population}}/4</td>
+            <!--td>{{room.owner}}</td-->
             <td><button class="btn btn-primary" (click)="enterRoom(room,user)">Join!</button></td>
         </tr>
         

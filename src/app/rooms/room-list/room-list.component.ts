@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { User } from '../../users/user';
 import { RoomService } from '../room.service';
+import { UserService } from '../../users/user.service';
 import { GlobalService } from '../../globals.service';
 import { Router } from '@angular/router';
 declare var $: any;
@@ -21,6 +22,7 @@ export class RoomListComponent implements OnInit {
   
   constructor(private roomService: RoomService,
               private globalService: GlobalService,
+              private userService: UserService,
               private router: Router) { }
 
   ngOnInit() {
