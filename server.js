@@ -34,6 +34,11 @@ var io
 
 var roomMap = new HashMap();
 
+// test sockets class
+var SocketManager = require('./socket-manager.js');
+var userSockets = new SocketManager();
+
+
 // Connect to the database before starting the application server.
 mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
   if (err) {
@@ -54,19 +59,6 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
   // setup socket.io
   
   io = socketio.listen(server);
-  var testNamespace = io.of('/testnamespace');
-  
-  testNamespace.on('connection', function(socket){
-    console.log('joined testnamespace!');
-    
-    socket.on('join room', (roomname) => {
-      console.log('joining room...',roomname);
-      socket.join(roomname);
-      console.log('User has joined room: ' + roomname);
-      socket.in(roomname).emit(roomname, 'Room message here!');
-    });
-    
-  });
   
   io.on('connection', function(socket){
     
@@ -91,9 +83,7 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
          console.log(socket.username, 'disconnected');
          userSocketMap.delete(socket.username);
          io.emit('disconnect', socket.username);
-         userSocketMap.forEach((socket, username) => {
-          console.log(username); 
-        });
+         
        }
        
        
@@ -118,6 +108,21 @@ mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w'
       console.log(data);
       io.to(data.room).emit('message', data.message);
     });
+  });
+  
+  // Test namespace
+  var testNamespace = io.of('/testnamespace');
+  
+  testNamespace.on('connection', function(socket){
+    console.log('joined testnamespace!');
+    
+    socket.on('join room', (roomname) => {
+      console.log('joining room...',roomname);
+      socket.join(roomname);
+      console.log('User has joined room: ' + roomname);
+      socket.in(roomname).emit(roomname, 'Room message here!');
+    });
+    
   });
   
 });

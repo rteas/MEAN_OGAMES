@@ -1,3 +1,22 @@
+<div class="row">
+  <div class="col col-md-8">
+    <h3>Lobby</h3>
+    <p>
+      Welcome, {{user.username}}
+      <img src="data:image/png;base64,iVBORw0KGgoAAA
+    ANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+    //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU
+    5ErkJggg==" alt="Red dot" />
+    </p>
+    <p>Top score: {{user.topScore}}</p>
+    <app-chatbox [user]="user" [users]="users"></app-chatbox>
+  </div>
+  <div class="col col-md-4">
+    <app-room-list></app-room-list>
+  </div>
+</div>
+
+<!--
 <h3>Lobby</h3>
 <p>
   Welcome, {{user.username}}
@@ -13,10 +32,11 @@ ANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
 <div class="row">
   
   <div class="col col-md-8">
-    <app-chatbox [user]="user" [users]="users"></app-chatbox>
+    
   </div>
   <div class="col col-md-4">
-    <app-room-list></app-room-list>
+    
   </div>
 
 </div>
+-->

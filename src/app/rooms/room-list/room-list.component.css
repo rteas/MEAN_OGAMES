@@ -8,3 +8,8 @@ ul {
 #roomlist-title{
     width:100%;
 }
+
+table {
+    padding: 0;
+    overflow-y: scroll;
+}
