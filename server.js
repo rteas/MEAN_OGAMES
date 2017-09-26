@@ -56,9 +56,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   });
   
   // setup socket.io
-  
   io = socketio.listen(server);
-  
   io.on('connection', function(socket){
     
     io.emit('greetings', 'hi');
