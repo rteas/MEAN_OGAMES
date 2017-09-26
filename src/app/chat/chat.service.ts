@@ -11,8 +11,8 @@ export class ChatService {
     messages: string[] = [];
     username: string;
     chatLocation: string;
-    url: string = 'http://slots-party-rteas-1.c9users.io:8080';
-    
+    //url: string = 'http://slots-party-rteas-1.c9users.io:8080';
+    url: string='https://dry-sea-96961.herokuapp.com/';
     
   constructor() {
     
