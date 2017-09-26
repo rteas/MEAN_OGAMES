@@ -88,13 +88,20 @@ exports.addUser = function(req, res){
         User.findById(user_id, function(err, user){
             if (err) { handleError(res, err); }
             user.location = room._id;
+            user.save(function(err, user){
+                if (err) { handleError(res, err); }
+                
+                // update & save changes to room
+                room.population++;
+                room.save(function(err, room){
+                    if (err) { handleError(res, err); }
+                    return res.status(200).json(room);
+                });
+                
+            });
         });
         
-        room.population++;
-        room.save(function(err, room){
-            if (err) { handleError(res, err); }
-            return res.status(200).json(room);
-        });
+        
     });
 }
 

@@ -1,4 +1,9 @@
-<div>
+<div class="login-form">
+    
+    <div>
+        <h3><span class="glyphicon glyphicon-search"></span>Login</h3>
+    </div>
+    <hr>
     <form class="col-md-12">
         <div class="form-group">
             <label for="username">Username: </label>
@@ -9,8 +14,8 @@
             <input type="password"class="form-control" name="password" [(ngModel)] = user.password placeholder="password"/>
         </div>
         
-        <button (click)="login()">Login</button>
-        <button (click)="create()">Create</button>
+        <button class="btn btn-primary" (click)="login()">Login</button>
+        <button class="btn btn-secondary" (click)="create()">Create</button>
         
         
     </form>
