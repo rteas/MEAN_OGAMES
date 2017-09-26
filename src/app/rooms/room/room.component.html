@@ -1,7 +1,4 @@
-<p *ngIf="room">
-  Welcome to room: {{room.name}}
-</p>
-<button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
+
 
 <!--ul>
   <li *ngFor="let user of users">
@@ -10,17 +7,15 @@
 </ul-->
 <div class="row">
   <div class="col">
+    <p *ngIf="room">
+      Welcome to room: {{room.name}}
+    </p>
+    <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
     <app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
-    <ul>
-        <h3>TODOS:</h3>
-        <li>Update socket.io to change user-chatbox for room only</li>
-        <li>Update room & user when user leaves/room is removed</li>
-        <li>Add slots minigame</li>
-    </ul>
   </div>
   
   <div class="col">
-    <app-slots-game></app-slots-game>
+    <app-pong-game></app-pong-game>
   </div>
   
 </div>

@@ -39,7 +39,7 @@ var SocketManager = require('./socket-manager.js');
 var userSockets = new SocketManager();
 
 // Connect to the database before starting the application server.
-mongo.connect('mongodb://rteas:1467620m@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
+mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
   if (err) {
     console.log(err);
     process.exit(1);

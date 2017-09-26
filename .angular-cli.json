@@ -24,7 +24,10 @@
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/semantic-ui-css/semantic.js"
+        "../node_modules/semantic-ui-css/semantic.js",
+        "../node_modules/phaser-ce/build/custom/pixi.js",
+        "../node_modules/phaser-ce/build/custom/p2.js",
+        "../node_modules/phaser-ce/build/custom/phaser-split.js"
         ],
       "environmentSource": "environments/environment.ts",
       "environments": {
