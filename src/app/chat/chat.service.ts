@@ -12,10 +12,20 @@ export class ChatService {
     username: string;
     chatLocation: string;
     //url: string = 'http://slots-party-rteas-1.c9users.io:8080';
-    url: string='https://dry-sea-96961.herokuapp.com/';
+    //url: string='https://dry-sea-96961.herokuapp.com/';
+    url: string;
+    dynamicHost: string;
+    dynamicPort: string;
     
   constructor() {
-    
+    this.dynamicHost = window.location.hostname;
+    this.dynamicPort = window.location.port;
+    this.url = this.dynamicHost;
+    if(this.dynamicPort){
+      console.log(this.dynamicPort);
+      this.url += ":"+this.dynamicPort;
+    }
+    console.log(this.url);
   }
   
   join(username: string): void{
