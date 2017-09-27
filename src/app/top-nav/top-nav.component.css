@@ -1,0 +1,78 @@
+
+/*
+@media (max-width: 991px) { 
+    nav{
+        display:none;
+    }
+    
+}
+
+*/
+
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+  .topnav div a:not(:first-child) {display: none;}
+  .topnav div a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 600px) {
+  .topnav.responsive.fixed-top {position: relative;}
+  
+  .topnav.responsive.fixed-top div a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive.fixed-top div a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+    background-color: #3572b0;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav div a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav div a .right {
+    float: right;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav div a:hover {
+    background-color: #0bb7a0;
+    color: white;
+}
+
+/* Hide the link that should open and close the topnav on small screens */
+.topnav div .icon {
+    display: none;
+}
+
+.active{
+    background-color: #149ec9;
+    color: white;
+}

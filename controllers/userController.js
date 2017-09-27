@@ -182,8 +182,19 @@ exports.deleteUser = function(req, res){
 
 exports.verifyUser = function(req, res){
     //var user = req.body.user;
+    if(!req.body.username || !req.body.password) res.status(200).json(null);
+    
     User.findOne({'username': req.body.username, 'password': req.body.password}, function(err, user){
         if(err) { handleError(res, err); }
-        res.status(200).json(user);
+        if(user.status === "Offline"){
+            user.status = "Online";
+        }
+        
+        user.save((err) => {
+            if(err) { handleError(res,err); }
+            
+            res.status(200).json(user);
+        });
+        
     });
 }

@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/lobby']);
           console.log('success');
           // change user status to online
+          
         }
         // unsuccessful verification
         else{

@@ -9,8 +9,6 @@ import 'rxjs/add/operator/toPromise';
 export class RoomService {
     private roomsUrl = '/api/rooms';
     private headers = new Headers({'Content-Type': 'application/json'});
-    
-    
 
   constructor(private http: Http) { }
   
@@ -51,7 +49,6 @@ export class RoomService {
                     .toPromise()
                     .then(response => response.json() as Room)
                     .catch(this.handleError);
-      
   }
   
   createRoom(room: Room, userId: String): Promise<void | Room>{

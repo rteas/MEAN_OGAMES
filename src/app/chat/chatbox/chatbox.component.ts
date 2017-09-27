@@ -36,8 +36,6 @@ export class ChatboxComponent implements OnInit {
   }
   
   setChatBoxHeight(){
-    var body = document.body,
-    html = document.documentElement;
 
     var windowHeight = $(window).height();
     

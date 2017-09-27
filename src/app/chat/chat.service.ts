@@ -39,14 +39,6 @@ export class ChatService {
           this.messages.push(msg+ " left");
       });
       
-      /*
-      var roomName = "/testnamespace";
-      let newSocket = io(this.url+roomName);
-
-      console.log(this.socket);
-      console.log(newSocket);
-      */
-      
     }
   
   
@@ -65,10 +57,10 @@ export class ChatService {
     else{
       this.chatLocation="lobby";
     }
-    
   }
+  
   sendMessage(message: string): void {
-      console.log("LOCATION: "+this.chatLocation);
+
       if(this.chatLocation === "lobby" || !this.chatLocation){
           this.socket.emit('message', '['+this.chatLocation+'] '+this.username+": "+message);
       }

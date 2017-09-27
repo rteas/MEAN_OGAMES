@@ -5,14 +5,6 @@
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
   <div class="col chatbox-div" id="messages-box">
     <ul>
-        <li>Chatbox</li>
-        <li>TODOS:</li>
-        <li>Design navbar</li>
-        <li>Animate Navbar entry</li>
-        <li>User profile page</li>
-        <li>Seperate socket.io messages from lobby and specific rooms</li>
-        <li>Implement createRoom</li>
-        <li>Implement deleteRoom (admin/room owner roles?)</li>
         <li class="message" *ngFor="let msg of chatService.messages">
           {{msg}}
         </li>

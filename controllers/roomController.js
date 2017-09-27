@@ -181,12 +181,10 @@ exports.roomInfo = function(req,res){
 
 exports.deleteRoom = function (req, res){
     
-    // TODO: Remove users from room
+    // TODO: Remove users (location) from room
     // Remove room
-    console.log('removing room..?');
     Room.findByIdAndRemove(req.params.id, function(err){
         if (err) { handleError(res, err); }
-        console.log('removed!');
         return res.status(200).json(null);
     });
 }
