@@ -1,9 +1,9 @@
-<p id="chatbox-title">
-  Chat
-</p>
+<div id="chatbox-title">
+
+</div>
 
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
-  <div class="col chatbox-div" id="messages-box">
+  <div class="col chatbox-div border-left" id="messages-box">
     <ul>
         <li class="message" *ngFor="let msg of chatService.messages">
           {{msg}}
@@ -11,19 +11,20 @@
     </ul>
   </div>
   
-  <div class="col-2 chatbox-div" id="users-box" >
-    <ul>
-      <li>Users</li>
-      <li class="user" *ngFor="let user of users">
-        {{user.username}}
-      </li>
-    </ul>
-    
+  <div class="col-2 border-left" id="users-box" >
+    <div class="chatbox-div">
+      <ul>
+        <li>Users</li>
+        <li class="user" *ngFor="let user of users">
+          {{user.username}}
+        </li>
+      </ul>
+    </div>
   </div>
   
 </div>
-<div class="row" id="chat-input">
-  <form class="col">
+<div class="row border-top" id="chat-input">
+  <form class="col nopadding">
     <div class="input-group">
       <input 
         id="chat-input"

@@ -6,14 +6,34 @@ ul {
 }
 
 #roomlist-title{
-    padding: 0;
     width:100%;
 }
 
 #roomlist-items{
+    background-color:#2b3544;
     overflow: auto;
 }
+
+.btn-right{
+    float:right;
+    width: 50%;
+    height: 100%;
+}
+
+.btn-left{
+    float:left;
+    width: 50%;
+    height: 100%;
+}
+
 table {
     padding: 0;
     overflow: auto;
+}
+
+td{
+    color: white;
+}
+th{
+    color:white;
 }

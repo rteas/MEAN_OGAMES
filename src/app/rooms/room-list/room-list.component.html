@@ -1,12 +1,15 @@
 <!--p id="roomlist-title"><span>Rooms</span> <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2"></p-->
-
-<div id="roomlist-title" class="input-group">
-    <input id="roomlist-search"type="text" class="form-control" placeholder="TODO: Room search function" aria-describedby="sizing-addon2">
-    <span class="input-group-btn">
+<div id="roomlist-title" class="row">
+    <!--div class="input-group nopadding">
+        <input id="roomlist-search"type="text" class="form-control nopadding" placeholder="TODO: Room search function" aria-describedby="sizing-addon2">
+        <span class="input-group-btn">
         <button class="btn btn-primary" type="button">Search!</button>
     </span>
+    </div-->
 </div>
-<div id="roomlist-items"class="row" (window:resize)="resizeRoomList()" [style.height.px]="roomListHeight">
+
+
+<div id="roomlist-items" class="row" (window:resize)="resizeRoomList()" [style.height.px]="roomListHeight">
     <!--ul>
         <li 
         *ngFor="let room of rooms">
@@ -15,19 +18,25 @@
     </ul-->
     
     <table class="table table-hover">
-        <tr>
+        <thead class="thead-inverse">
             <th>Room</th>
             <th>Users</th>
-        </tr>
+            <th>        
+            <input id="roomlist-search"type="text" class="form-control nopadding" placeholder="TODO: Room search function" aria-describedby="sizing-addon2">
+            </th>
+        </thead>
         <tr *ngFor="let room of rooms">
             <td>{{room.name}}</td>
             <td>{{room.population}}/4</td>
-            <td><button class="btn btn-primary" (click)="enterRoom(room,user)">Join!</button><button class="btn btn-danger" (click)="deleteRoom(room)">Delete</button></td>
+            <td>
+                <button class="btn btn-primary btn-left nopadding" (click)="enterRoom(room,user)">Join!</button>
+                <button class="btn btn-danger btn-right nopadding" (click)="deleteRoom(room)">Delete</button>
+            </td>
         </tr>
         
     </table>
 </div>
 
 <div class="row" id="roomlist-controls">
-    <app-room-create></app-room-create>
+    <app-room-create class="full-width"></app-room-create>
 </div>

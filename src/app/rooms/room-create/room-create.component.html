@@ -1,9 +1,9 @@
 
 
-    <button type="button" class="btn btn-primary" (click)="openModal(template)">Create Room!</button>
+    <button type="button" class="btn btn-primary full-width" (click)="openModal(template)">Create Room!</button>
     
      
-    <template #template>
+    <ng-template #template>
       <div class="modal-header">
         <h4 class="modal-title pull-left">Create a Room:</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -28,5 +28,5 @@
         </form>
       </div>
       
-    </template>
+    </ng-template>
 

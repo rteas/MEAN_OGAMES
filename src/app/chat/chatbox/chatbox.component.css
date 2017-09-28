@@ -1,3 +1,19 @@
+#messages-box{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e689a+8,2091ca+59,2091ca+62,2aa1d8+75,7ec8e8+100 */
+}
+
+#users-box{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e689a+8,2091ca+59,2091ca+62,2aa1d8+75,7ec8e8+100 */
+}
+
+.border-left{
+    border-left: 1px gray solid;
+}
+
+.border-top{
+    border-top: 1px gray solid;
+}
+
 ul {
     padding: 0;
     list-style: none;

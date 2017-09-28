@@ -7,7 +7,7 @@ declare var $: any;
 @Component({
   selector: 'app-top-nav',
   templateUrl: './top-nav.component.html',
-  styleUrls: ['./top-nav.component.css']
+  styleUrls: ['./top-nav.component.css', './w3-top-nav.component.css']
 })
 export class TopNavComponent implements OnInit {
   
@@ -19,10 +19,19 @@ export class TopNavComponent implements OnInit {
   constructor(public globalService: GlobalService) { }
 
   ngOnInit() {
+    // create sidebar and attach to menu open
     
+    // semantic-ui
+    /*
+      $('.ui.sidebar')
+        .sidebar('attach events', '.toc.item')
+      ;
+    */
   }
   
+  
    toggleNav() {
+     
       var topNav = document.getElementById("responsiveNav");
       if (topNav.className === "topnav fixed-top") {
           topNav.className += " responsive";
@@ -39,7 +48,7 @@ export class TopNavComponent implements OnInit {
     }
   }
   
-  /*
+  
   displayCheck(){
    //alert($(window).height());
     if(this.resizeInProgress) return;
@@ -67,5 +76,5 @@ export class TopNavComponent implements OnInit {
     var windowWidth = $(window).width();
     return windowWidth;
   }
-  */
+  
 }

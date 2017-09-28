@@ -64,8 +64,6 @@ exports.details = function(req, res){
 exports.addUser = function(req, res){
     Room.findById(req.params.id, function(err, room){
         if (err) { handleError(res, err); }
-        console.log('BODY-REQUEST: ');
-        console.log(req.body);
         
         var user_id = req.body._id;
         
@@ -87,7 +85,10 @@ exports.addUser = function(req, res){
         // update user location
         User.findById(user_id, function(err, user){
             if (err) { handleError(res, err); }
+            
             user.location = room._id;
+            console.log("USER LOCATION: " + user.location);
+            
             user.save(function(err, user){
                 if (err) { handleError(res, err); }
                 
