@@ -3,7 +3,7 @@
 </div>
 
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
-  <div class="col chatbox-div border-left" id="messages-box">
+  <div class="col chatbox-div border-left full-height" id="messages-box">
     <ul>
         <li class="message" *ngFor="let msg of chatService.messages">
           {{msg}}
@@ -12,7 +12,7 @@
   </div>
   
   <div class="col-2 border-left" id="users-box" >
-    <div class="chatbox-div">
+    <div class="chatbox-div full-height">
       <ul>
         <li>Users</li>
         <li class="user" *ngFor="let user of users">
