@@ -3,19 +3,20 @@
 </div>
 
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
-  <div class="col chatbox-div border-left full-height" id="messages-box">
+  <div class="col chatbox-div background-border full-height" id="messages-box">
     <ul>
+        <!--li class="chatbox-header"> Chat</li-->
         <li class="message" *ngFor="let msg of chatService.messages">
           {{msg}}
         </li>
     </ul>
   </div>
   
-  <div class="col-2 border-left" id="users-box" >
+  <div class="col-2 background-border" id="users-box" >
     <div class="chatbox-div full-height">
       <ul>
-        <li>Users</li>
-        <li class="user" *ngFor="let user of users">
+        <!--li class="chatbox-header">Users</li-->
+        <li class="username" *ngFor="let user of users">
           {{user.username}}
         </li>
       </ul>

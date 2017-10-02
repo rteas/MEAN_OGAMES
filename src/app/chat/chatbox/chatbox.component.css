@@ -1,9 +1,11 @@
 #messages-box{
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e689a+8,2091ca+59,2091ca+62,2aa1d8+75,7ec8e8+100 */
+    background-color: #2b3544;
 }
 
 #users-box{
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1e689a+8,2091ca+59,2091ca+62,2aa1d8+75,7ec8e8+100 */
+    background-color: #2b3544;
 }
 
 .border-left{
@@ -29,9 +31,18 @@ ul:hoover{
     height:auto;
     max-height:150%;
     word-wrap: break-word;
+    color: white;
     
 }
 
+.username{
+    color:white;
+}
 .chatbox-div{
     overflow-y: auto;
+}
+
+.chatbox-header{
+    border: 1px white solid;
+    color: white;
 }

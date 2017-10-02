@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col col-md-8">
+  <div class="col-md-8 col-12">
     <h3>Lobby</h3>
     <p>
       Welcome, {{user.username}}
@@ -11,8 +11,8 @@
     <!--p>Top score: {{user.topScore}}</p-->
     <app-chatbox [user]="user" [users]="users"></app-chatbox>
   </div>
-  <div class="col col-md-4">
-    <app-room-list></app-room-list>
+  <div class="col-md-4 col-12">
+    <app-room-list ></app-room-list>
   </div>
 </div>
 
