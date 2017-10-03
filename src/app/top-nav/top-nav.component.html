@@ -34,8 +34,27 @@
   </div>
 </nav-->
 
+<!--nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Navbar</a>
 
-<nav class="topnav fixed-top" id="responsiveNav">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+  </div>
+</nav-->
+<!--nav class="topnav fixed-top" id="responsiveNav">
 
   <div class="container">
     <a class="nav-link" (click)="closeNav()" *ngIf="globalService.userInfo" routerLink="/lobby" routerLinkActive="active">Home</a>
@@ -47,4 +66,22 @@
     <a href="javascript:void(0);" class="icon" (click)="toggleNav()">&#9776;</a>
   </div>
   
-</nav>
+</nav-->
+
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link" *ngIf="globalService.userInfo" routerLink="/lobby" routerLinkActive="active">Home</a>
+  </li>
+  <li class="nav-item">
+     <a class="nav-link" *ngIf="globalService.userInfo" routerLink="/users/{{globalService.userInfo._id}}"  routerLinkActive="active">Profile</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" *ngIf="globalService.roomInfo" routerLink="/rooms/{{globalService.roomInfo._id}}" routerLinkActive="active">Room</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link logout-border" routerLink="/logout" routerLinkActive="active">Logout</a>
+  </li>
+</ul>

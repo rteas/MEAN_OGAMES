@@ -34,7 +34,7 @@ export class RoomListComponent implements OnInit {
             return room;
           });
         });
-    this.setRoomHeight();
+    $(document).ready(this.setRoomHeight());
   }
   
   resizeRoomList(){

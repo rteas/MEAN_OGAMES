@@ -30,6 +30,10 @@
     border: 1px solid white;
 }
 
+.pull-right{
+    float: right;
+}
+
 .background{
     
 }

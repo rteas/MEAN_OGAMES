@@ -30,8 +30,13 @@ import { SlotsGameComponent } from './games/slots-game/slots-game.component';
 import { LogoutComponent } from './users/logout/logout.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+
 import { RoomCreateComponent } from './rooms/room-create/room-create.component';
 import { PongGameComponent } from './games/pong-game/pong-game.component';
+import { NewsCarouselComponent } from './lobby/news-carousel/news-carousel.component';
+import { NewsListComponent } from './lobby/news-list/news-list.component';
+import { InfoDashComponent } from './info-dash/info-dash.component';
 
 @NgModule({
   declarations: [
@@ -50,10 +55,14 @@ import { PongGameComponent } from './games/pong-game/pong-game.component';
     SlotsGameComponent,
     LogoutComponent,
     RoomCreateComponent,
-    PongGameComponent
+    PongGameComponent,
+    NewsCarouselComponent,
+    NewsListComponent,
+    InfoDashComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
+    CarouselModule.forRoot(),
     ModalModule.forRoot(),
     BrowserModule,
     FormsModule,

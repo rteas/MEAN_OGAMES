@@ -20,7 +20,7 @@ export class ChatboxComponent implements OnInit {
   constructor(public chatService: ChatService) { }
 
   ngOnInit() {
-    this.setChatBoxHeight();
+    $(document).ready(this.setChatBoxHeight());
   }
   
   resizeChatBox(){
