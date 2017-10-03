@@ -1,8 +1,11 @@
 .news-header{
     text-align: center;
-    border-top: gray 2px solid;
-    border-bottom: gray 2px solid;
+    border-left: white 1px solid;
     border-right: white 1px solid;
     color: white;
     background-color: #2b3544;
+}
+
+.news-content{
+    padding: 2px 2px 2px 2px;
 }
