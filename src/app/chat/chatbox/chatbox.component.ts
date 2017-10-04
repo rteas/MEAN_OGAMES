@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterContentInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
 import { User } from '../../users/user';
 import { ChatService } from '../chat.service';
 declare var $: any;
@@ -10,6 +10,8 @@ declare var $: any;
 })
 export class ChatboxComponent implements AfterContentInit  {
   
+  @ViewChild('msg') msg: ElementRef
+  
   @Input() user: User;
   @Input() users: User[];
   message: string;
@@ -20,6 +22,7 @@ export class ChatboxComponent implements AfterContentInit  {
   constructor(public chatService: ChatService) { }
 
   ngAfterContentInit() {
+    this.msg.nativeElement.focus();
     $(document).ready(this.resizeChatBox());
   }
   

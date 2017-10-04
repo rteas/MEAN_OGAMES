@@ -28,13 +28,13 @@
   <form class="col nopadding">
     <div class="input-group">
       <input 
+        #msg
         id="chat-input"
         (keypress)="keyHandler($event)" 
         [(ngModel)]="message" 
         [ngModelOptions]="{standalone: true}" 
         type="text" class="form-control"  
         placeholder="message"
-        autofocus
       />
       <span class="input-group-btn">
           <button (click)="sendMessage()"class="btn btn-default" type="button">Send!</button>
