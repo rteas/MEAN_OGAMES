@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, AfterViewInit, ViewChild } from '@angular/core';
 import { User } from '../users/user';
 import { GlobalService } from '../globals.service';
 
@@ -15,15 +15,19 @@ import { Router } from '@angular/router';
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.css'],
+  providers: [ChatboxComponent]
 })
-export class LobbyComponent implements OnInit {
+export class LobbyComponent implements OnInit, AfterViewInit {
 
   user: User;
   users: User[];
   constructor(private globalService: GlobalService,
               private chatService: ChatService,
               private userService: UserService,
+              private chatboxComponent: ChatboxComponent,
               private router: Router) { }
+  
+  @ViewChild(RoomListComponent) viewChilid: RoomListComponent;
 
   ngOnInit() {
     
@@ -39,8 +43,6 @@ export class LobbyComponent implements OnInit {
       this.chatService.switchChatLocation("lobby");
     }
     
-    
-    
     this.userService
         .getUsers()
         .then((users: User[]) => {
@@ -54,6 +56,10 @@ export class LobbyComponent implements OnInit {
             return user;
           });
         });
+  }
+  
+  ngAfterViewInit(){
+    this.chatboxComponent.resizeChatBox();
   }
 
 }

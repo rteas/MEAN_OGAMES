@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterContentInit } from '@angular/core';
 import { User } from '../../users/user';
 import { ChatService } from '../chat.service';
 declare var $: any;
@@ -8,7 +8,7 @@ declare var $: any;
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class ChatboxComponent implements OnInit {
+export class ChatboxComponent implements AfterContentInit  {
   
   @Input() user: User;
   @Input() users: User[];
@@ -19,8 +19,8 @@ export class ChatboxComponent implements OnInit {
   
   constructor(public chatService: ChatService) { }
 
-  ngOnInit() {
-    $(document).ready(this.setChatBoxHeight());
+  ngAfterContentInit() {
+    $(document).ready(this.resizeChatBox());
   }
   
   resizeChatBox(){
