@@ -3,3 +3,8 @@
     padding: 4px 4px 4px 4px;
 }
 */
+
+.nav-logout{
+    border: 2px solid white;
+    border-radius: 10px;
+}
