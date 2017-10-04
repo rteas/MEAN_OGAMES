@@ -37,3 +37,8 @@ td{
 th{
     color:white;
 }
+
+.table thead th {
+    vertical-align: bottom;
+    border-top: none;
+}
