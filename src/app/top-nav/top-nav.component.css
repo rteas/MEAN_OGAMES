@@ -4,7 +4,16 @@
 }
 */
 
+nav{
+    margin-bottom: .4em;
+}
+
 .nav-logout{
     border: 2px solid white;
+    border-radius: 10px;
+}
+
+.nav-name{
+    border: 2px solid #343a40;
     border-radius: 10px;
 }

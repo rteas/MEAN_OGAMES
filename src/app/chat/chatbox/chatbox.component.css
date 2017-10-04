@@ -48,10 +48,11 @@ ul:hoover{
     color: white;
     padding: 0;
     text-align: center;
+    margin: 0;
 }
 
 .userbox-header{
     color: white;
     padding: 0;
-    text-align: center;
+    margin: 0;
 }

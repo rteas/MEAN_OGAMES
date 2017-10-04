@@ -42,3 +42,7 @@ body{
 .header-dark{
     background-color: #343a40 !important;
 }
+
+.modal-content{
+    color: black;
+}

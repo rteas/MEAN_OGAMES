@@ -3,24 +3,26 @@
 </div>
 
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
-  <div class="col-md-10 col-12 chatbox-div full-height nopadding" id="messages-box">
-    <ul>
-        <li class="chatbox-header header-dark">Chat</li>
+  <div class="col-md-10 col-11 full-height nopadding" id="messages-box">
+    <p class="chatbox-header header-dark">Chat</p>
+    <div class="chatbox-div full-height">
+      <ul>
         <li class="message" *ngFor="let msg of chatService.messages">
           {{msg}}
         </li>
-    </ul>
-  </div>
-  
-  <div class="col-md-2 hidden-md-down full-height nopadding" id="users-box" >
-    <div class="chatbox-div full-height">
-      <ul>
-        <li class="userbox-header header-dark">Users</li>
-        <li class="username" *ngFor="let user of users">
-          {{user.username}}
-        </li>
       </ul>
     </div>
+  </div>
+  
+  <div class="col-md-2 col-1 full-height nopadding" id="users-box" >
+      <p class="userbox-header header-dark">Users</p>
+      <div class="chatbox-div full-height">
+        <ul>
+          <li class="username" *ngFor="let user of users">
+            {{user.username}}
+          </li>
+        </ul>
+      </div>
   </div>
   
 </div>
