@@ -10,23 +10,25 @@
     <button (click)="sortUsersByScore(users, 0, users.length-1)">Sort</button>
   </div>
 </div-->
-<h3>Leaderboard</h3>
-<table class="table">
-  <thead class="thead-inverse">
-    <tr>
-      <th>Score</th>
-      <th>Username</th>
-      <th>Status</th>
-      <th>Location</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of users">
-      <th scope="row">{{user.topScore}}</th>
-      <td>{{user.username}}</td>
-      <td>{{user.status}}</td>
-      <td>{{user.location}}</td>
-    </tr>
-
-  </tbody>
-</table>
+<div class="container-fluid">
+  <h3 class="page-header">Leaderboard</h3>
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Score</th>
+        <th>Username</th>
+        <th>Status</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <th scope="row">{{user.topScore}}</th>
+        <td>{{user.username}}</td>
+        <td>{{user.status}}</td>
+        <td>{{user.location}}</td>
+      </tr>
+  
+    </tbody>
+  </table>
+</div>

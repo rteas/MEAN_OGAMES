@@ -16,14 +16,26 @@ export class ChatboxComponent implements AfterContentInit  {
   @Input() users: User[];
   message: string;
   chatboxHeight: number;
+  chatbodyHeight: number;
   usersHeight: number;
   resizeInProgress: boolean = false;
+  scrolledDown: boolean = true;
   
   constructor(public chatService: ChatService) { }
 
   ngAfterContentInit() {
     this.msg.nativeElement.focus();
     $(document).ready(this.resizeChatBox());
+    
+    // Add watcher for scroller
+    $('#messages-box').scroll(()=>{
+      console.log('scroll detected');
+      // check if the scroller is at the bottom
+      let scrollHeight = $('messages-box').scrollHeight();
+      console.log('current scroll: ' + scrollHeight);
+      let scrollMax = $('messages-box').scrollTop();
+      console.log('scroll top: ' + scrollMax);
+    });
   }
   
   resizeChatBox(){
@@ -32,8 +44,11 @@ export class ChatboxComponent implements AfterContentInit  {
     this.resizeInProgress=true;
     setTimeout(()=>{
       this.setChatBoxHeight();
+      this.setBodyHeight();
       this.resizeInProgress = false;
       console.log('timeout exected!');
+      console.log('container-height: '+ this.chatboxHeight);
+      console.log('body-height: '+ this.chatbodyHeight)
     }, 250);
     
   }
@@ -46,7 +61,12 @@ export class ChatboxComponent implements AfterContentInit  {
     var chatInputHeight = $('#chat-input').outerHeight();
     
     this.chatboxHeight = windowHeight - (titleHeight + 2*chatInputHeight);
+    //this.setBodyHeight();
     
+  }
+  
+  setBodyHeight(){
+    this.chatbodyHeight = this.chatboxHeight - $('.chatbox-header').outerHeight();
   }
   
   scrollChatDown(){

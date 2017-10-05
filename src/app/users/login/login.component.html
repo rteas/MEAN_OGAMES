@@ -1,52 +1,53 @@
-
-<div class="center">
+<div class="container">
+    <div class="center">
+        
+    <h4>
+        Development Mode
+    </h4>
+    <h4>
+        Current accounts (or create one)
+    </h4>
+    <p>id: xyz, password: xyz</p>
+    <p>id: rteas, password: test</p>
+    <p>id: leet, password: creator</p>
     
-<h4>
-    Development Mode
-</h4>
-<h4>
-    Current accounts (or create one)
-</h4>
-<p>id: xyz, password: xyz</p>
-<p>id: rteas, password: test</p>
-<p>id: leet, password: creator</p>
-
-
-
-</div>
-
-<div class="login-form">
     
-    <div>
-        <h3>Login</h3>
+    
     </div>
-    <hr>
-    <form class="col-md-12">
-        <div class="form-group">
-            <label for="username">Username: </label>
-            <input class="form-control" name="username" [(ngModel)] = user.username placeholder="username" autofocus/>
-        </div>
-        <div class="form-group">
-            <label for="password">Password: </label>
-            <input type="password"class="form-control" name="password" [(ngModel)] = user.password placeholder="password"/>
-        </div>
+    
+    <div class="login-form">
         
-        <button class="btn btn-primary" (click)="login()">Login</button>
-        <button class="btn btn-secondary" (click)="create()">Create</button>
-        
-    </form>
-    <p>{{results}}</p>
+        <div>
+            <h3>Login</h3>
+        </div>
+        <hr>
+        <form class="col-md-12">
+            <div class="form-group">
+                <label for="username">Username: </label>
+                <input class="form-control" name="username" [(ngModel)] = user.username placeholder="username" autofocus/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="password"class="form-control" name="password" [(ngModel)] = user.password placeholder="password"/>
+            </div>
+            
+            <button class="btn btn-primary" (click)="login()">Login</button>
+            <button class="btn btn-secondary" (click)="create()">Create</button>
+            
+        </form>
+        <p>{{results}}</p>
+    </div>
+    
+    <h3>TODOS:</h3>
+    <ul>
+        <li>Game:</li>
+        <li>Phaser Multiplayer Pong Game</li>
+        <li>Social:</li>
+        <li>Chat filters/seperation</li>
+        <li>Web utility for managing friends/adding friends/private messages</li>
+        <li>Personal chat/messages</li>
+        <li>Add profile images</li>
+        <li>General:</li>
+        <li>Notifications, real-time implementations</li>
+    </ul>
 </div>
-
-<h3>TODOS:</h3>
-<ul>
-    <li>Game:</li>
-    <li>Phaser Multiplayer Pong Game</li>
-    <li>Social:</li>
-    <li>Chat filters/seperation</li>
-    <li>Web utility for managing friends/adding friends/private messages</li>
-    <li>Personal chat/messages</li>
-    <li>Add profile images</li>
-    <li>General:</li>
-    <li>Notifications, real-time implementations</li>
-</ul>

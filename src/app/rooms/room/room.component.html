@@ -5,17 +5,19 @@
     {{user.topScore}} - {{user.username}}  : {{user.status}}
   </li>
 </ul-->
-<div class="row">
-  <div class="col">
-    <p *ngIf="room">
-      Welcome to room: {{room.name}}
-    </p>
-    <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
-    <app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-5 col-12">
+      <p *ngIf="room">
+        Welcome to room: {{room.name}}
+      </p>
+      <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
+      <app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
+    </div>
+    
+    <div class="col-md-7 col-12">
+      <app-pong-game></app-pong-game>
+    </div>
   </div>
-  
-  <div class="col">
-    <app-pong-game></app-pong-game>
-  </div>
-  
 </div>
+
