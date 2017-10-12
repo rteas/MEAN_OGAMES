@@ -20,7 +20,10 @@ export class RoomService {
   getRooms(): Promise<void | Room[]> {
       return this.http.get(this.roomsUrl)
                  .toPromise()
-                 .then(response => response.json() as Room[])
+                 .then(response => {
+                     //console.log(response.json() as Room[]);
+                     return response.json() as Room[];
+                 })
                  .catch(this.handleError);
   }
   
@@ -47,7 +50,9 @@ export class RoomService {
       const apiUrl = this.roomsUrl+'/'+id;
       return this.http.get(apiUrl)
                     .toPromise()
-                    .then(response => response.json() as Room)
+                    .then(response => {
+                        //console.log(response.json() as Room);
+                        return response.json() as Room;})
                     .catch(this.handleError);
   }
   
@@ -67,5 +72,4 @@ export class RoomService {
                         .catch(this.handleError);
   }
   
-    
 }

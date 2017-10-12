@@ -22,10 +22,8 @@ export class ChatService {
     this.dynamicPort = window.location.port;
     this.url = this.dynamicHost;
     if(this.dynamicPort){
-      console.log(this.dynamicPort);
       this.url += ":"+this.dynamicPort;
     }
-    console.log(this.url);
   }
   
   join(username: string): void{

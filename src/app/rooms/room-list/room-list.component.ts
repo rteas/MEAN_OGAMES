@@ -60,6 +60,9 @@ export class RoomListComponent implements OnInit {
   }
   enterRoom(room: Room, user: User){
     // console.log('ENTERING ROOM:'+ room._id);
+    // Check if room needs password
+    // If a password is needed, prompt password form
+    
     this.roomService
     .addUserToRoom(room, user)
     .then(() => {

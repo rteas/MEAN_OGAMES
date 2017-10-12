@@ -32,7 +32,8 @@ export class RoomCreateComponent implements OnInit {
             population: 1,
             password: '',
             owner: '',
-            users: ['']
+            users: [''],
+            public: true
       };
   }
   public openModal(template: TemplateRef<any>) {
@@ -40,7 +41,7 @@ export class RoomCreateComponent implements OnInit {
   }
   
   public createRoom():void{
-    this.roomService.createRoom(this.room, this.user._id )
+    this.roomService.createRoom(this.room, this.user._id)
     .then(room => {
         if(room){
           console.log(room._id);

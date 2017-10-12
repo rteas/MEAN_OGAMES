@@ -27,14 +27,18 @@ export class ChatboxComponent implements AfterContentInit  {
     this.msg.nativeElement.focus();
     $(document).ready(this.resizeChatBox());
     
-    // Add watcher for scroller
-    $('#messages-box').scroll(()=>{
+    $(".chatbox-div").scroll(()=>{
       console.log('scroll detected');
       // check if the scroller is at the bottom
-      let scrollHeight = $('messages-box').scrollHeight();
-      console.log('current scroll: ' + scrollHeight);
-      let scrollMax = $('messages-box').scrollTop();
-      console.log('scroll top: ' + scrollMax);
+      let scrollMax = $('.chatbox-div')[0].scrollTop;
+      console.log('current scroll: ' + scrollMax);
+      let scrollHeight = $('.chatbox-div')[0].scrollHeight;
+      console.log('Scroll Height: ' + scrollHeight);
+      let clientHeight = $('.chatbox-div')[0].clientHeight;
+      console.log('Client Height: ' + clientHeight);
+      let offsetHeight = $('.chatbox-div')[0].offsetHeight;
+      console.log('Offset Height: ' + offsetHeight);
+      
     });
   }
   
@@ -70,7 +74,7 @@ export class ChatboxComponent implements AfterContentInit  {
   }
   
   scrollChatDown(){
- 
+    console.log('scroll detected');
   }
   
   joinRoom(roomName: string){

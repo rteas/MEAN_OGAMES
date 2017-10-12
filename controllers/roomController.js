@@ -46,6 +46,11 @@ exports.create = function(req, res){
                         users: [req.body.user],
                         owner: [req.body.user]
                     });
+                    
+    if (newRoom.password.length > 0){
+        newRoom.public = false;
+    }
+    
     newRoom.save(function(err, room){
         if (err) { handleError(res, err); }
         res.status(200).json(room);

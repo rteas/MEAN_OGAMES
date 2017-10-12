@@ -16,7 +16,7 @@
   
   <div class="col-md-2 col-1 full-height nopadding" id="users-box" >
       <p class="userbox-header header-dark">Users</p>
-      <div class="chatbox-div full-height">
+      <div class="chatbox-div full-height" (scroll)="scrollChatDown()">
         <ul>
           <li class="username" *ngFor="let user of users">
             {{user.username}}

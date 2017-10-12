@@ -1,31 +1,24 @@
-
-
-    <button type="button" class="btn btn-primary btn-block" (click)="openModal(template)">Create Room!</button>
+    <button type="button" class="btn btn-primary" (click)="joinRoom(template)">Join!</button>
     
      
     <ng-template #template>
       <div class="modal-header">
-        <h4 class="modal-title pull-left">Create a Room:</h4>
+        <h4 class="modal-title pull-left">This room is private:</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form class="col-md-12">
-            <div class="form-group">
-                <label for="roomname">Name: </label>
-                <input class="form-control" name="Room Name" [(ngModel)] = "room.name" placeholder="Room Name"/>
-            </div>
             
             <div class="form-group">
-                <label for="roomname">TODO: password (optional): </label>
+                <label for="roompassword"> Password: </label>
                 <input class="form-control" name="password" [(ngModel)] = "room.password" placeholder="Room Password"/>
             </div>
 
-            <button type="button" class="btn btn-primary"(click)="createRoom();modalRef.hide();">Create</button>
+            <button type="button" class="btn btn-primary"(click)="enterRoom(room, user);modalRef.hide();">Join</button>
             <button type="button" class="btn btn-danger"(click)="modalRef.hide()">Cancel</button>
         
         </form>
       </div>
     </ng-template>
-

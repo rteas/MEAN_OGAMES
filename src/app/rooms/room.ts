@@ -5,4 +5,5 @@ export class Room {
     population: number;
     owner: string;
     users: string[];
+    public: boolean;
 }

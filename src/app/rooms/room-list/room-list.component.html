@@ -24,7 +24,8 @@
             <td>{{room.name}}</td>
             <td>{{room.population}}/4</td>
             <td>
-                <button class="btn btn-primary btn-left nopadding" (click)="enterRoom(room,user)">Join!</button>
+                <!--button class="btn btn-primary btn-left nopadding" (click)="enterRoom(room,user)">Join!</button-->
+                <app-room-join [room]="room"></app-room-join>
                 <button class="btn btn-danger btn-right nopadding" (click)="deleteRoom(room)">Delete</button>
             </td>
         </tr>

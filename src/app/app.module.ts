@@ -37,6 +37,7 @@ import { PongGameComponent } from './games/pong-game/pong-game.component';
 import { NewsCarouselComponent } from './lobby/news-carousel/news-carousel.component';
 import { NewsListComponent } from './lobby/news-list/news-list.component';
 import { InfoDashComponent } from './info-dash/info-dash.component';
+import { RoomJoinComponent } from './rooms/room-join/room-join.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { InfoDashComponent } from './info-dash/info-dash.component';
     PongGameComponent,
     NewsCarouselComponent,
     NewsListComponent,
-    InfoDashComponent
+    InfoDashComponent,
+    RoomJoinComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
