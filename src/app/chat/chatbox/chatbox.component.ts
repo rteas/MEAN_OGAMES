@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, AfterContentInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit } from '@angular/core';
 import { User } from '../../users/user';
 import { ChatService } from '../chat.service';
 declare var $: any;
@@ -8,7 +8,7 @@ declare var $: any;
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class ChatboxComponent implements AfterContentInit  {
+export class ChatboxComponent implements OnInit, AfterContentInit  {
   
   @ViewChild('msg') msg: ElementRef
   
@@ -20,8 +20,15 @@ export class ChatboxComponent implements AfterContentInit  {
   usersHeight: number;
   resizeInProgress: boolean = false;
   scrolledDown: boolean = true;
+  sendable: boolean = false;
+  buttonClass: string;
   
   constructor(public chatService: ChatService) { }
+  
+  ngOnInit(){
+    this.buttonClass = "btn-outline-secondary";
+    this.message="";
+  }
 
   ngAfterContentInit() {
     this.msg.nativeElement.focus();
@@ -81,21 +88,25 @@ export class ChatboxComponent implements AfterContentInit  {
     this.chatService.joinRoom(roomName);
   }
   
-  sendMessage(){
-    if(this.message){
-      // TODO: clean the message
-      if(this.message.length > 0){
-        
-        this.chatService.sendMessage(this.message);
-        this.message = "";
-      }
+  sendMessage(message: string){
+    this.chatService.sendMessage(message);
+    this.message = "";
+  }
+  
+  messageSendable(): boolean{
+    if(this.message.length > 0){
+      this.sendable = true;
     }
+    else{
+      this.sendable = false;
+    }
+    return this.sendable;
   }
   
   keyHandler(event) {
     // Sends message on enter key
-    if(event.key === "Enter"){
-      this.sendMessage();
+    if(event.key === "Enter" && this.sendable){
+      this.sendMessage(this.message);
     }
   } 
 

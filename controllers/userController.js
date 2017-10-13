@@ -181,11 +181,18 @@ exports.deleteUser = function(req, res){
 }
 
 exports.verifyUser = function(req, res){
-    //var user = req.body.user;
+    
+    // handle not all fields filled out
     if(!req.body.username || !req.body.password) return res.status(200).json(null);
     
     User.findOne({'username': req.body.username, 'password': req.body.password}, function(err, user){
         if(err) { handleError(res, err); }
+        
+        // handle incorrect username/password
+        if(!user){
+            return res.status(200).json(null);
+        }
+        
         if(user.status === "Offline"){
             user.status = "Online";
         }

@@ -39,7 +39,12 @@
         placeholder="message"
       />
       <span class="input-group-btn">
-          <button (click)="sendMessage()"class="btn btn-default" type="button">Send!</button>
+          <button (click)="sendMessage()" 
+          class="btn"
+          [ngClass]="messageSendable()? 'btn-success':'btn-outline-secondary'"
+          type="button">
+            Send!
+          </button>
       </span>
     </div>
   </form>

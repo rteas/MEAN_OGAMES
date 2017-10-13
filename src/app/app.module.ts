@@ -38,6 +38,7 @@ import { NewsCarouselComponent } from './lobby/news-carousel/news-carousel.compo
 import { NewsListComponent } from './lobby/news-list/news-list.component';
 import { InfoDashComponent } from './info-dash/info-dash.component';
 import { RoomJoinComponent } from './rooms/room-join/room-join.component';
+import { UserCreateComponent } from './users/user-create/user-create.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { RoomJoinComponent } from './rooms/room-join/room-join.component';
     NewsCarouselComponent,
     NewsListComponent,
     InfoDashComponent,
-    RoomJoinComponent
+    RoomJoinComponent,
+    UserCreateComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
