@@ -40,8 +40,7 @@
       />
       <span class="input-group-btn">
           <button (click)="sendMessage()" 
-          class="btn"
-          [ngClass]="messageSendable()? 'btn-success':'btn-outline-secondary'"
+          [ngClass]="messageSendable()? 'btn btn-success':'btn btn-outline-secondary'"
           type="button">
             Send!
           </button>
