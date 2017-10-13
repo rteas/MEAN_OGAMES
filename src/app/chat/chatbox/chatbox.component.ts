@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit, DoCheck} from '@angular/core';
 import { User } from '../../users/user';
 import { ChatService } from '../chat.service';
 declare var $: any;
@@ -8,7 +8,7 @@ declare var $: any;
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class ChatboxComponent implements OnInit, AfterContentInit  {
+export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
   
   @ViewChild('msg') msg: ElementRef
   
@@ -22,12 +22,15 @@ export class ChatboxComponent implements OnInit, AfterContentInit  {
   scrolledDown: boolean = true;
   sendable: boolean = false;
   buttonClass: string;
+  currentScroll: number;
   
-  constructor(public chatService: ChatService) { }
+  constructor(public chatService: ChatService,
+              private elementRef: ElementRef) {}
   
   ngOnInit(){
     this.buttonClass = "btn-outline-secondary";
     this.message="";
+    this.currentScroll = 0;
   }
 
   ngAfterContentInit() {
@@ -37,17 +40,30 @@ export class ChatboxComponent implements OnInit, AfterContentInit  {
     $(".chatbox-div").scroll(()=>{
       console.log('scroll detected');
       // check if the scroller is at the bottom
-      let scrollMax = $('.chatbox-div')[0].scrollTop;
-      console.log('current scroll: ' + scrollMax);
-      let scrollHeight = $('.chatbox-div')[0].scrollHeight;
-      console.log('Scroll Height: ' + scrollHeight);
+      let scrollTop = $('.chatbox-div')[0].scrollTop;
+      console.log('Scroll Top: ' + scrollTop);
+      let scrollDownMax = $('.chatbox-div')[0].scrollHeight;
+      console.log('Scroll Height: ' + scrollDownMax);
       let clientHeight = $('.chatbox-div')[0].clientHeight;
       console.log('Client Height: ' + clientHeight);
       let offsetHeight = $('.chatbox-div')[0].offsetHeight;
       console.log('Offset Height: ' + offsetHeight);
       
+      this.currentScroll = scrollTop+offsetHeight;
+      
+      this.scrolledDown = (this.currentScroll === scrollDownMax);
+      
+      console.log("Current Scroll: "+ this.currentScroll);
     });
   }
+  
+  ngDoCheck(){
+    let scrollHeight = $('.chatbox-div')[0].scrollHeight;
+    if(this.scrolledDown && this.currentScroll < scrollHeight){
+      this.scrollToBottom();
+    }
+  }
+  
   
   resizeChatBox(){
    //alert($(window).height());
@@ -80,8 +96,11 @@ export class ChatboxComponent implements OnInit, AfterContentInit  {
     this.chatbodyHeight = this.chatboxHeight - $('.chatbox-header').outerHeight();
   }
   
-  scrollChatDown(){
-    console.log('scroll detected');
+  scrollToBottom(){
+    console.log('scrolling down');
+    $('.chatbox-div')[0].scrollTop = $('.chatbox-div')[0].scrollHeight;
+    
+    
   }
   
   joinRoom(roomName: string){
