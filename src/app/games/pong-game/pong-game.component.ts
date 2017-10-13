@@ -15,17 +15,29 @@ export class PongGameComponent implements OnInit {
   constructor() { 
         
   }
-
-  
-    create() {
-        var text = "TODO: PONG";
-        var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-        this.game.add.text(0, 0, text, style);
-    }
-
   
   ngOnInit() {
-    this.game = new Game(500, 500, AUTO, 'content', { create: this.create });
+    this.game = new Game(500, 500, AUTO, 'content', 
+                      { preload: this.preload, 
+                        create: this.create,
+                        update: this.update
+                      });
   }
+  
+  preload(){
+    
+  }
+  
+  create() {
+    var text = "TODO: PONG";
+    var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+    this.game.add.text(0, 0, text, style);
+  }
+  
+  update(){
+    
+  }
+  
+
 
 }

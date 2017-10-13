@@ -39,6 +39,7 @@ import { NewsListComponent } from './lobby/news-list/news-list.component';
 import { InfoDashComponent } from './info-dash/info-dash.component';
 import { RoomJoinComponent } from './rooms/room-join/room-join.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
+import { TutorialGameComponent } from './games/tutorial-game/tutorial-game.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { UserCreateComponent } from './users/user-create/user-create.component';
     NewsListComponent,
     InfoDashComponent,
     RoomJoinComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    TutorialGameComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

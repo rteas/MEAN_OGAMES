@@ -41,12 +41,13 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
       console.log('scroll detected');
       // check if the scroller is at the bottom
       let scrollTop = $('.chatbox-div')[0].scrollTop;
-      console.log('Scroll Top: ' + scrollTop);
       let scrollDownMax = $('.chatbox-div')[0].scrollHeight;
-      console.log('Scroll Height: ' + scrollDownMax);
       let clientHeight = $('.chatbox-div')[0].clientHeight;
-      console.log('Client Height: ' + clientHeight);
       let offsetHeight = $('.chatbox-div')[0].offsetHeight;
+      
+      console.log('Scroll Top: ' + scrollTop);
+      console.log('Scroll Height: ' + scrollDownMax);
+      console.log('Client Height: ' + clientHeight);
       console.log('Offset Height: ' + offsetHeight);
       
       this.currentScroll = scrollTop+offsetHeight;
@@ -72,24 +73,21 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
     setTimeout(()=>{
       this.setChatBoxHeight();
       this.setBodyHeight();
+      if(this.scrolledDown){
+        this.scrollToBottom();
+      }
       this.resizeInProgress = false;
-      console.log('timeout exected!');
-      console.log('container-height: '+ this.chatboxHeight);
-      console.log('body-height: '+ this.chatbodyHeight)
     }, 250);
     
   }
   
   setChatBoxHeight(){
-
-    var windowHeight = $(window).height();
+    let windowHeight = $(window).height();
     
-    var titleHeight = $('#chatbox-title').offset().top + $('#chatbox-title').outerHeight(true);
-    var chatInputHeight = $('#chat-input').outerHeight();
+    let titleHeight = $('#chatbox-title').offset().top + $('#chatbox-title').outerHeight(true);
+    let chatInputHeight = $('#chat-input').outerHeight();
     
     this.chatboxHeight = windowHeight - (titleHeight + 2*chatInputHeight);
-    //this.setBodyHeight();
-    
   }
   
   setBodyHeight(){
@@ -97,10 +95,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
   }
   
   scrollToBottom(){
-    console.log('scrolling down');
     $('.chatbox-div')[0].scrollTop = $('.chatbox-div')[0].scrollHeight;
-    
-    
   }
   
   joinRoom(roomName: string){

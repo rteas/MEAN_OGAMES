@@ -9,6 +9,8 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+// TODO: IMPLEMENT APP SHUTDOWN 
 export class AppComponent {
   
   constructor(public globalService: GlobalService){}
