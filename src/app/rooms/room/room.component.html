@@ -29,7 +29,7 @@
       <app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
     </div>
     
-    <div class="col-md-7 col-12">
+    <div class="col-md-7 col-12 gameContainer round">
       <app-tutorial-game *ngIf="selectedGame==='Tutorial'"></app-tutorial-game>
       <app-pong-game *ngIf="selectedGame==='Pong'"></app-pong-game>
     </div>
