@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Game, AUTO } from 'phaser-ce';
 
@@ -7,7 +7,7 @@ import { Game, AUTO } from 'phaser-ce';
   templateUrl: './pong-game.component.html',
   styleUrls: ['./pong-game.component.css']
 })
-export class PongGameComponent implements OnInit {
+export class PongGameComponent implements OnInit, OnDestroy {
 
   title = "Angular Phaser"
   game: Game;
@@ -38,6 +38,9 @@ export class PongGameComponent implements OnInit {
     
   }
   
-
+  ngOnDestroy(){
+    this.game.destroy();
+    console.log('pong game destroyed');
+  }
 
 }

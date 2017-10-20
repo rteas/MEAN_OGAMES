@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Game, AUTO } from 'phaser-ce';
 
@@ -7,39 +7,106 @@ import { Game, AUTO } from 'phaser-ce';
   templateUrl: './tutorial-game.component.html',
   styleUrls: ['./tutorial-game.component.css']
 })
-export class TutorialGameComponent implements OnInit {
+export class TutorialGameComponent implements OnInit, OnDestroy {
   title = "Phaser-Tutorial"
   game: Game;
-  assets: string = "assets/phaser/tutorial_02";
+  imgs: string = 'assets/phaser/tutorial_02/img/';
+  player: any;
+  platforms: any;
+  cursors: any
 
   constructor() { }
 
   ngOnInit() {
     
-    console.log(this.assets);
+    console.log("img: "+ this.imgs);
     
-    this.game = new Game(800,600, AUTO, '', { preload: this.preload, 
+    // set game width to window width,
+    // height = width for square window
+    
+    
+    this.game = new Game(800,600, AUTO, 'content', { preload: this.preload, 
                                               create: this.create, 
                                               update: this.update
     });
   }
   
   preload(){
-    this.game.load.image('sky', this.assets+'/img/sky.png');
-    this.game.load.image('ground', this.assets+'/img/platform.png');
-    this.game.load.image('star', this.assets+'/img/star.png');
-    this.game.load.spritesheet('dude', this.assets+'/img/dude.png', 32, 48);
+    this.game.load.image('sky', 'assets/phaser/tutorial_02/img/sky.png');
+    this.game.load.image('ground', 'assets/phaser/tutorial_02/img/platform.png');
+    this.game.load.image('star', 'assets/phaser/tutorial_02/img/star.png');
+    this.game.load.spritesheet('dude', 'assets/phaser/tutorial_02/img/dude.png', 32, 48);
   }
   
   create(){
+    // this.game.add.sprite(0,0, 'star');
+    this.cursors = this.game.input.keyboard.createCursorKeys();
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.game.add.sprite(0,0, 'sky');
+    this.platforms = this.game.add.group();
+    this.platforms.enableBody = true;
+    var ground = this.platforms.create(0, this.game.world.height - 64, 'ground');
+    ground.scale.setTo(2,2);
+    ground.body.immovable = true;
+    
+    var ledge = this.platforms.create(400,400, 'ground');
+    ledge.body.immovable = true;
+    ledge = this.platforms.create (-150, 250, 'ground');
+    ledge.body.immovable = true;
+    
+    this.player = this.game.add.sprite(32, this.game.world.height - 150, 'dude');
+    
+    // enable physics on player
+    this.game.physics.arcade.enable(this.player);
+    this.player.body.bounce.y = 0.2;
+    this.player.body.gravity.y = 300;
+    this.player.body.collideWorldBounds = true;
+    
+    this.player.animations.add('left', [0,1,2,3], 10, true);
+    this.player.animations.add('right', [5,6,7,8], 10, true);
     
   }
   
   update(){
+    //  Collide the player and the stars with the platforms
+    var hitPlatform = this.game.physics.arcade.collide(this.player, this.platforms);
+        //  Reset the players velocity (movement)
+    this.player.body.velocity.x = 0;
+
+    if (this.cursors.left.isDown)
+    {
+        //  Move to the left
+        this.player.body.velocity.x = -150;
+
+        this.player.animations.play('left');
+    }
+    else if (this.cursors.right.isDown)
+    {
+        //  Move to the right
+        this.player.body.velocity.x = 150;
+
+        this.player.animations.play('right');
+    }
+    else
+    {
+        //  Stand still
+        this.player.animations.stop();
+
+        this.player.frame = 4;
+    }
+
+    //  Allow the player to jump if they are touching the ground.
+    if (this.cursors.up.isDown && this.player.body.touching.down && hitPlatform)
+    {
+        this.player.body.velocity.y = -350;
+    }
     
   }
   
-  
+  ngOnDestroy(){
+    this.game.destroy();
+    console.log('tutorial game destroyed');
+  }
   
 
 }

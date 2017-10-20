@@ -10,13 +10,28 @@
     <div class="col-md-5 col-12">
       <p *ngIf="room">
         Welcome to room: {{room.name}}
+        <span>
+          <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
+        </span>
       </p>
-      <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
+      <h3>Select a game:</h3>
+      <div class="btn-group" data-toggle="buttons">
+        <label (click)="selectGame('Tutorial')" class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" autocomplete="off" checked> Tutorial
+        </label>
+        <label (click)="selectGame('Pong')" class="btn btn-primary">
+          <input type="radio" name="options" id="option2" autocomplete="off"> Pong
+        </label>
+        <label class="btn btn-primary disabled">
+          <input type="radio" name="options" id="option3" autocomplete="off" disabled> TBD
+        </label>
+      </div>
       <app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
     </div>
     
     <div class="col-md-7 col-12">
-      <app-tutorial-game></app-tutorial-game>
+      <app-tutorial-game *ngIf="selectedGame==='Tutorial'"></app-tutorial-game>
+      <app-pong-game *ngIf="selectedGame==='Pong'"></app-pong-game>
     </div>
   </div>
 </div>

@@ -103,7 +103,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
   }
   
   sendMessage(message: string){
-    this.chatService.sendMessage(message);
+    if(this.sendable) this.chatService.sendMessage(message);
     this.message = "";
   }
   

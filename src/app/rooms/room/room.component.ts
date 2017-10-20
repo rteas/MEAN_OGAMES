@@ -22,6 +22,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: Room;
   user: User;
   users: User[] = [];
+  selectedGame: string;
 
   constructor(private roomService: RoomService,
               private userService: UserService,
@@ -32,6 +33,8 @@ export class RoomComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
+    
+    this.selectedGame = "Tutorial";
     
     this.user = this.globalService.userInfo;
 
@@ -68,6 +71,11 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.chatboxComponent.resizeChatBox();
       });
 
+  }
+  
+  selectGame(game: string){
+    this.selectedGame = game;
+    console.log('Selected game: '+ game);
   }
   
   leaveRoom(){

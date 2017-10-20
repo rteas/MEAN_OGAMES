@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
+import { GlobalService } from '../globals.service';
 import * as io from 'socket.io/node_modules/socket.io-client';
 import { Http } from '@angular/http';
 
@@ -11,13 +12,12 @@ export class ChatService {
     messages: string[] = [];
     username: string;
     chatLocation: string;
-    //url: string = 'http://slots-party-rteas-1.c9users.io:8080';
-    //url: string='https://dry-sea-96961.herokuapp.com/';
+
     url: string;
     dynamicHost: string;
     dynamicPort: string;
     
-  constructor() {
+  constructor(public globalService: GlobalService) {
     this.dynamicHost = window.location.hostname;
     this.dynamicPort = window.location.port;
     this.url = this.dynamicHost;
@@ -28,8 +28,16 @@ export class ChatService {
   
   join(username: string): void{
       this.username = username;
-      this.socket = io(this.url);
-      this.socket.emit('user-login', username);
+      
+      if(!this.globalService.socketInfo){
+        this.socket = io(this.url);
+        this.socket.emit('user-login', username);
+        this.globalService.socketInfo = this.socket;
+      }
+      else{
+        this.socket = this.globalService.socketInfo;
+      }
+      
       this.socket.on('greetings', (msg) => {
           console.log('connected.', msg);
       });
