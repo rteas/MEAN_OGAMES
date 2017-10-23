@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io/node_modules/socket.io-client';
 import { GlobalService } from '../globals.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PongGameService {
@@ -23,7 +24,7 @@ export class PongGameService {
         this.url += ":"+this.dynamicPort;
       }
       this.socket = io(this.url);
-        this.socket.emit('user-login', username);
+        this.socket.emit('user-login', globalService.userInfo.username);
         this.globalService.socketInfo = this.socket;
     }
     else
