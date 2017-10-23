@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,  DoCheck } from '@angular/core';
+import { Component, OnInit, OnDestroy,  DoCheck, HostListener } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { RoomService } from '../room.service';
 import { UserService } from '../../users/user.service';
@@ -21,6 +21,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   room: Room;
   user: User;
+  key: any;
   users: User[] = [];
   selectedGame: string;
 
@@ -31,6 +32,12 @@ export class RoomComponent implements OnInit, OnDestroy {
               private chatboxComponent: ChatboxComponent,
               private route: ActivatedRoute,
               private router: Router) { }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.key = event.key;
+    console.log(this.key);
+  }
 
   ngOnInit() {
     

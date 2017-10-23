@@ -33,6 +33,12 @@ export class PongGameComponent implements OnInit, OnDestroy {
     gl.clear(gl.COLOR_BUFFER_BIT);
   }
   
+  keyHandler(event) {
+    // grab key
+    console.log(event.key);
+
+  } 
+  
   ngOnDestroy(){
     
   }
