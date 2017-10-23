@@ -36,6 +36,7 @@ export class RoomCreateComponent implements OnInit {
             public: true
       };
   }
+  
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -47,8 +48,8 @@ export class RoomCreateComponent implements OnInit {
           console.log(room._id);
           this.router.navigate(['/rooms/'+room._id])
         }
-    })
-    console.log("room created!");
+    });
+
   }
 
 }
