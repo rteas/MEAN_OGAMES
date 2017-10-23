@@ -1,12 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Game, AUTO } from 'phaser-ce';
+import { Game, AUTO, Text } from 'phaser-ce';
 
 @Component({
   selector: 'app-tutorial-game',
   templateUrl: './tutorial-game.component.html',
   styleUrls: ['./tutorial-game.component.css']
 })
+
+/* 
+This is code that has been copied from the phaser tutorial and modified
+to fit typescript
+*/
+
 export class TutorialGameComponent implements OnInit, OnDestroy {
   title = "Phaser-Tutorial"
   game: Game;
@@ -14,6 +20,9 @@ export class TutorialGameComponent implements OnInit, OnDestroy {
   player: any;
   platforms: any;
   cursors: any
+  stars: any;
+  score: number;
+  scoreText: any;
 
   constructor() { }
 
@@ -23,7 +32,6 @@ export class TutorialGameComponent implements OnInit, OnDestroy {
     
     // set game width to window width,
     // height = width for square window
-    
     
     this.game = new Game(800,600, AUTO, 'content', { preload: this.preload, 
                                               create: this.create, 
@@ -39,6 +47,7 @@ export class TutorialGameComponent implements OnInit, OnDestroy {
   }
   
   create(){
+    this.score = 0;
     // this.game.add.sprite(0,0, 'star');
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -65,14 +74,51 @@ export class TutorialGameComponent implements OnInit, OnDestroy {
     this.player.animations.add('left', [0,1,2,3], 10, true);
     this.player.animations.add('right', [5,6,7,8], 10, true);
     
+    //  Finally some stars to collect
+    this.stars = this.game.add.group();
+
+    //  We will enable physics for any star that is created in this group
+    this.stars.enableBody = true;
+
+    //  Here we'll create 12 of them evenly spaced apart
+    for (var i = 0; i < 12; i++)
+    {
+        //  Create a star inside of the 'stars' group
+        var star = this.stars.create(i * 70, 0, 'star');
+
+        //  Let gravity do its thing
+        star.body.gravity.y = 300;
+
+        //  This just gives each star a slightly random bounce value
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
+    
+    this.scoreText = this.game.add.text(16, 16, 'score: '+this.score, { font: '35px Arial', fill: '#000' });
+
+  }
+  
+  collectStar(player: any, star: any){
+    // remove star
+    star.kill();
+    
+    //  Add and update the score
+    this.score += 10;
+    //this.scoreText.setText('Score: ' + this.score);
+    
+    console.log('collect star called...?')
   }
   
   update(){
+    
+    this.game.physics.arcade.collide(this.stars, this.platforms);
     //  Collide the player and the stars with the platforms
     var hitPlatform = this.game.physics.arcade.collide(this.player, this.platforms);
-        //  Reset the players velocity (movement)
+    
+    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+    this.game.physics.arcade.collide(this.player, this.stars, TutorialGameComponent.prototype.collectStar);
+    //  Reset the players velocity (movement)
     this.player.body.velocity.x = 0;
-
+    
     if (this.cursors.left.isDown)
     {
         //  Move to the left

@@ -14,22 +14,25 @@
           <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
         </span>
       </p>
-      <h3>Select a game:</h3>
-      <div class="btn-group" data-toggle="buttons">
-        <label (click)="selectGame('Tutorial')" class="btn btn-primary active">
-          <input type="radio" name="options" id="option1" autocomplete="off" checked> Tutorial
-        </label>
-        <label (click)="selectGame('Pong')" class="btn btn-primary">
-          <input type="radio" name="options" id="option2" autocomplete="off"> Pong
-        </label>
-        <label class="btn btn-primary disabled">
-          <input type="radio" name="options" id="option3" autocomplete="off" disabled> TBD
-        </label>
+      <div id="game-selector">
+        <h3>Select a game:</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <label (click)="selectGame('Tutorial')" class="btn btn-primary active">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked> Tutorial
+          </label>
+          <label (click)="selectGame('Pong')" class="btn btn-primary">
+            <input type="radio" name="options" id="option2" autocomplete="off"> Pong
+          </label>
+          <label class="btn btn-primary disabled">
+            <input type="radio" name="options" id="option3" autocomplete="off" disabled> TBD
+          </label>
+        </div>
       </div>
+      
       <app-chatbox *ngIf="room" [user]="user" [users]="users"></app-chatbox>
     </div>
     
-    <div class="col-md-7 col-12 gameContainer round">
+    <div class="col-md-7 col-12 game-container rounded">
       <app-tutorial-game *ngIf="selectedGame==='Tutorial'"></app-tutorial-game>
       <app-pong-game *ngIf="selectedGame==='Pong'"></app-pong-game>
     </div>

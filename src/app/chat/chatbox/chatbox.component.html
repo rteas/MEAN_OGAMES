@@ -6,10 +6,7 @@
   <div class="col-md-10 col-11 full-height nopadding" id="messages-box">
     <p class="chatbox-header header-dark">Chat</p>
     <div class="chatbox-div" [style.height.px]="chatbodyHeight">
-      <ul>
-        <li class="message" *ngFor="let msg of chatService.messages">
-          {{msg}}
-        </li>
+      <ul class="msg-list">
       </ul>
     </div>
   </div>

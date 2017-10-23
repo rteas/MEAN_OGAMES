@@ -46,9 +46,11 @@ export class ChatService {
           this.messages.push(username+ " has joined!")
       });
       
+      /*
       this.socket.on('message', msg => {
           this.messages.push(msg);
       });
+      */
       
       this.socket.on('disconnect', msg => {
           console.log(msg);

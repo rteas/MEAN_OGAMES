@@ -1,6 +1,7 @@
-import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit, DoCheck} from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit } from '@angular/core';
 import { User } from '../../users/user';
 import { ChatService } from '../chat.service';
+import { Observable } from 'rxjs/Observable';
 declare var $: any;
 
 @Component({
@@ -8,7 +9,7 @@ declare var $: any;
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
+export class ChatboxComponent implements OnInit, AfterContentInit{
   
   @ViewChild('msg') msg: ElementRef
   
@@ -23,6 +24,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
   sendable: boolean = false;
   buttonClass: string;
   currentScroll: number;
+  messageReceiver: Observable<String>;
   
   constructor(public chatService: ChatService,
               private elementRef: ElementRef) {}
@@ -31,6 +33,12 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
     this.buttonClass = "btn-outline-secondary";
     this.message="";
     this.currentScroll = 0;
+    this.messageReceiver = this.chatService.listen('message')
+    this.messageReceiver.subscribe((data)=>{
+      console.log('message received: ' + data);
+      this.addMessage(data);
+      });
+    
   }
 
   ngAfterContentInit() {
@@ -58,13 +66,24 @@ export class ChatboxComponent implements OnInit, AfterContentInit, DoCheck{
     });
   }
   
+  
+  /*
   ngDoCheck(){
     let scrollHeight = $('.chatbox-div')[0].scrollHeight;
     if(this.scrolledDown && this.currentScroll < scrollHeight){
       this.scrollToBottom();
     }
   }
+  */
   
+  addMessage(message: String){
+    var msg = $("<li>", {"class": "message"});
+    msg.text(message);
+    $('.msg-list').append(msg);
+    if(this.scrolledDown){
+      this.scrollToBottom();
+    }
+  }
   
   resizeChatBox(){
    //alert($(window).height());
