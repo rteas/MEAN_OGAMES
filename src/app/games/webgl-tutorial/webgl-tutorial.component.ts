@@ -270,7 +270,7 @@ export class WebglTutorialComponent implements OnInit, OnDestroy {
     return shader;
   }
   
-  startFallingBlockAnimation(frames: number){
+  startFallingBlockAnimation(){
     this.fallingBlockTimer = setInterval(()=>{
       this.animateFallingBlock();
     },
