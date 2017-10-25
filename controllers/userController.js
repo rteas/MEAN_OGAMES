@@ -180,7 +180,7 @@ exports.deleteUser = function(req, res){
     });
 }
 
-exports.verifyUser = function(req, res){
+exports.loginUser = function(req, res){
     
     // handle not all fields filled out
     if(!req.body.username || !req.body.password) return res.status(200).json(null);
@@ -195,6 +195,32 @@ exports.verifyUser = function(req, res){
         
         if(user.status === "Offline"){
             user.status = "Online";
+        }
+        
+        user.save((err) => {
+            if(err) { handleError(res,err); }
+            
+            res.status(200).json(user);
+        });
+        
+    });
+}
+
+exports.logoutUser = function(req, res){
+    
+    // handle not all fields filled out
+    if(!req.body.username || !req.body.password) return res.status(200).json(null);
+    
+    User.findOne({'username': req.body.username, 'password': req.body.password}, function(err, user){
+        if(err) { handleError(res, err); }
+        
+        // handle incorrect username/password
+        if(!user){
+            return res.status(200).json(null);
+        }
+        
+        if(user.status === "Online"){
+            user.status = "Offline";
         }
         
         user.save((err) => {

@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   login(): void {
     
     // verify user info from api
-    this.userService.verifyUser(this.user)
+    this.userService.loginUser(this.user)
       .then(user => {
         // successful verification
         if(user){

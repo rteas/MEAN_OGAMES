@@ -10,7 +10,7 @@ export class Rectangle{
     // because we want horizontal size, vertical size and
     // position to be determined independently.
     
-    var randNums = getRandomVector();
+    var randNums = this.getRandomVector();
     
     this.size = [
       5 + 120*randNums[0],
@@ -23,8 +23,8 @@ export class Rectangle{
     ];
     
     this.velocity = 1.0 + 6.0*Math.random();
-    var color = getRandomVector();
-    gl.clearColor(this.color[0], this.color[1], this.color[2], 1.0);
+    var color = this.getRandomVector();
+    gl.clearColor(color[0], color[1], color[2], 1.0);
   }
   
   getRandomVector(){

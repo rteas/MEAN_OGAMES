@@ -12,7 +12,10 @@ router.get('/', userController.index);
 router.get('/:id', userController.getUserInfo);
 
 // POST: user login
-router.post('/login', userController.verifyUser);
+router.post('/login', userController.loginUser);
+
+// POST: user logout
+router.post('/logout', userController.logoutUser);
 
 // POST: Create user
 router.post('/create', userController.createUser);

@@ -24,7 +24,7 @@ export class UserService {
                  .catch(this.handleError);
   }
   
-  verifyUser(user: User): Promise<User>{
+  loginUser(user: User): Promise<User>{
       return this.http.post(this.usersUrl+'/login', {username: user.username, password: user.password})
                     .toPromise()
                     .then(response => response.json() as User)
