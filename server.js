@@ -90,7 +90,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       
       socket.username = username;
       userSockets.addSocket(username, socket);
-      io.emit('user-login', socket.username);
+      io.emit('info', socket.username + " connected.");
       console.log('user: '+username+' conneted!');
       userSockets.print();
       
@@ -101,7 +101,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
        if(socket.username){
          console.log(socket.username, 'disconnected');
          userSockets.removeSocket(socket.username);
-         io.emit('disconnect', socket.username);
+         io.emit('info', socket.username + " disconnected");
        }
        
     });

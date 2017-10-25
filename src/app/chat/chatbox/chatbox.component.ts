@@ -25,6 +25,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit{
   buttonClass: string;
   currentScroll: number;
   messageReceiver: Observable<String>;
+  infoReceiver: Observable<String>;
   
   constructor(public chatService: ChatService,
               private elementRef: ElementRef) {}
@@ -33,12 +34,15 @@ export class ChatboxComponent implements OnInit, AfterContentInit{
     this.buttonClass = "btn-outline-secondary";
     this.message="";
     this.currentScroll = 0;
-    this.messageReceiver = this.chatService.listen('message')
+    this.messageReceiver = this.chatService.listen('message');
     this.messageReceiver.subscribe((data)=>{
       console.log('message received: ' + data);
       this.addMessage(data);
       });
-    
+    this.infoReceiver = this.chatService.listen('info');
+    this.infoReceiver.subscribe((data) => {
+      this.addMessage(data);
+    })
   }
 
   ngAfterContentInit() {

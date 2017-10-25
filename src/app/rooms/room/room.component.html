@@ -23,8 +23,11 @@
           <label (click)="selectGame('Pong')" class="btn btn-primary">
             <input type="radio" name="options" id="option2" autocomplete="off"> Pong
           </label>
+          <label (click)="selectGame('WebGL-Tut')" class="btn btn-primary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> WebGL-Tutorial
+          </label>
           <label class="btn btn-primary disabled">
-            <input type="radio" name="options" id="option3" autocomplete="off" disabled> TBD
+            <input type="radio" name="options" id="option4" autocomplete="off" disabled> TBD
           </label>
         </div>
       </div>
@@ -35,6 +38,7 @@
     <div class="col-md-7 col-12 game-container rounded">
       <app-tutorial-game *ngIf="selectedGame==='Tutorial'"></app-tutorial-game>
       <app-pong-game *ngIf="selectedGame==='Pong'"></app-pong-game>
+      <app-webgl-tutorial *ngIf="selectedGame==='WebGL-Tut'"></app-webgl-tutorial>
     </div>
   </div>
 </div>

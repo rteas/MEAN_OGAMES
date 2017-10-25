@@ -1,0 +1,17 @@
+<h3>WebGL</h3>
+<div class="row">
+    <div id="content">
+        <!--canvas id="glCanvas" 
+        width="640" 
+        height="480"
+        ></canvas-->
+        <canvas (click)="toggleAnimation()" id="game-canvas">
+            Your browser does not support HTML5 Canvas
+        </canvas>
+        <button (click)="toggleAnimation()" id="color-switcher">Press here to toggle color animation</button>
+        <button (click)="startFallingBlockAnimation()" id="color-switcher">Start falling block animation</button>
+        <button class="btn btn-danger" (click)="toggleRed()" id="red-toggle">On</button>
+        <button class="btn btn-success" (click)="toggleGreen()" id="green-toggle">On</button>
+        <button class="btn btn-primary" (click)="toggleBlue()" id="blue-toggle">On</button>
+    </div>
+</div>

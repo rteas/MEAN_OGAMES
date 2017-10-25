@@ -18,6 +18,10 @@ export class PongGameComponent implements OnInit, OnDestroy {
   
   ngOnInit(){
     var canvas: any = document.querySelector("#glCanvas");
+    
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    
     // Initialize the GL context
     var gl = canvas.getContext("webgl");
   

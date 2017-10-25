@@ -40,6 +40,7 @@ import { InfoDashComponent } from './info-dash/info-dash.component';
 import { RoomJoinComponent } from './rooms/room-join/room-join.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
 import { TutorialGameComponent } from './games/tutorial-game/tutorial-game.component';
+import { WebglTutorialComponent } from './games/webgl-tutorial/webgl-tutorial.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { TutorialGameComponent } from './games/tutorial-game/tutorial-game.compo
     InfoDashComponent,
     RoomJoinComponent,
     UserCreateComponent,
-    TutorialGameComponent
+    TutorialGameComponent,
+    WebglTutorialComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

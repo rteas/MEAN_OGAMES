@@ -103,6 +103,7 @@ export class TutorialGameComponent implements OnInit, OnDestroy {
     
     //  Add and update the score
     this.score += 10;
+    console.log(this.scoreText);
     //this.scoreText.setText('Score: ' + this.score);
     
     console.log('collect star called...?')
