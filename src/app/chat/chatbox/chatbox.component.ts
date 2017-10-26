@@ -1,7 +1,7 @@
-import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterContentInit, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../users/user';
 import { ChatService } from '../chat.service';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 @Component({
@@ -9,12 +9,12 @@ declare var $: any;
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css']
 })
-export class ChatboxComponent implements OnInit, AfterContentInit{
+export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
   
   @ViewChild('msg') msg: ElementRef
   
   @Input() user: User;
-  @Input() users: User[];
+  users: User[];
   message: string;
   chatboxHeight: number;
   chatbodyHeight: number;
@@ -24,25 +24,44 @@ export class ChatboxComponent implements OnInit, AfterContentInit{
   sendable: boolean = false;
   buttonClass: string;
   currentScroll: number;
-  messageReceiver: Observable<String>;
-  infoReceiver: Observable<String>;
+  message$: Subscription;
+  info$: Subscription;
   
   constructor(public chatService: ChatService,
               private elementRef: ElementRef) {}
   
   ngOnInit(){
+    
+    // get users
+    this.getUsers();
+    
     this.buttonClass = "btn-outline-secondary";
     this.message="";
     this.currentScroll = 0;
-    this.messageReceiver = this.chatService.listen('message');
-    this.messageReceiver.subscribe((data)=>{
-      console.log('message received: ' + data);
-      this.addMessage(data);
+    this.message$ = this.chatService.listen('message').subscribe((data)=>{
+        console.log('message received: ' + data);
+        this.addMessage(data);
       });
-    this.infoReceiver = this.chatService.listen('info');
-    this.infoReceiver.subscribe((data) => {
+    this.info$ = this.chatService.listen('info').subscribe((data) => {
       this.addMessage(data);
-    })
+      this.getUsers();
+    });
+  }
+  
+  getUsers(){
+    this.chatService
+        .getUsers()
+        .then((users: User[]) => {
+          this.users = users.map((user) => {
+            if(!user.friends){
+              user.friends = [];
+            }
+            if(!user.location){
+              user.location = 'unknown';
+            }
+            return user;
+          });
+        });
   }
 
   ngAfterContentInit() {
@@ -70,7 +89,15 @@ export class ChatboxComponent implements OnInit, AfterContentInit{
     });
   }
   
-  
+  ngOnDestroy(){
+    if(this.message$){
+      this.message$.unsubscribe();
+    }
+    if(this.info$){
+      this.info$.unsubscribe();
+    }
+    
+  }
   /*
   ngDoCheck(){
     let scrollHeight = $('.chatbox-div')[0].scrollHeight;

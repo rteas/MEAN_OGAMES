@@ -45,6 +45,7 @@ export class UserCreateComponent implements OnInit {
     .then(user => {
         if(user){
           this.globalService.userInfo = user;
+          this.userService.loginUser(user);
           this.router.navigate(['/lobby'])
         }
         else{

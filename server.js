@@ -26,6 +26,7 @@ var users = require('./routes/user');
 var rooms = require('./routes/room');
 app.use('/api/users', users);
 app.use('/api/rooms', rooms);
+var request = require('request');
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
@@ -102,6 +103,15 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
          console.log(socket.username, 'disconnected');
          userSockets.removeSocket(socket.username);
          io.emit('info', socket.username + " disconnected");
+         
+         // make server call to logout user
+         request.post('http://slots-party-rteas-1.c9users.io:8080/api/users/logout', 
+                      { json:
+                        { username: socket.username }
+                      },
+                      function(err, res, body){
+                        if(err) console.log(err);
+                      });
        }
        
     });

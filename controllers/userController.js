@@ -27,13 +27,33 @@ function handleError(res, error){
 }
 
 exports.index = function(req, res){
-    User.find()
-    .sort({topScore: -1})
-    .select('-password')
-    .exec( function (err, users){
-        if (err) { return handleError(res, err)}
-        res.status(200).json(users);
-    });
+    if(req.query.status){
+        User.find({'status': req.query.status})
+        .sort({topScore: -1})
+        .select('-password')
+        .exec( function (err, users){
+            if (err) { return handleError(res, err)}
+            res.status(200).json(users);
+        });
+    }
+    else if(req.query.location){
+        User.find({'location': req.query.location})
+        .sort({topScore: -1})
+        .select('-password')
+        .exec( function (err, users){
+            if (err) { return handleError(res, err)}
+            res.status(200).json(users);
+        });
+    }
+    else{
+        User.find()
+        .sort({topScore: -1})
+        .select('-password')
+        .exec( function (err, users){
+            if (err) { return handleError(res, err)}
+            res.status(200).json(users);
+        });
+    }
 }
 
 exports.createUser = function(req, res){
@@ -207,11 +227,14 @@ exports.loginUser = function(req, res){
 }
 
 exports.logoutUser = function(req, res){
+    console.log(req);
+    console.log('req body');
+    console.log(req.body);
     
     // handle not all fields filled out
-    if(!req.body.username || !req.body.password) return res.status(200).json(null);
+    if(!req.body.username) return res.status(200).json(null);
     
-    User.findOne({'username': req.body.username, 'password': req.body.password}, function(err, user){
+    User.findOne({'username': req.body.username}, function(err, user){
         if(err) { handleError(res, err); }
         
         // handle incorrect username/password
