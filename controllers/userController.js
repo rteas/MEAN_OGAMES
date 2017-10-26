@@ -233,9 +233,6 @@ exports.loginUser = function(req, res){
 }
 
 exports.logoutUser = function(req, res){
-    console.log(req);
-    console.log('req body');
-    console.log(req.body);
     
     // handle not all fields filled out
     if(!req.body.username) return res.status(200).json(null);

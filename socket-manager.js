@@ -11,6 +11,10 @@ class SocketManager{
         this.userSocketMap.set(username, socket);
     }
     
+    addChatListeners(username){
+        let socket = this.userSocketMap.get(username);
+    }
+    
     addPongGameListeners(username){
         // get socket
         let socket = this.userSocketMap.get(username);

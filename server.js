@@ -28,6 +28,8 @@ app.use('/api/users', users);
 app.use('/api/rooms', rooms);
 var request = require('request');
 
+var User = require('./models/user');
+
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 var server;
@@ -82,7 +84,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     socket.on('room-message', function(data){
       
       console.log("room-msg:");
-      console.log(data);
+      // console.log(data);
       io.to(data.room).emit('message', data.message);
       
     });    
@@ -104,14 +106,37 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
          userSockets.removeSocket(socket.username);
          io.emit('info', socket.username + " disconnected");
          
+         // Method 1
          // make server call to logout user
+         /*
          request.post('http://slots-party-rteas-1.c9users.io:8080/api/users/logout', 
                       { json:
                         { username: socket.username }
                       },
                       function(err, res, body){
-                        if(err) console.log(err);
+                        if(err) console.log("error: "+'api/users/logout');
                       });
+          */
+          
+          // Method 2, change the db directly
+          User.findOne({'username': socket.username}, function(err, user){
+            if(err) { return; }
+            
+            // handle incorrect username/password
+            if(!user){
+                return;
+            }
+            
+            if(user.status === "Online"){
+                user.status = "Offline";
+            }
+            
+            user.save((err) => {
+                if(err) { return; }
+                
+                return;
+            });
+          });
        }
        
     });
