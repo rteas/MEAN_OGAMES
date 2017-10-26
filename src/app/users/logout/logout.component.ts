@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../../globals.service';
+import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +14,10 @@ export class LogoutComponent implements OnInit {
               private router: Router ) { }
 
   ngOnInit() {
+    
+    // logout
+    
+    // clear data
     if(this.globalService.userInfo){
       this.globalService.userInfo = null;
     }

@@ -94,6 +94,7 @@ exports.updateUserProfile = function(req,res){
                     
                     // If room changed, update room data as well
                     // remove the user from the room
+                    /*
                     if(req.body.location !== user.location){
                         Room.findByIdAndUpdate(user.location, function(err, room){
                          if (err) { handleError(res, err); }
@@ -109,18 +110,23 @@ exports.updateUserProfile = function(req,res){
                            });
                         });
                     }
+                    */
                     // Update the user's data
                     user.username = req.body.newUsername;
                     user.password = req.body.newPassword;
-                    user.location = req.body.location;
+                    user.location = req.body.newLocation;
                         
                     user.save(function (err) {
                        if (err) { handleError(res, err); } 
+                       res.json({'success': 'profile updated'});
                     });
             
                 }
             }
-            res.json({'error': 'incorrect username or password'});
+            else{
+                res.json({'error': 'incorrect username or password'});
+            }
+            
                 
         });
         

@@ -93,11 +93,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   
   ngOnDestroy(){
     // removing user...
-    //console.log('removing user...');
-    //this.roomService.removeUserFromRoom(this.room, this.user);
+    // console.log('removing user...');
+    // this.roomService.removeUserFromRoom(this.room, this.user);
     // switch user location
     this.chatService.switchChatLocation("lobby");
   }
-  
 
 }

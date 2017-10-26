@@ -58,25 +58,7 @@ export class RoomListComponent implements OnInit {
     this.roomListHeight = windowHeight - (titleHeight + 2*roomControlHeight);
     
   }
-  enterRoom(room: Room, user: User){
-    // console.log('ENTERING ROOM:'+ room._id);
-    // Check if room needs password
-    // If a password is needed, prompt password form
-    
-    this.roomService
-    .addUserToRoom(room, user)
-    .then(() => {
-      
-      if(room){
-        this.router.navigate(['/rooms/'+room._id]);
-      }
-      else{
-        console.log('room full');
-      }
-      
-    });
-    
-  }
+
   
   deleteRoom(room: Room): void{
     this.roomService.deleteRoom(room)

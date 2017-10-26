@@ -36,8 +36,6 @@ export class RoomService {
                         .catch(this.handleError);
   }
   
-
-  
   removeUserFromRoom(room: Room, user: User): Promise<void> {
       const apiUrl = this.roomsUrl+'/'+room._id+'/removeUser';
       return this.http.put(apiUrl, user, this.headers)

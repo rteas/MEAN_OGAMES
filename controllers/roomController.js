@@ -137,33 +137,35 @@ exports.removeUser = function(req, res){
     var user_id = req.body._id;
     
     Room.findById(req.params.id, function(err, room){
-        console.log("ROOM FOUND FOR USER: " + user_id);
-        console.log(room);
+        
         if (err) { handleError(res, err); }
+        
         for(var i = 0; i < room.users.length; i++){
             
             if(room.users[i].toString() === user_id){
-                // remove user
+                // remove user from room
                 room.users.splice(i,1);
+                
+                // update user location
+                User.findById(user_id, function(err, user){
+                    if (err) { handleError(res, err); }
+                    user.location = null;
+                    user.save(function(err, user){
+                        if (err) { handleError(res, err); }
+                        
+                    });
+                });
                 
                 // remove room if there are no users
                 room.population--;
                 if(room.users.length == 0){
                     room.remove();
-                    return res.status(200).json({status: "success"});
                 }
                 
                 // update room owner (if needed)
                 if(room.users[i] === room.owner){
                     room.owner = room.users[0];
                 }
-                
-                // update user location
-                User.findById(user_id, function(err, user){
-                    if (err) { handleError(res, err); }
-                    user.location = null;
-                });
-                
                 
             }
         }
