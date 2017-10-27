@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Game, AUTO } from 'phaser-ce';
+// import { Game, AUTO } from 'phaser-ce';
+import { PongGame } from './game/PongGame';
 
 @Component({
   selector: 'app-pong-game',
@@ -10,38 +11,15 @@ import { Game, AUTO } from 'phaser-ce';
 export class PongGameComponent implements OnInit, OnDestroy {
 
   title = "Angular Phaser"
-  game: Game;
+  pongGame: PongGame;
   
   constructor() { 
         
   }
   
   ngOnInit(){
-    var canvas: any = document.querySelector("#glCanvas");
-    
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-    
-    // Initialize the GL context
-    var gl = canvas.getContext("webgl");
-  
-    // Only continue if WebGL is available and working
-    if (!gl) {
-      alert("Unable to initialize WebGL. Your browser or machine may not support it.");
-      return;
-    }
-  
-    // Set clear color to white, fully opaque
-    gl.clearColor(255, 255, 255, 1.0);
-    // Clear the color buffer with specified clear color
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    this.pongGame = new PongGame();
   }
-  
-  keyHandler(event) {
-    // grab key
-    console.log(event.key);
-
-  } 
   
   ngOnDestroy(){
     

@@ -148,8 +148,8 @@ exports.getUserInfo = function(req,res){
     });
     */
     
-    //TODO: remove password
     User.findById(req.params.id)
+    .select('-password')
     .populate('friends')
     .exec(function(err, user){
        if (err) { handleError(res, err); }

@@ -41,6 +41,8 @@ import { RoomJoinComponent } from './rooms/room-join/room-join.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
 import { TutorialGameComponent } from './games/tutorial-game/tutorial-game.component';
 import { WebglTutorialComponent } from './games/webgl-tutorial/webgl-tutorial.component';
+import { WebglTut2Component } from './games/webgl-tut2/webgl-tut2.component';
+import { PhaserStatesComponent } from './games/phaser-states/phaser-states.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { WebglTutorialComponent } from './games/webgl-tutorial/webgl-tutorial.co
     RoomJoinComponent,
     UserCreateComponent,
     TutorialGameComponent,
-    WebglTutorialComponent
+    WebglTutorialComponent,
+    WebglTut2Component,
+    PhaserStatesComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

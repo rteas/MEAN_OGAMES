@@ -63,7 +63,6 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   io.on('connection', function(socket){
     
     io.emit('greetings', 'hi');
-    console.log('user connected');
     
     socket.on('join room', (roomname) => {
       console.log('joining room...', roomname);
@@ -122,7 +121,6 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
           User.findOne({'username': socket.username}, function(err, user){
             if(err) { return; }
             
-            // handle incorrect username/password
             if(!user){
                 return;
             }

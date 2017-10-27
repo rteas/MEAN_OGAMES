@@ -26,6 +26,12 @@
           <label (click)="selectGame('WebGL-Tut')" class="btn btn-primary">
             <input type="radio" name="options" id="option3" autocomplete="off"> WebGL-Tutorial
           </label>
+          <label (click)="selectGame('WebGL-Tut2')" class="btn btn-primary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> WebGL-Tutorial2
+          </label>
+          <label (click)="selectGame('Phaser-States')" class="btn btn-primary">
+            <input type="radio" name="options" id="option3" autocomplete="off"> Phaser States
+          </label>
           <label class="btn btn-primary disabled">
             <input type="radio" name="options" id="option4" autocomplete="off" disabled> TBD
           </label>
@@ -39,6 +45,8 @@
       <app-tutorial-game *ngIf="selectedGame==='Tutorial'"></app-tutorial-game>
       <app-pong-game *ngIf="selectedGame==='Pong'"></app-pong-game>
       <app-webgl-tutorial *ngIf="selectedGame==='WebGL-Tut'"></app-webgl-tutorial>
+      <app-webgl-tut2 *ngIf="selectedGame==='WebGL-Tut2'"></app-webgl-tut2>
+      <app-phaser-states *ngIf="selectedGame==='Phaser-States'"></app-phaser-states>
     </div>
   </div>
 </div>

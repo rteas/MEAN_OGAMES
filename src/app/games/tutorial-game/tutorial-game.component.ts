@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Game, AUTO, Text } from 'phaser-ce';
 
+import * as Phaser from 'phaser-ce';
+
 @Component({
   selector: 'app-tutorial-game',
   templateUrl: './tutorial-game.component.html',
