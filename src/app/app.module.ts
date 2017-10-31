@@ -43,6 +43,7 @@ import { TutorialGameComponent } from './games/tutorial-game/tutorial-game.compo
 import { WebglTutorialComponent } from './games/webgl-tutorial/webgl-tutorial.component';
 import { WebglTut2Component } from './games/webgl-tut2/webgl-tut2.component';
 import { PhaserStatesComponent } from './games/phaser-states/phaser-states.component';
+import { PongCanvasComponent } from './games/pong-canvas/pong-canvas.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { PhaserStatesComponent } from './games/phaser-states/phaser-states.compo
     TutorialGameComponent,
     WebglTutorialComponent,
     WebglTut2Component,
-    PhaserStatesComponent
+    PhaserStatesComponent,
+    PongCanvasComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

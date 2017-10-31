@@ -41,7 +41,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     
-    this.selectedGame = "Tutorial";
+    this.selectedGame = "Pong";
     
     this.user = this.globalService.userInfo;
 

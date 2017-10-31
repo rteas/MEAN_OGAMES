@@ -17,10 +17,10 @@
       <div id="game-selector">
         <h3>Select a game:</h3>
         <div class="btn-group" data-toggle="buttons">
-          <label (click)="selectGame('Tutorial')" class="btn btn-primary active">
+          <label (click)="selectGame('Tutorial')" class="btn btn-primary ">
             <input type="radio" name="options" id="option1" autocomplete="off" checked> Tutorial
           </label>
-          <label (click)="selectGame('Pong')" class="btn btn-primary">
+          <label (click)="selectGame('Pong')" class="btn btn-primary active">
             <input type="radio" name="options" id="option2" autocomplete="off"> Pong
           </label>
           <label (click)="selectGame('WebGL-Tut')" class="btn btn-primary">
@@ -43,7 +43,7 @@
     
     <div class="col-md-7 col-12 game-container rounded">
       <app-tutorial-game *ngIf="selectedGame==='Tutorial'"></app-tutorial-game>
-      <app-pong-game *ngIf="selectedGame==='Pong'"></app-pong-game>
+      <app-pong-canvas *ngIf="selectedGame==='Pong'"></app-pong-canvas>
       <app-webgl-tutorial *ngIf="selectedGame==='WebGL-Tut'"></app-webgl-tutorial>
       <app-webgl-tut2 *ngIf="selectedGame==='WebGL-Tut2'"></app-webgl-tut2>
       <app-phaser-states *ngIf="selectedGame==='Phaser-States'"></app-phaser-states>

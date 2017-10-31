@@ -22,7 +22,7 @@ export class PongGameComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(){
-    
+    this.pongGame.destroy();
   }
   /*
   ngOnInit() {
