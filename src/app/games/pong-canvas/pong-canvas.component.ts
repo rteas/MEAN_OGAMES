@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Canvas } from './canvas';
 import { Paddle } from './objects/paddle';
 import { Ball } from './objects/ball';
+import { PongGame } from './pong-game';
 
 @Component({
   selector: 'app-pong-canvas',
@@ -10,20 +11,50 @@ import { Ball } from './objects/ball';
 })
 export class PongCanvasComponent implements OnInit {
   
+  pongGame: PongGame;
   canvas: Canvas;
+  player: Paddle;
+  playerTop: Paddle;
+  drawTimer: any;
+  ball: Ball;
+  key: string;
   
   constructor() { }
 
   ngOnInit() {
-    this.canvas = new Canvas('pong', 500,500);
-    var player = new Paddle(0, 0, 100, 20);
-    var playerx = new Paddle(this.canvas.width-100, this.canvas.height-20,100,20);
-    var ball = new Ball(this.canvas.width/2, this.canvas.height/2, 10);
-    this.canvas.drawColorRect(player.position.x, player.position.y,player.width,player.height, 'blue');
-    this.canvas.drawColorRect(playerx.position.x, playerx.position.y, playerx.width, playerx.height, 'red');
-
-    this.canvas.drawCircle(ball.position.x, ball.position.y, ball.radius);
+    this.pongGame = new PongGame('pong', 500,500);
+    //this.pongGame.draw();
+    this.pongGame.startGame();
     
+  }
+  
+  // listen for inputs
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    
+    // pass key to the correct component
+    this.key = event.key;
+    switch(this.key){
+      case 'a': 
+        console.log('left');
+        this.pongGame.movePlayer(-15,0);
+        break;
+      case 'd':
+        console.log('right');
+        this.pongGame.movePlayer(15,0);
+      default:
+        console.log('Non registered key pressed');
+        break;
+        
+    }
+  }
+  
+  draw(){
+    this.canvas.clear();
+    this.canvas.drawColorRect(this.playerTop.position.x, this.playerTop.position.y, this.playerTop.width, this.playerTop.height, 'blue');
+    this.canvas.drawColorRect(this.player.position.x, this.player.position.y, this.player.width, this.player.height, 'red');
+
+    this.canvas.drawCircle(this.ball.position.x, this.ball.position.y, this.ball.radius);
   }
   
   

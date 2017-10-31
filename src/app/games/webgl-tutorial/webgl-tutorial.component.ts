@@ -39,7 +39,11 @@ export class WebglTutorialComponent implements OnInit, OnDestroy {
     this.gl = canvas.getContext("webgl");
     this.gl.viewport(0,0,
       this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
-    
+    // set variables for color switch 'animation'
+    this.isAnimating = false;
+    this.red = true;
+    this.blue = true;
+    this.green = true;
     /*
     // this.timer = Observable.timer(0,1000);
     
@@ -57,11 +61,7 @@ export class WebglTutorialComponent implements OnInit, OnDestroy {
     this.velocity = 3.0;
     this.position = [0, this.gl.drawingBufferHeight];
     
-    // set variables for color switch 'animation'
-    this.isAnimating = false;
-    this.red = true;
-    this.blue = true;
-    this.green = true;
+    
     
     
       

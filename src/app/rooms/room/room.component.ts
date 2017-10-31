@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,  DoCheck, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { RoomService } from '../room.service';
 import { UserService } from '../../users/user.service';
@@ -10,18 +10,22 @@ import { ChatService } from '../../chat/chat.service';
 import { ChatboxComponent } from '../../chat/chatbox/chatbox.component';
 import { Router } from '@angular/router';
 
+// games
+import { PongCanvasComponent } from '../../games/pong-canvas/pong-canvas.component';
+
+
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css'],
-  providers: [ChatboxComponent]
+  providers: [ChatboxComponent, PongCanvasComponent]
 })
 
 export class RoomComponent implements OnInit, OnDestroy {
 
   room: Room;
   user: User;
-  key: any;
+  key: string;
   users: User[] = [];
   selectedGame: string;
 
@@ -30,18 +34,15 @@ export class RoomComponent implements OnInit, OnDestroy {
               private chatService: ChatService,
               private globalService: GlobalService,
               private chatboxComponent: ChatboxComponent,
+              private pongCanvasComponent: PongCanvasComponent,
               private route: ActivatedRoute,
               private router: Router) { }
 
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    this.key = event.key;
-    console.log(this.key);
-  }
+  
 
   ngOnInit() {
     
-    this.selectedGame = "Pong";
+    this.selectedGame = "pong";
     
     this.user = this.globalService.userInfo;
 

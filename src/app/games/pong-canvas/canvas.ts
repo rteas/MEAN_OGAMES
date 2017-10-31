@@ -8,8 +8,6 @@ export class Canvas {
   // set the canvas, dimensions
   constructor(canvas: string, width: number, height: number){
     this.canvas = document.getElementById('pong');
-    this.width = width;
-    this.height = height;
     this.setBorders(width, height);
 
     this.context = this.canvas.getContext('2d');
@@ -22,6 +20,14 @@ export class Canvas {
   setBorders(width: number, height: number){
     this.canvas.width = width;
     this.canvas.height = height;
+    
+    // set class variables
+    this.width = width;
+    this.height = height;
+  }
+  
+  clear(){
+    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
   }
   
   drawRect(x: number, y: number, width: number, height: number){
