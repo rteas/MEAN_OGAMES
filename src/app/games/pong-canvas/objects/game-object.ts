@@ -23,6 +23,8 @@ export class GameObject {
     
     this.collisions = [];
     
+    console.log('initial position: ');
+    console.log(this.position);
   }
   
   // calculate and set default collider using the
@@ -59,9 +61,11 @@ export class GameObject {
   // move object and it's collider, 
   // checking for collision if enabled
   move(x: number, y: number){
-    console.log('prev x: '+ this.position.x);
+    console.log('prev: ');
+    console.log(this.position);
     this.position.x += x;
-    console.log('expected x: '+ this.position.x);
+    console.log('expected: ');
+    console.log(this.position);
     this.position.y += y;
     
     // prevent movement out of boundary
@@ -84,7 +88,8 @@ export class GameObject {
     if(this.colliderEnabled){
       this.collider.move(x,y);
     }
-    console.log('result x: '+ this.position.x);
+    console.log('result: ');
+    console.log(this.position);
   }
   
   addCollision(gameObject: GameObject){

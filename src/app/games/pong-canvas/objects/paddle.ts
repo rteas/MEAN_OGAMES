@@ -9,8 +9,4 @@ export class Paddle extends GameObject {
     super(x, y, width, height);
   }
   
-  move(x: number, y: number){
-    this.position.x = x;
-    this.position.y = y;
-  }
 }

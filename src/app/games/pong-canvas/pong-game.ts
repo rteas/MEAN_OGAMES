@@ -19,7 +19,9 @@ export class PongGame {
   constructor(canvas: string, width: number, height: number){
     this.canvas = new Canvas(canvas, width, height);
     this.playerTop = new Paddle(0, 0, 100, 20);
-    this.player = new Paddle(this.canvas.width-100, this.canvas.height-20,100,20);
+    // this.player = new Paddle(this.canvas.width-100, this.canvas.height-20,100,20);
+    this.player = new Paddle(250, 250,100,20);
+
     this.player.speed = 15;
     console.log(this.player);
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, 10);
@@ -64,22 +66,22 @@ export class PongGame {
       for(var i = 0; i<inputs.length; i++){
         switch(inputs[i]){
           case 'a':
-            this.movePlayer(-this.player.speed,this.player.position.y, this.player);
+            this.movePlayer(-this.player.speed,0, this.player);
             break;
           case 'A':
-            this.movePlayer(-this.player.speed,this.player.position.y, this.player);
+            this.movePlayer(-this.player.speed,0, this.player);
             break;
           case 'ArrowLeft':
-            this.movePlayer(-this.player.speed,this.player.position.y, this.player);
+            this.movePlayer(-this.player.speed,0, this.player);
             break;
           case 'd':
-            this.movePlayer(this.player.speed,this.player.position.y, this.player);
+            this.movePlayer(this.player.speed,0, this.player);
             break;
           case 'D':
-            this.movePlayer(this.player.speed,this.player.position.y, this.player);
+            this.movePlayer(this.player.speed,0, this.player);
             break;
             case 'ArrowRight':
-            this.movePlayer(this.player.speed,this.player.position.y, this.player);
+            this.movePlayer(this.player.speed,0, this.player);
             break;
           default:
             console.log('unexpected key');
