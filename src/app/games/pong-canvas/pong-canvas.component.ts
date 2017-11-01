@@ -3,6 +3,7 @@ import { Canvas } from './canvas';
 import { Paddle } from './objects/paddle';
 import { Ball } from './objects/ball';
 import { PongGame } from './pong-game';
+import { Input } from './input';
 
 @Component({
   selector: 'app-pong-canvas',
@@ -29,11 +30,14 @@ export class PongCanvasComponent implements OnInit {
   }
   
   // listen for inputs
-  @HostListener('document:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyDownEvent(event: KeyboardEvent) {
     
     // pass key to the correct component
     this.key = event.key;
+    console.log(this.key);
+    this.pongGame.input.addInput(this.key);
+    /*
     switch(this.key){
       case 'a': 
         console.log('left');
@@ -47,6 +51,17 @@ export class PongCanvasComponent implements OnInit {
         break;
         
     }
+    */
+  }
+  
+  @HostListener('document:keyup', ['$event'])
+  handleKeyUpEvent(event: KeyboardEvent) {
+    
+    // pass key to the correct component
+    this.key = event.key;
+    console.log(this.key);
+    this.pongGame.input.removeInput(this.key);
+
   }
   
   draw(){
