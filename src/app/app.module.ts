@@ -9,6 +9,7 @@ import { GlobalService } from './globals.service';
 import { RoomService } from './rooms/room.service';
 import { ChatService } from './chat/chat.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { PongCanvasService } from './games/pong-canvas/pong-canvas.service';
 
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
@@ -89,7 +90,8 @@ import { PongCanvasComponent } from './games/pong-canvas/pong-canvas.component';
     RoomService, 
     ChatService,
     BsModalService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy}
+    { provide: LocationStrategy, useClass: HashLocationStrategy},
+    PongCanvasService
   ],
   bootstrap: [AppComponent]
 })

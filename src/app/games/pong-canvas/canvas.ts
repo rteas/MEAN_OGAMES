@@ -30,14 +30,19 @@ export class Canvas {
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
   }
   
+  // these methods draw a rectangle based on the center as the position
   drawRect(x: number, y: number, width: number, height: number){
-    this.context.fillRect(x, y, width, height);
+    // offset the position to draw
+    var startX = x - width/2;
+    var startY = y - height/2;
+    this.context.fillRect(startX, startY, width, height);
   }
   
   drawColorRect(x: number, y: number, width: number, height: number, color: string){
     var prevColor = this.context.fillStyle;
+    
     this.context.fillStyle = color;
-    this.context.fillRect(x, y, width, height);
+    this.drawRect(x, y, width, height);
     this.context.fillStyle = prevColor;
   }
   

@@ -1,4 +1,5 @@
 // this is a standard rectange collider
+import { LineSegment } from './line-segment';
 export class Collider {
   xmin: number;
   xmax: number;
@@ -6,17 +7,15 @@ export class Collider {
   ymax: number;
   
   constructor(xmin: number, xmax: number, ymin: number, ymax: number){
-    this.setColliders(xmin, xmax, ymin, ymax);
+    this.setCollider(xmin, xmax, ymin, ymax);
   }
   
-  setColliders(xmin: number, xmax: number, ymin: number, ymax: number){
+  setCollider(xmin: number, xmax: number, ymin: number, ymax: number){
     this.xmin = xmin;
     this.xmax = xmax;
     this.ymin = ymin;
     this.ymax = ymax;
   }
-  
-  
   
   move(x: number, y: number){
     this.xmin += x;
@@ -33,48 +32,41 @@ export class Collider {
     // other collider
     
     // this check with other
-    if(this.xmin > other.xmin && this.xmin < other.xmax){
-      
-      if(this.ymin > other.ymin && this.ymin < other.ymax ){
-        return true;
-      }
-      if(this.ymax > other.ymax && this.ymax < other.ymin ){
-        return true;
-      }
-    }
+    if(this.isInside(this, other) || this.isInside(other, this)){
+      return true;
+    } 
     
-    if(this.xmax >= other.xmin && this.xmax <= other.xmax){
-      
-      if(this.ymin >= other.ymin && this.ymin <= other.ymax ){
-        return true;
-      }
-      if(this.ymax >= other.ymax && this.ymax <= other.ymin ){
-        return true;
-      }
-    }
-    
-    // other check with this
-    if(other.xmin > this.xmin && other.xmin < this.xmax){
-      
-      if(other.ymin > this.ymin && other.ymin < this.ymax ){
-        return true;
-      }
-      if(other.ymax > this.ymax && other.ymax < this.ymin ){
-        return true;
-      }
-    }
-    
-    if(other.xmax >= this.xmin && other.xmax <= this.xmax){
-      
-      if(other.ymin >= this.ymin && other.ymin <= this.ymax ){
-        return true;
-      }
-      if(other.ymax >= this.ymax && other.ymax <= this.ymin ){
-        return true;
-      }
-    }
     // no matches
     return false;
+  }
+  
+  
+  hasIntersection(){
+    
+  }
+  
+  
+  // checks using 4 points of each collider object for collision
+  isInside(current: Collider, other: Collider):boolean{
+    if(current.xmin > other.xmin && current.xmin < other.xmax){
+      
+      if(current.ymin > other.ymin && current.ymin < other.ymax ){
+        return true;
+      }
+      if(current.ymax > other.ymax && current.ymax < other.ymin ){
+        return true;
+      }
+    }
+    
+    if(current.xmax > other.xmin && current.xmax < other.xmax){
+      
+      if(current.ymin > other.ymin && current.ymin < other.ymax ){
+        return true;
+      }
+      if(current.ymax > other.ymax && current.ymax < other.ymin ){
+        return true;
+      }
+    }
   }
   
 }

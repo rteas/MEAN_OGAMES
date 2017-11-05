@@ -1,7 +1,7 @@
 import { Vector } from './vector';
 import { Collider } from './collider';
 import { Boundary } from '../boundary';
-
+  
 export class GameObject {
   position: Vector;
   width: number;
@@ -11,7 +11,7 @@ export class GameObject {
   colliderEnabled: boolean;
   boundary: Boundary;
   hasBoundary: boolean;
-  
+  debug: boolean = false;
   
   constructor(x: number, y: number, width: number, height: number){
     this.position = new Vector(x,y);
@@ -61,35 +61,57 @@ export class GameObject {
   // move object and it's collider, 
   // checking for collision if enabled
   move(x: number, y: number){
-    console.log('prev: ');
-    console.log(this.position);
+    /*
+    if(debug){
+      console.log('prev: ');
+      console.log(this.position);
+    }
+    */
+    
+    
     this.position.x += x;
+    this.position.y += y;
+    
+    /*
     console.log('expected: ');
     console.log(this.position);
-    this.position.y += y;
+    */
     
     // prevent movement out of boundary
     if(this.hasBoundary){
       if(this.position.x > this.boundary.xmax){
-      this.position.x = this.boundary.xmax;
+        this.position.x = this.boundary.xmax;
+
       }
       if(this.position.x < this.boundary.xmin){
         this.position.x = this.boundary.xmin;
+
       }
       if(this.position.y > this.boundary.ymax){
         this.position.y = this.boundary.ymax;
+
       }
       if(this.position.y < this.boundary.ymin){
         this.position.y = this.boundary.ymin;
+
       }
     }
     
-    // move collider if enabled
-    if(this.colliderEnabled){
-      this.collider.move(x,y);
+    if(this.collider){
+      this.matchColliderToObject();
     }
+    /*
     console.log('result: ');
     console.log(this.position);
+    */
+  }
+  
+  matchColliderToObject(){
+    this.collider.setCollider(this.position.x-this.width/2,
+                              this.position.x+this.width/2,
+                              this.position.y-this.height/2,
+                              this.position.y+this.height/2
+                              );
   }
   
   addCollision(gameObject: GameObject){

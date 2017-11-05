@@ -4,6 +4,7 @@ import { Paddle } from './objects/paddle';
 import { Ball } from './objects/ball';
 import { PongGame } from './pong-game';
 import { Input } from './input';
+import { PongCanvasService } from './pong-canvas.service';
 
 @Component({
   selector: 'app-pong-canvas',
@@ -13,18 +14,12 @@ import { Input } from './input';
 export class PongCanvasComponent implements OnInit {
   
   pongGame: PongGame;
-  canvas: Canvas;
-  player: Paddle;
-  playerTop: Paddle;
-  drawTimer: any;
-  ball: Ball;
   key: string;
   
-  constructor() { }
+  constructor(pongService: PongCanvasService) { }
 
   ngOnInit() {
     this.pongGame = new PongGame('pong', 500,500);
-    //this.pongGame.draw();
     this.pongGame.startGame();
     
   }
@@ -63,14 +58,5 @@ export class PongCanvasComponent implements OnInit {
     this.pongGame.input.removeInput(this.key);
 
   }
-  
-  draw(){
-    this.canvas.clear();
-    this.canvas.drawColorRect(this.playerTop.position.x, this.playerTop.position.y, this.playerTop.width, this.playerTop.height, 'blue');
-    this.canvas.drawColorRect(this.player.position.x, this.player.position.y, this.player.width, this.player.height, 'red');
-
-    this.canvas.drawCircle(this.ball.position.x, this.ball.position.y, this.ball.radius);
-  }
-  
   
 }
