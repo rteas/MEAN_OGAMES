@@ -12,7 +12,8 @@ export class ChatService {
     
     socket: any;
     message: string = "";
-    messages: string[] = [];
+    // stores the last 50 messages
+    messages: string[];
     username: string;
     chatLocation: string;
 
@@ -23,6 +24,7 @@ export class ChatService {
   constructor(public globalService: GlobalService,
               private http: Http,
               private userService: UserService) {
+    this.messages = [];
     this.dynamicHost = window.location.hostname;
     this.dynamicPort = window.location.port;
     this.url = this.dynamicHost;
@@ -113,12 +115,25 @@ export class ChatService {
                  .then(response => response.json() as User[])
                  .catch(this.handleError);
   }
+  
   // TODO: More optimized 
   getLobbyUsers(): Promise<void | User[]> {
     return this.http.get(this.usersUrl+'?status=Online')
                  .toPromise()
                  .then(response => response.json() as User[])
                  .catch(this.handleError);
+  }
+  
+  // stores up to 50 messages
+  storeMessage(message: string){
+    this.messages.push(message);
+    if(this.messages.length > 50){
+      this.messages = this.messages.slice(1);
+    }
+  }
+  
+  getMessages(): string[]{
+    return this.messages;
   }
   
   listen(event: string): Observable<any> {

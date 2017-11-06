@@ -46,6 +46,13 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
       this.addMessage(data);
       this.getUsers();
     });
+    
+    var messages = this.chatService.getMessages();
+    console.log('messages');
+    console.log(messages);
+    for(var i = 0; i < messages.length; i++){
+      this.addMessage(messages[i]);
+    }
   }
   
   getUsers(){
@@ -107,7 +114,8 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
   }
   */
   
-  addMessage(message: String){
+  addMessage(message: string){
+    this.chatService.storeMessage(message);
     var msg = $("<li>", {"class": "message"});
     msg.text(message);
     $('.msg-list').append(msg);

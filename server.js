@@ -35,8 +35,6 @@ var db;
 var server;
 var io
 
-var roomMap = new HashMap();
-
 // test sockets class
 var SocketManager = require('./socket-manager.js');
 var userSockets = new SocketManager();
@@ -67,6 +65,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     socket.on('join room', (roomname) => {
       console.log('joining room...', roomname);
       socket.join(roomname);
+      // initialize game & listeners here
       console.log('User has joined room: ' + roomname);
       socket.in(roomname).emit(roomname, 'welcome to room ' + roomname+"!");
     });

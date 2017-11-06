@@ -11,7 +11,7 @@ export class GameObject {
   colliderEnabled: boolean;
   boundary: Boundary;
   hasBoundary: boolean;
-  debug: boolean = false;
+  debug: boolean = true;
   
   constructor(x: number, y: number, width: number, height: number){
     this.position = new Vector(x,y);

@@ -15,11 +15,10 @@ myhash["somestring"] = "value";
 
 export class PongGame {
   canvas: Canvas;
-  paddle: Paddle;
+
   ball: Ball;
   states: States;
   player: Player;
-  //playerTop: Player;
   
   gameTimer: any;
   input: Input;
@@ -32,24 +31,11 @@ export class PongGame {
     this.players = {};
     
     this.canvas = new Canvas(canvas, width, height);
-    //this.playerTop = new Paddle(this.canvas.width/2, 20, 100, 20);
-    //this.player = new Paddle(250, 250,100,20);
     
-    /*
-    this.player = new Paddle(this.canvas.width-100, this.canvas.height-20,100,20);
-    */
-    
-    // experimental side player
-    /*
-    this.playerSide = new Paddle(20, this.canvas.height/2 ,20,100);
-    this.playerSide.addBoundary(0+this.playerSide.width/2, this.canvas.width-this.playerSide.width/2, 0+this.playerSide.height/2, this.canvas.height-this.player.height/2);
-    this.playerSide.addCollider(this.playerSide.position.x, this.playerSide.position.y, this.playerSide.width, this.playerSide.height);
-    this.playerSide.speed = 15;
-    */
-    
-    this.addPlayer(0,0, "bottom");
-    this.addPlayer(0,0, "left");
-    
+    this.addPlayer("bottom", "red", "");
+    this.addPlayer("left", "green", "");
+    this.addPlayer("top", "blue", "");
+    this.addPlayer("right", "purple", "");
     
     this.setPlayer("bottom");
     
@@ -57,8 +43,87 @@ export class PongGame {
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, 10);
     this.input = new Input();
 
-  // Initialize states
+    // States: ( Title, Lobby, Play, End }
+    // Title:
+    //  initial state - display title and initializes player data
     
+    // Lobby:
+    //  Handles player paddle selection
+    //  sync the game with players
+    
+    // Play:
+    //  Handles gameplay of pong, ends when
+    //  one player remains
+    
+    // End:
+    //  Statis state with game details (winner, score, etc)
+    //  Allows player to restart game
+    this.states = new States();
+    this.states.addState('title');
+    this.states.addState('lobby');
+    this.states.addState('play');
+    this.states.addState('end');
+    
+  }
+  
+  startState(state: string){
+    this.states.startState(state);
+  }
+  
+  changeState(state: string){
+    
+    
+    switch(state){
+      case 'title':
+        this.states.changeState('title');
+      case 'lobby':
+        setTimeout(()=> {
+          this.states.changeState('lobby');
+        }, 250);
+      case 'play':
+        this.states.changeState('play');
+        break;
+      case 'end':
+        setTimeout(()=>{
+          this.states.changeState('end');
+        }, 250);
+        break;
+      default:
+        this.states.changeState('title');
+        break;
+    }
+    
+  }
+  
+  getState(): string{
+    return this.states.getState();
+  }
+  
+  start(){
+    // initialize starting state state to title
+    this.states.startState('title');
+    
+    this.gameTimer = setInterval(()=>{
+      let state = this.states.getState();
+      console.log(state);
+      switch(state){
+        case 'title':
+          this.title();
+          break;
+        case 'lobby':
+          this.lobby();
+          break;
+        case 'play':
+          this.play();
+          break;
+        case 'end':
+          this.end();
+          break;
+        default:
+          break;
+      }
+      
+    }, 17);
   }
   
   setPlayer(side: string): boolean{
@@ -70,89 +135,134 @@ export class PongGame {
     return false;
   }
   
-  movePlayer(x: number, y: number, player: Paddle){
+  movePlayer(x: number, y: number, player: Player){
     player.move(x, y);
     if(player.collidesWith(this.players['left'])){
-      console.log('collision detected at: ( '+ x + ',' + y + ')');
+      console.log('collision detected at: ( '+ player.position.x + ',' + player.position.y + ' )');
       // TODO: prevent player from moving past object
     }
+  }
+  
+  setPlayerPosition(x: number, y: number, player: Player){
+    player.setPosition(x,y);
   }
   
   moveBall(x: number, y: number, ball: Ball){
     
   }
   
-  // Process by state
-  processTitle(){
-    
+  removePlayer(side: string): boolean{
+    if(this.players[side]){
+      this.players[side] = null;
+      return true;
+    }
+    return false;
   }
   
-  // States: ( Lobby, GameStart, GameEnd }
+  title(){
+      // process game logic, inputs
+      this.processTitleInput();
+      // draw
+      this.drawTitle();
+  }
   
-  // Lobby:
-  //  Handles player paddle selection
-  //  sync the game with players
+  lobby(){
+      // process game logic, inputs
+      this.processLobbyInput();
+      // draw
+      this.drawLobby();
+  }
   
-  // GameStart:
-  //  Handles gameplay of pong, ends when
-  //  one player remains
+  play(){
+      // process game logic, inputs
+      this.processPlayInput();
+      // draw
+      this.drawPlay();
+
+  }
   
-  // GameEnd:
-  //  Statis state with game details (winner, score, etc)
-  //  Allows player to restart game
+  end(){
+    this.processEndInput();
+    this.drawEnd();
+  }
+  
+  drawTitle(){
+    this.canvas.clear();
+    this.canvas.context.font = this.canvas.height/10 +"px Arial";
+    this.canvas.context.textAlign= "center";
+    this.canvas.context.fillText("Pong", this.canvas.width/2 , this.canvas.height/2)
+    let offsetHeight = this.canvas.height/2+ this.canvas.height/10 + 5;
+    this.canvas.context.font = this.canvas.height/15 +"px Arial";
+    this.canvas.context.fillText("Press 'Enter' to Start", this.canvas.width/2 , offsetHeight);
+    
+  }
   
   drawLobby(){
     this.canvas.clear();
-    
+    this.canvas.context.font = this.canvas.height/15 +"px Arial";
+    this.canvas.context.textAlign= "center";
+    this.canvas.context.fillText("Select a slide", this.canvas.width/2 , this.canvas.height/2)
+    // draw players
+    for(let player in this.players){
+      this.drawPlayer(this.players[player]);
+    }
   }
   
-  drawGame(){
+  drawPlay(){
     this.canvas.clear();
+    
     // draw players
-
-    this.drawPlayer('bottom');
-    this.drawPlayer('left');
+    for(let player in this.players){
+      this.drawPlayer(this.players[player]);
+    }
     
     //this.canvas.drawColorRect(this.playerSide.position.x, this.playerSide.position.y, this.playerSide.width, this.playerSide.height, 'green');
 
     this.canvas.drawCircle(this.ball.position.x, this.ball.position.y, this.ball.radius);
   }
   
-  drawPlayer(side: string){
-    this.canvas.drawColorRect(this.players[side].position.x, this.players[side].position.y, this.players[side].width, this.players[side].height, this.players[side].color);
+  drawPlayer(player: Player){
+    this.canvas.drawColorRect(player.position.x, player.position.y, player.width, player.height, player.color);
   }
   
-  startGame(){
-    this.gameTimer = setInterval(()=>{
-      // process game logic, inputs
-      this.processStartGameInput();
-      // draw
-      this.drawGame();
-    },
-    17);
+  drawEnd(){
+    this.canvas.clear();
+    this.canvas.context.font = this.canvas.height/10 +"px Arial";
+    this.canvas.context.textAlign= "center";
+    this.canvas.context.fillText("Game Over", this.canvas.width/2 , this.canvas.height/2)
+    let offsetHeight = this.canvas.height/2+ this.canvas.height/10 + 5;
+    this.canvas.context.font = this.canvas.height/15 +"px Arial";
+    this.canvas.context.fillText("Press 'r' to restart", this.canvas.width/2 , offsetHeight);
   }
-  
-  stopGame(){
-    clearInterval(this.gameTimer);
-  }
+
   
   // add players according to their locations
-  addPlayer(x: number, y: number, side: string){
+  addPlayer(side: string, color: string, name: string){
     switch(side){
       case 'bottom':
-        this.players[side] = new Player(this.canvas.width-100, this.canvas.height-20,100,20, side, 'red');
-        this.players[side].addBoundary(0+this.players[side].width/2, this.canvas.width-this.players[side].width/2, 0+this.players[side].height/2, this.canvas.height-this.players[side].height/2);
-        this.players[side].addCollider(this.players[side].position.x, this.players[side].position.y, this.players[side].width, this.players[side].height);
-        this.players[side].speed = this.playerSpeed;;
-        
-        break;
-      case 'top':
-        break;
-      case 'left':
-        this.players[side] = new Player(20, this.canvas.height/2 ,20,100, side, 'green');
+        this.players[side] = new Player(this.canvas.width/2, this.canvas.height-10,100,20, side, color, name);
         this.players[side].addBoundary(0+this.players[side].width/2, this.canvas.width-this.players[side].width/2, 0+this.players[side].height/2, this.canvas.height-this.players[side].height/2);
         this.players[side].addCollider(this.players[side].position.x, this.players[side].position.y, this.players[side].width, this.players[side].height);
         this.players[side].speed = this.playerSpeed;
+        break;
+      case 'top':
+        this.players[side] = new Player(this.canvas.width/2, 10,100,20, side, color, name);
+        this.players[side].addBoundary(0+this.players[side].width/2, this.canvas.width-this.players[side].width/2, 0+this.players[side].height/2, this.canvas.height-this.players[side].height/2);
+        this.players[side].addCollider(this.players[side].position.x, this.players[side].position.y, this.players[side].width, this.players[side].height);
+        this.players[side].speed = this.playerSpeed;
+        break;
+      case 'left':
+        this.players[side] = new Player(10, this.canvas.height/2 ,20,100, side, color, name);
+        this.players[side].addBoundary(0+this.players[side].width/2, this.canvas.width-this.players[side].width/2, 0+this.players[side].height/2, this.canvas.height-this.players[side].height/2);
+        this.players[side].addCollider(this.players[side].position.x, this.players[side].position.y, this.players[side].width, this.players[side].height);
+        this.players[side].speed = this.playerSpeed;
+        break;
+      case 'right':
+        this.players[side] = new Player(this.canvas.width-10, this.canvas.height/2 ,20,100, side, color, name);
+        this.players[side].addBoundary(0+this.players[side].width/2, this.canvas.width-this.players[side].width/2, 0+this.players[side].height/2, this.canvas.height-this.players[side].height/2);
+        this.players[side].addCollider(this.players[side].position.x, this.players[side].position.y, this.players[side].width, this.players[side].height);
+        this.players[side].speed = this.playerSpeed;
+        break;
       default:
         console.log('not a valid side to add player');
         break;
@@ -160,18 +270,50 @@ export class PongGame {
     
   }
   
+  highlightPlayer(player: Player, color: string){
+    
+  }
+  
+  processTitleInput(){
+    var inputs = this.input.getInputs();
+      for(var i = 0; i<inputs.length; i++){
+        switch(inputs[i]){
+          case 'Enter':
+            this.changeState('lobby');
+            break;
+          default:
+            break;
+
+        }
+      }
+  }
+  
   processLobbyInput(){
     var inputs = this.input.getInputs();
       for(var i = 0; i<inputs.length; i++){
         switch(inputs[i]){
-
+          case 'ArrowLeft':
+            break;
+          case 'ArrowRight':
+            break;
+          case 'ArrowUp':
+            break;
+          case 'ArrowDown':
+            break;
+          case 'Enter':
+            if(this.debug){
+              this.changeState('play');
+            }
+            break;
+          default:
+            break;
         }
       }
   }
   
   // TODO: fix multi input parsing
   // ie: 'A + a + <-' will move 3x
-  processStartGameInput(){
+  processPlayInput(){
     var inputs = this.input.getInputs();
       for(var i = 0; i<inputs.length; i++){
         switch(inputs[i]){
@@ -191,7 +333,6 @@ export class PongGame {
             this.movePlayer(this.player.speed,0, this.player);
             break;
           case 'ArrowRight':
-            
             this.movePlayer(this.player.speed,0, this.player);
             break;
           case 'ArrowUp':
@@ -211,6 +352,11 @@ export class PongGame {
              this.setPlayer('left'); 
             }
             break;
+          case 'e':
+            if(this.debug){
+              this.changeState('end');
+            }
+            break;
           default:
             console.log('unexpected key');
             break;
@@ -218,8 +364,18 @@ export class PongGame {
       }
   }
   
-  startBattle(){
-    
+  processEndInput(){
+    var inputs = this.input.getInputs();
+      for(var i = 0; i<inputs.length; i++){
+        switch(inputs[i]){
+          case 'r':
+            this.changeState('lobby');
+            break;
+          default:
+            break;
+
+        }
+      }
   }
   
 }

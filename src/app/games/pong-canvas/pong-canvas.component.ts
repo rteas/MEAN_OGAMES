@@ -20,7 +20,7 @@ export class PongCanvasComponent implements OnInit {
 
   ngOnInit() {
     this.pongGame = new PongGame('pong', 500,500);
-    this.pongGame.startGame();
+    this.pongGame.start();
     
   }
   
