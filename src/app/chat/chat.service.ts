@@ -50,27 +50,12 @@ export class ChatService {
         this.socket = this.globalService.socketInfo;
       }
       
-      this.socket.on('greetings', (msg) => {
-          console.log('connected.', msg);
-      });
-      
-      
-      /*
-      this.socket.on('message', msg => {
-          this.messages.push(msg);
-      });
-      */
-      
-      this.socket.on('disconnect', msg => {
-          console.log(msg);
-          this.messages.push(msg+ " left");
-      });
-      
     }
   
   
   joinRoom(roomName: string): void {
       this.socket.emit('join room', roomName);
+      this.socket.room = roomName;
       console.log('joining room...',roomName);
       this.socket.on(roomName, (msg) => {
           console.log(msg);
@@ -127,6 +112,7 @@ export class ChatService {
   // stores up to 50 messages
   storeMessage(message: string){
     this.messages.push(message);
+    console.log(this.messages.length);
     if(this.messages.length > 50){
       this.messages = this.messages.slice(1);
     }

@@ -41,9 +41,12 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
     this.message$ = this.chatService.listen('message').subscribe((data)=>{
         console.log('message received: ' + data);
         this.addMessage(data);
+        this.chatService.storeMessage(data);
       });
     this.info$ = this.chatService.listen('info').subscribe((data) => {
       this.addMessage(data);
+      this.chatService.storeMessage(data);
+      // refresh users as this usually indicates a user connect/disconnect
       this.getUsers();
     });
     
@@ -53,6 +56,8 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
     for(var i = 0; i < messages.length; i++){
       this.addMessage(messages[i]);
     }
+    
+    
   }
   
   getUsers(){
@@ -73,7 +78,10 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
 
   ngAfterContentInit() {
     this.msg.nativeElement.focus();
-    $(document).ready(this.resizeChatBox());
+    $(document).ready(()=>{
+        this.resizeChatBox();
+        this.scrollToBottom();
+      });
     
     $(".chatbox-div").scroll(()=>{
       console.log('scroll detected');
@@ -115,7 +123,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
   */
   
   addMessage(message: string){
-    this.chatService.storeMessage(message);
+    
     var msg = $("<li>", {"class": "message"});
     msg.text(message);
     $('.msg-list').append(msg);

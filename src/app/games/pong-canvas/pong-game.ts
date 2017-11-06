@@ -132,6 +132,7 @@ export class PongGame {
     var nextPlayer = this.players[side]
     if(nextPlayer){
       this.player = this.players[side];
+      this.side = side;
       return true;
     }
     return false;
