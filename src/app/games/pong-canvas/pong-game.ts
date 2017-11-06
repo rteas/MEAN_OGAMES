@@ -107,7 +107,6 @@ export class PongGame {
     
     this.gameTimer = setInterval(()=>{
       let state = this.states.getState();
-      console.log(state);
       switch(state){
         case 'title':
           this.title();

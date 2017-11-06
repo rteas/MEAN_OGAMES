@@ -1,10 +1,16 @@
 var HashMap = require('hashmap');
-
+var GameManager = require('express-games/gameManager');
 
 class SocketManager{
     
     constructor(){
         this.userSocketMap = new HashMap();
+        this.roomSocketMap = new HashMap();
+        this.gameMap = new GameManager();
+    }
+    
+    addUserToRoom(username, room){
+        this.roomSocketMap
     }
     
     addSocket(username, socket){

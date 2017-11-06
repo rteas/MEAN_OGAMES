@@ -33,10 +33,22 @@ var User = require('./models/user');
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 var server;
-var io
+var io;
 
-// test sockets class
-var SocketManager = require('./socket-manager.js');
+// test game
+var Player = require('./express-games/pong/player');
+
+var player = new Player(0,0,1,1);
+player.printPosition();
+player.setPosition(20,1);
+player.printPosition();
+
+var PongGame = require('./express-games/pong/pongGame');
+var pongGame = new PongGame();
+
+
+// socket manager class
+var SocketManager = require('./socket-manager');
 var userSockets = new SocketManager();
 
 // Connect to the database before starting the application server.

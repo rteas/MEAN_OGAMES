@@ -5,6 +5,7 @@ import { Ball } from './objects/ball';
 import { PongGame } from './pong-game';
 import { Input } from './input';
 import { PongCanvasService } from './pong-canvas.service';
+import { GlobalService } from '../../globals.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -21,14 +22,25 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   lobbyReady$: Subscription;
   lobbyPlay$: Subscription;
   
-  constructor(private pongService: PongCanvasService) { }
+  playData$: Subscription;
+  playEnd$: Subscription;
+  
+  lobbyTimer: any;
+  playTimer: any;
+  
+  sendTime: number = 17;
+  
+  constructor(private pongService: PongCanvasService,
+              private globalService: GlobalService) { }
 
   ngOnInit() {
     this.pongGame = new PongGame('pong', 500,500);
     this.pongGame.start();
+    this.addLobbyListeners();
     
-    // initialize pong game event listeners
+    // initialize pong game event listener (lobby)
     
+    // PONG STATES:
     // lobby state:
     // events emitted for player selection
     // 'emits' other player's current cursor/selection
@@ -45,35 +57,59 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
   }
   
+  isRoomMaster(): boolean{
+    if(this.globalService.userInfo._id ===  this.globalService.roomInfo.owner){
+      return true;
+    }
+    return false;
+  }
+  
   // TODO: remove listeners according to the state of the game
   ngOnDestroy(){
     this.removeLobbyListeners();
   }
   
+  //  listeners will:
+  //    attach a data emitter to send data to server
+  //    listener to get data from the server
+  
   addLobbyListeners(){
+    
+    // send data every 17ms?
+    this.lobbyTimer = setInterval(()=>{
+      this.pongService.emitGameData('lobby-input', this.pongGame.player);
+    }, this.sendTime*100);
+    
     this.lobbySelection$ = this.pongService.listen('selection').subscribe((data) =>{
       console.log('selection data: ');
       // get username
       // get side
       console.log(data);
-    })
+    });
     
     this.lobbyReady$ = this.pongService.listen('ready').subscribe((data) =>{
       console.log('ready data: ');
       // get username
       // get side
       console.log(data);
-    })
+    });
     
     this.lobbyPlay$ = this.pongService.listen('play').subscribe((data) =>{
       console.log('play data: ');
+      console.log('data');
       // start the game
-      console.log(data);
-    })
+      this.pongGame.changeState('play');
+      
+      // remove listeners
+      this.removeLobbyListeners();
+    });
     
   }
   
+
   removeLobbyListeners(){
+    clearInterval(this.lobbyTimer);
+    
     if(this.lobbySelection$)
       this.lobbySelection$.unsubscribe();
     if(this.lobbyReady$)
@@ -83,19 +119,38 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   }
   
   addPlayListeners(){
+    // send data every 17ms?
+    this.playTimer = setInterval(()=>{
+            this.pongService.emitGameData('lobby-input', this.pongGame.player);
+
+    }, this.sendTime);
+    
+    // get game data
+    this.playData$ = this.pongService.listen('play-data').subscribe((data) => {
+      
+      console.log('play-data: ');
+      console.log(data);
+    });
+    
+    // signal on end
+    this.playEnd$ = this.pongService.listen('play-end').subscribe((data) => {
+      
+      console.log('play-data: ');
+      console.log(data);
+      this.pongGame.changeState('end');
+      this.removePlayListeners();
+    });
+    
     
   }
   
   removePlayListeners(){
+    clearInterval(this.playTimer);
     
-  }
-  
-  addEndListeners(){
-    
-  }
-  
-  removeEndListeners(){
-    
+    if(this.playData$)
+      this.playData$.unsubscribe();
+    if(this.playEnd$)
+      this.playEnd$.unsubscribe();
   }
   
   // listen for inputs
