@@ -26,6 +26,7 @@ export class PongGame {
   
   playerSpeed: number = 10;
   debug: boolean = true;
+  side: string;
   
   constructor(canvas: string, width: number, height: number){
     this.players = {};
@@ -42,6 +43,7 @@ export class PongGame {
     console.log(this.player);
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, 10);
     this.input = new Input();
+    this.side = "left";
 
     // States: ( Title, Lobby, Play, End }
     // Title:
@@ -199,12 +201,17 @@ export class PongGame {
   
   drawLobby(){
     this.canvas.clear();
-    this.canvas.context.font = this.canvas.height/15 +"px Arial";
+    this.canvas.context.font = this.canvas.height/20 +"px Arial";
     this.canvas.context.textAlign= "center";
-    this.canvas.context.fillText("Select a slide", this.canvas.width/2 , this.canvas.height/2)
+    this.canvas.context.fillText("Select a slide (using arrow keys)", this.canvas.width/2 , this.canvas.height/2)
     // draw players
     for(let player in this.players){
       this.drawPlayer(this.players[player]);
+    }
+    
+    // draw selection
+    if(this.side !== ""){
+      this.drawPlayerSelect(this.players[this.side], 'black');
     }
   }
   
@@ -274,6 +281,10 @@ export class PongGame {
     
   }
   
+  drawPlayerSelect(player: Player, color: string){
+    this.canvas.drawColorRect(player.position.x, player.position.y, 10,10, color);
+  }
+  
   processTitleInput(){
     var inputs = this.input.getInputs();
       for(var i = 0; i<inputs.length; i++){
@@ -293,14 +304,19 @@ export class PongGame {
       for(var i = 0; i<inputs.length; i++){
         switch(inputs[i]){
           case 'ArrowLeft':
+            this.side = 'left';
             break;
           case 'ArrowRight':
+            this.side = 'right';
             break;
           case 'ArrowUp':
+            this.side = 'top';
             break;
           case 'ArrowDown':
+            this.side = 'bottom';
             break;
           case 'Enter':
+            this.setPlayer(this.side);
             if(this.debug){
               this.changeState('play');
             }
