@@ -33,6 +33,7 @@ export class PongGame {
     
     this.canvas = new Canvas(canvas, width, height);
     
+    // initialize players
     this.addPlayer("bottom", "red", "");
     this.addPlayer("left", "green", "");
     this.addPlayer("top", "blue", "");
@@ -73,8 +74,7 @@ export class PongGame {
   }
   
   changeState(state: string){
-    
-    
+
     switch(state){
       case 'title':
         this.states.changeState('title');
@@ -149,8 +149,12 @@ export class PongGame {
     player.setPosition(x,y);
   }
   
+  setBallPosition(x: number, y: number, ball: Ball){
+    ball.setPosition(x,y);
+  }
+  
   moveBall(x: number, y: number, ball: Ball){
-    
+    ball.move(x,y);
   }
   
   removePlayer(side: string): boolean{
@@ -201,9 +205,12 @@ export class PongGame {
   
   drawLobby(){
     this.canvas.clear();
-    this.canvas.context.font = this.canvas.height/20 +"px Arial";
+    this.canvas.context.font = this.canvas.height/10 +"px Arial";
     this.canvas.context.textAlign= "center";
-    this.canvas.context.fillText("Select a slide (using arrow keys)", this.canvas.width/2 , this.canvas.height/2)
+    this.canvas.context.fillText("Select a side", this.canvas.width/2 , this.canvas.height/2)
+    let offsetHeight = this.canvas.height/2+ this.canvas.height/10 + 5;
+    this.canvas.context.font = this.canvas.height/15 +"px Arial";
+    this.canvas.context.fillText("(use arrow keys)", this.canvas.width/2 , offsetHeight);
     // draw players
     for(let player in this.players){
       this.drawPlayer(this.players[player]);
@@ -332,51 +339,54 @@ export class PongGame {
   processPlayInput(){
     var inputs = this.input.getInputs();
       for(var i = 0; i<inputs.length; i++){
-        switch(inputs[i]){
-          case 'a':
-            this.movePlayer(-this.player.speed,0, this.player);
-            break;
-          case 'A':
-            this.movePlayer(-this.player.speed,0, this.player);
-            break;
-          case 'ArrowLeft':
-            this.movePlayer(-this.player.speed,0, this.player);
-            break;
-          case 'd':
-            this.movePlayer(this.player.speed,0, this.player);
-            break;
-          case 'D':
-            this.movePlayer(this.player.speed,0, this.player);
-            break;
-          case 'ArrowRight':
-            this.movePlayer(this.player.speed,0, this.player);
-            break;
-          case 'ArrowUp':
-            this.movePlayer(0, -this.player.speed, this.player);
-            break;
-          case 'ArrowDown':
-            this.movePlayer(0, this.player.speed, this.player);
-            break;
+        if(this.side === "top" || this.side === "bottom"){
+          switch(inputs[i]){
+
+            case 'ArrowLeft':
+              this.movePlayer(-this.player.speed,0, this.player);
+              break;
+            case 'ArrowRight':
+              this.movePlayer(this.player.speed,0, this.player);
+              break;
+            default:
+              break;
+          }
           
-          case '1':
-            if(this.debug){
-              this.setPlayer('bottom');
-            }
-            break;
-          case '2':
-            if(this.debug){
-             this.setPlayer('left'); 
-            }
-            break;
-          case 'e':
-            if(this.debug){
-              this.changeState('end');
-            }
-            break;
-          default:
-            console.log('unexpected key');
-            break;
         }
+        if(this.side === "left" || this.side === "right"){
+          switch(inputs[i]){
+            case 'ArrowUp':
+              this.movePlayer(0, -this.player.speed, this.player);
+            break;
+            case 'ArrowDown':
+              this.movePlayer(0, this.player.speed, this.player);
+            break;
+          }
+          
+        }
+        if(this.debug){
+          switch(inputs[i]){
+            case '1':
+              this.setPlayer('bottom');
+              break;
+            case '2':
+              this.setPlayer('left'); 
+              break;
+            case '3':
+              this.setPlayer('top'); 
+              break;
+            case '4':
+              this.setPlayer('right');
+              break;
+            case 'e':
+              this.changeState('end');
+              break;
+            default:
+              console.log('unexpected key');
+              break;
+          }
+        }
+        
       }
   }
   
