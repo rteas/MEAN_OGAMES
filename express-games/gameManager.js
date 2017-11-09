@@ -1,22 +1,24 @@
 // express-games/gameManager.js
 // stores game instance for each room
 var HashMap = require('hashmap');
+
 class GameManager{
   
   constructor(){
     this.gameMap = new HashMap();
   }
   
-  // starts a new game if it isn't
-  // already initialized
-  startGame(room, game){
+  // Adds & starts a game room
+  // if it isn't already initialized
+  addGameRoom(room, game){
     if(!this.getGame()){
-      this.addGame(room, game);
+      this.gameMap.set(room, game);
       game.start();
     }
   }
   
   changeGame(room, game){
+    this.deleteGame(room);
     this.gameMap.set(room, game);
   }
 
@@ -24,8 +26,14 @@ class GameManager{
     return this.gameMap.get(room);
   }
   
-  getGameData(room){
-    return this.gameMap.get(room).getData();
+  deleteGame(room){
+    var game = this.gameMap.get(room);
+    game.stop();
+  }
+  
+  removeGameRoom(room){
+    this.deleteGame(room);
+    this.gameMap.delete(room);
   }
 }
 

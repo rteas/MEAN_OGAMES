@@ -1,5 +1,5 @@
 var HashMap = require('hashmap');
-var GameManager = require('express-games/gameManager');
+var GameManager = require('./express-games/gameManager');
 
 class SocketManager{
     

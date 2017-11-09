@@ -43,9 +43,19 @@ player.printPosition();
 player.setPosition(20,1);
 player.printPosition();
 
+var GameManager = require('./express-games/gameManager');
+var gameManager = new GameManager();
+
 var PongGame = require('./express-games/pong/pongGame');
 var pongGame = new PongGame();
 
+gameManager.addGameRoom('1', pongGame);
+
+var game = gameManager.getGame('1');
+//console.log(pongGame.states);
+console.log(PongGame.states);
+
+//setTimeout(() => { gameManager.deleteGame('1')}, 5000);
 
 // socket manager class
 var SocketManager = require('./socket-manager');
@@ -70,6 +80,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   
   // setup socket.io
   io = socketio.listen(server);
+  
   io.on('connection', function(socket){
     
     io.emit('greetings', 'hi');
