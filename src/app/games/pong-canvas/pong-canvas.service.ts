@@ -59,9 +59,19 @@ export class PongCanvasService {
 
   }
   
+  removePongGameServerListeners(){
+    this.socket.emit('leave-game');
+  }
+  
+  stopPongGame(){
+    this.socket.emit('close-game');
+  }
+  
   emitGameData(event: string, data: any){
+    console.log('ROOM INFO');
+    console.log(this.globalService.roomInfo);
     var sendData = { room: this.globalService.roomInfo._id, data: data }
-    console.log(sendData);
+    //console.log(sendData);
     this.socket.emit(sendData);
   }
 

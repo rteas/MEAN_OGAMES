@@ -54,12 +54,21 @@ export class ChatService {
   
   
   joinRoom(roomName: string): void {
-      this.socket.emit('join room', roomName);
+      this.socket.emit('join-room', roomName);
+      /*
+      if(this.socket.room){
+        this.socket.leave(this.socket.room);
+      }
+      */
       this.socket.room = roomName;
+      //this.socket.join(this.socket.room);
+      
       console.log('joining room...',roomName);
+      /*
       this.socket.on(roomName, (msg) => {
           console.log(msg);
       })
+      */
   }
   
   switchChatLocation(location: string){

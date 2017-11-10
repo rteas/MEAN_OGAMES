@@ -213,7 +213,9 @@ export class PongGame {
     this.canvas.context.fillText("(use arrow keys)", this.canvas.width/2 , offsetHeight);
     // draw players
     for(let player in this.players){
-      this.drawPlayer(this.players[player]);
+      if(this.players[player]){
+        this.drawPlayer(this.players[player]);
+      }
     }
     
     // draw selection
@@ -227,7 +229,10 @@ export class PongGame {
     
     // draw players
     for(let player in this.players){
-      this.drawPlayer(this.players[player]);
+      if(this.players[player]){
+        this.drawPlayer(this.players[player]);
+      }
+      
     }
     
     //this.canvas.drawColorRect(this.playerSide.position.x, this.playerSide.position.y, this.playerSide.width, this.playerSide.height, 'green');
@@ -285,6 +290,10 @@ export class PongGame {
   }
   
   highlightPlayer(player: Player, color: string){
+    
+  }
+  
+  highlightOpponentSelection(){
     
   }
   

@@ -51,7 +51,7 @@ class PongGame{
         default: this.lobby(); console.log('error in state'); break;
       }
       
-    }, 1000);
+    }, 17);
   }
   
   // Lobby state:
@@ -69,8 +69,7 @@ class PongGame{
     // initialize players and values on chaning state to play
     this.initializeBall();
     
-    console.log(this.getLobbyData());
-    this.switchState(this.states.PLAY);
+    //console.log(this.getLobbyData());
   }
   
   // Play state:
@@ -81,7 +80,7 @@ class PongGame{
   play(){
     console.log('PLAY state');
     this.moveBall(this.ball);
-    //console.log(this.ball);
+    console.log(this.ball);
     this.handlePotentialBallCollisions(this.ball);
     
     //heights
@@ -216,6 +215,7 @@ class PongGame{
         if((player.position.x-player.width/2) <= ball.position.x && ball.position.x <= (player.position.x+player.width/2)){
           //console.log('==========ball hit!=====');
           ball.yVelocity *= -1;
+          ball.increaseSpeed();
           if(player.direction === 'right'){
             if(ball.xVelocity < 0){
               ball.xVelocity *= 1;
@@ -234,6 +234,7 @@ class PongGame{
         if(player.position.y-player.height/2 <= ball.position.y && ball.position.y <= player.position.y+player.height/2){
           //console.log('==========ball hit!=====');
           ball.xVelocity *= -1;
+          ball.increaseSpeed();
           if(player.direction == 'up'){
             if(ball.xVelocity < 0){
               ball.yVelocity *= 1;

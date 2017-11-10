@@ -51,6 +51,7 @@ export class RoomJoinComponent implements OnInit {
     .then(() => {
       
       if(room){
+        this.globalService.roomInfo = room;
         this.router.navigate(['/rooms/'+room._id]);
       }
       else{

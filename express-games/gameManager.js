@@ -11,7 +11,7 @@ class GameManager{
   // Adds & starts a game room
   // if it isn't already initialized
   addGameRoom(room, game){
-    if(!this.getGame()){
+    if(!this.gameMap.has(room)){
       this.gameMap.set(room, game);
       game.start();
     }
@@ -28,7 +28,9 @@ class GameManager{
   
   deleteGame(room){
     var game = this.gameMap.get(room);
-    game.stop();
+    if(game){
+      game.stop();
+    }
   }
   
   removeGameRoom(room){

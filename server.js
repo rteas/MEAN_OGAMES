@@ -47,15 +47,18 @@ var GameManager = require('./express-games/gameManager');
 var gameManager = new GameManager();
 
 var PongGame = require('./express-games/pong/pongGame');
+
+/*
 var pongGame = new PongGame();
 
 gameManager.addGameRoom('1', pongGame);
 
 var game = gameManager.getGame('1');
+
 //console.log(pongGame.states);
-console.log(PongGame.states);
 
 //setTimeout(() => { gameManager.deleteGame('1')}, 5000);
+*/
 
 // socket manager class
 var SocketManager = require('./socket-manager');
@@ -83,23 +86,46 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   
   io.on('connection', function(socket){
     
-    io.emit('greetings', 'hi');
-    
-    socket.on('join room', (roomname) => {
-      console.log('joining room...', roomname);
-      socket.join(roomname);
+    socket.on('join-room', (room) => {
+      // leave room if currently in one
+      // for now, remove pong listeners as well
+      if(socket.room){
+        userSockets.removePongGameListeners(socket.username);
+        userSockets.removeUserFromRoom(socket.username);
+        socket.leave(socket.room);
+      }
+      
+      socket.join(room);
+      socket.room = room;
+      
       // initialize game & listeners here
-      console.log('User has joined room: ' + roomname);
-      socket.in(roomname).emit(roomname, 'welcome to room ' + roomname+"!");
+      //console.log(socket.username);
+      userSockets.addUserToRoom(socket.username, room);
+      var pongGame = new PongGame();
+      userSockets.addGameToRoom(room, pongGame);
+      userSockets.addPongGameListeners(socket.username);
+      io.to(room).emit('message', socket.username + ' has joined the room!');
+    });
+    
+    socket.on('leave-room', (roomname) =>{
+      console.log(roomname);
+      socket.leave(roomname);
+      userSockets.removePongGameListeners(socket.username);
+      userSockets.removeUserFromRoom(socket.username);
+    });
+    
+    socket.on('leave-game', () =>{
+      userSockets.removePongGameListeners(socket.username);
+    });
+    
+    socket.on('close-game', () => {
+      userSockets.removeGame(socket.room);
+      console.log('removed game');
     });
     
     socket.on('message', (msg) => {
       console.log('message sending:', msg);
       io.emit('message', msg);
-    });
-
-    socket.on('chat-message', function(msg){
-        io.emit('msg', msg);
     });
     
     socket.on('room-message', function(data){
@@ -108,7 +134,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       // console.log(data);
       io.to(data.room).emit('message', data.message);
       
-    });    
+    });
     
     socket.on('user-login', (username)=>{
       
@@ -139,7 +165,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
                       });
           */
           
-          // Method 2, change the db directly
+          // Method 2, change the user status directly in the db
           User.findOne({'username': socket.username}, function(err, user){
             if(err) { return; }
             
