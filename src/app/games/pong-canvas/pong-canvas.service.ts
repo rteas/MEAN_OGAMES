@@ -72,7 +72,7 @@ export class PongCanvasService {
     console.log(this.globalService.roomInfo);
     var sendData = { room: this.globalService.roomInfo._id, data: data }
     //console.log(sendData);
-    this.socket.emit(sendData);
+    this.socket.emit(event, sendData);
   }
 
 }

@@ -27,19 +27,21 @@ export class PongGame {
   playerSpeed: number = 10;
   debug: boolean = true;
   side: string;
+  selectedPlayer: boolean;
   
   constructor(canvas: string, width: number, height: number){
     this.players = {};
     
     this.canvas = new Canvas(canvas, width, height);
-    
+    this.player = null;
     // initialize players
-    this.addPlayer("bottom", "red", "");
+    this.addPlayer("bottom", "red", "chosen");
     this.addPlayer("left", "green", "");
     this.addPlayer("top", "blue", "");
     this.addPlayer("right", "purple", "");
     
-    this.setPlayer("bottom");
+    this.selectedPlayer = false;
+    //this.setPlayer("bottom");
     
     console.log(this.player);
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, 10);
@@ -127,10 +129,10 @@ export class PongGame {
     }, 17);
   }
   
-  setPlayer(side: string): boolean{
-    var nextPlayer = this.players[side]
-    if(nextPlayer){
-      this.player = this.players[side];
+  setPlayer(side: string, username: string): boolean{
+    var player = this.players[side]
+    if(player){
+      player.name = username;
       this.side = side;
       return true;
     }
@@ -139,10 +141,12 @@ export class PongGame {
   
   movePlayer(x: number, y: number, player: Player){
     player.move(x, y);
+    /*
     if(player.collidesWith(this.players['left'])){
       console.log('collision detected at: ( '+ player.position.x + ',' + player.position.y + ' )');
       // TODO: prevent player from moving past object
     }
+    */
   }
   
   setPlayerPosition(x: number, y: number, player: Player){
@@ -165,6 +169,17 @@ export class PongGame {
     return false;
   }
   
+  // removes players without a name
+  removeUnselectedPlayers(){
+    for(let player in this.players){
+      if(this.players[player]){
+        if(this.players[player].name === ""){
+          this.players[player] = null;
+        }
+      }
+    }
+  }
+  
   title(){
       // process game logic, inputs
       this.processTitleInput();
@@ -174,7 +189,7 @@ export class PongGame {
   
   lobby(){
       // process game logic, inputs
-      this.processLobbyInput();
+      // this.processLobbyInput();
       // draw
       this.drawLobby();
   }
@@ -218,10 +233,19 @@ export class PongGame {
       }
     }
     
-    // draw selection
-    if(this.side !== ""){
+    // draw selections
+    this.highlightSelections();
+    
+    // draw current selection
+    /*
+    if(!this.player){
       this.drawPlayerSelect(this.players[this.side], 'black');
     }
+    */
+    
+    this.drawPlayerSelect(this.players[this.side], 'black');
+
+  
   }
   
   drawPlay(){
@@ -232,7 +256,6 @@ export class PongGame {
       if(this.players[player]){
         this.drawPlayer(this.players[player]);
       }
-      
     }
     
     //this.canvas.drawColorRect(this.playerSide.position.x, this.playerSide.position.y, this.playerSide.width, this.playerSide.height, 'green');
@@ -242,6 +265,11 @@ export class PongGame {
   
   drawPlayer(player: Player){
     this.canvas.drawColorRect(player.position.x, player.position.y, player.width, player.height, player.color);
+  }
+  
+  cascadePlayer(player: Player, color: string){
+      this.canvas.drawColorRect(player.position.x, player.position.y, player.width, player.height, color);
+
   }
   
   drawEnd(){
@@ -293,9 +321,18 @@ export class PongGame {
     
   }
   
-  highlightOpponentSelection(){
-    
+  // highlight players who have their usernames populated (selected)
+  highlightSelections(){
+    for(let player in this.players){
+      if(this.players[player]){
+        if(this.players[player].name !== ""){
+          this.cascadePlayer(this.players[player], "gray");
+        }
+      }
+    }
   }
+  
+  
   
   drawPlayerSelect(player: Player, color: string){
     this.canvas.drawColorRect(player.position.x, player.position.y, 10,10, color);
@@ -315,6 +352,7 @@ export class PongGame {
       }
   }
   
+  /*
   processLobbyInput(){
     var inputs = this.input.getInputs();
       for(var i = 0; i<inputs.length; i++){
@@ -342,7 +380,7 @@ export class PongGame {
         }
       }
   }
-  
+  */
   // TODO: fix multi input parsing
   // ie: 'A + a + <-' will move 3x
   processPlayInput(){
@@ -376,16 +414,16 @@ export class PongGame {
         if(this.debug){
           switch(inputs[i]){
             case '1':
-              this.setPlayer('bottom');
+              this.setPlayer('bottom', 'fakeName');
               break;
             case '2':
-              this.setPlayer('left'); 
+              this.setPlayer('left', 'fakeName'); 
               break;
             case '3':
-              this.setPlayer('top'); 
+              this.setPlayer('top', 'fakeName'); 
               break;
             case '4':
-              this.setPlayer('right');
+              this.setPlayer('right', 'fakeName');
               break;
             case 'e':
               this.changeState('end');

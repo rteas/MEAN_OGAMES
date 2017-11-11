@@ -1,6 +1,5 @@
 var HashMap = require('hashmap');
 var GameManager = require('./express-games/gameManager');
-var socketio = require('socket.io');
 
 class SocketManager{
     
@@ -71,9 +70,13 @@ class SocketManager{
         });
         
         socket.on('play', ()=>{
-            var game = this.gameManager.get(socket.username);
+            var game = this.gameManager.getGame(socket.room);
             game.switchState(game.states.PLAY);
         });
+        
+        socket.on('update-player', (data)=>{
+            console.log(data);
+        })
         
         socket.on('close', ()=>{
             this.gameManager.deleteGame(socket.room);

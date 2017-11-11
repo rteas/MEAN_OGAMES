@@ -17,6 +17,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   pongGame: PongGame;
   key: string;
+  input: Input;
   
   lobbySelection$: Subscription;
   lobbyReady$: Subscription;
@@ -37,6 +38,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     this.pongGame = new PongGame('pong', 500,500);
     this.pongGame.start();
     this.addLobbyListeners();
+    this.input = new Input();
     this.pongService.emitGameData('lobby-input', '');
 
     
@@ -66,6 +68,15 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     }
     return false;
 
+  }
+  
+  startPlay(){
+    // signal change state in backend
+    // and frontend
+    this.pongService.emitGameData('play', 'play');
+    // remove unselected players
+    this.pongGame.removeUnselectedPlayers();
+    this.pongGame.changeState('play');
   }
   
   stopPongGame(){
@@ -120,6 +131,8 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       
       // remove listeners
       this.removeLobbyListeners();
+      
+      // remove unselected players
       
       // start the game
       this.pongGame.changeState('play');
@@ -182,6 +195,10 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     // pass key to the correct component
     this.key = event.key;
     console.log(this.key);
+    this.input.addInput(this.key);
+    if(this.pongGame.getState() === "lobby"){
+      this.processLobbyInput();
+    }
     this.pongGame.input.addInput(this.key);
     /*
     switch(this.key){
@@ -206,8 +223,55 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     // pass key to the correct component
     this.key = event.key;
     console.log(this.key);
+    this.input.removeInput(this.key);
     this.pongGame.input.removeInput(this.key);
 
+  }
+  
+  // checks if a player selected a side or not
+  processLobbyInput(){
+    var inputs = this.input.getInputs();
+      for(var i = 0; i<inputs.length; i++){
+        switch(inputs[i]){
+          case 'ArrowLeft':
+            if(!this.pongGame.player){
+              this.pongGame.side = 'left';
+            }
+            break;
+          case 'ArrowRight':
+            if(!this.pongGame.player){
+              this.pongGame.side = 'right';
+            }
+            break;
+          case 'ArrowUp':
+
+            if(!this.pongGame.player){
+              this.pongGame.side = 'top';
+            }
+            
+            break;
+          case 'ArrowDown':
+            if(!this.pongGame.player){
+              this.pongGame.side = 'bottom';
+            }
+            
+            break;
+          case 'Enter':
+            console.log(this.globalService.userInfo.username);
+            this.pongGame.setPlayer(this.pongGame.side,  this.globalService.userInfo.username);
+            console.log(this.pongGame.player);
+            // check if 
+            /*
+            this.setPlayer(this.side);
+            if(this.debug){
+              this.changeState('play');
+            }
+            */
+            break;
+          default:
+            break;
+        }
+      }
   }
   
 }
