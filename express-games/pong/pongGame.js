@@ -6,8 +6,12 @@ var Ball = require('./ball');
 
 class PongGame{
 
-  constructor(){
+  constructor(io, room){
+    this.inPlay = false;
     this.playersMap = new HashMap();
+    
+    this.io = io;
+    this.room = room;
     
     this.states =  Object.freeze({
       LOBBY: 0,
@@ -42,6 +46,7 @@ class PongGame{
   }
   
   start(){
+    this.inPlay = true;
     this.i = 0;
     this.gameTick = setInterval(()=>{
       switch(this.state){
@@ -58,13 +63,15 @@ class PongGame{
   // Set all the (available) players to their selected side
   // Transition to start state when the room master clicks play
   lobby(){
-    console.log('LOBBY state');
+    //console.log('LOBBY state');
     
     // add a player to the bottom
+    /*
     this.addPlayer('rteas', 'bottom');
     this.addPlayer('xyz', 'top');
     this.addPlayer('leet', 'left');
     this.addPlayer('test', 'right');
+    */
     
     // initialize players and values on chaning state to play
     this.initializeBall();
@@ -78,11 +85,15 @@ class PongGame{
   // if so, change the direction of the ball (and increase the speed) by 5%
   // every (number of player) hits
   play(){
-    console.log('PLAY state');
+    //console.log('PLAY state');
     this.moveBall(this.ball);
-    console.log(this.ball);
+    //console.log(this.ball);
     this.handlePotentialBallCollisions(this.ball);
     
+    var playData = this.getPlayData();
+    console.log(playData);
+    
+    this.io.to(this.room).emit('play-data', this.getPlayData());
     //heights
       /*
     console.log(this.getPlayData());
@@ -90,15 +101,16 @@ class PongGame{
     this.removePlayer("top");
     */
     
+    /*
     if(this.singlePlayer()){
       this.switchState(this.states.END);
     }
+    */
     
   }
   
   singlePlayer(){
     if(this.getPlayerCount === 1){
-      this.ball.x
       return true;
     }
     return false;
@@ -110,13 +122,16 @@ class PongGame{
   
   updatePlayerLocation(x, y, side, direction){
     var player = this.playersMap.get(side);
-    player.setPosition(x,y);
-    player.setDirection(direction);
+    if(player){
+      player.setPosition(x,y);
+      player.setDirection(direction);
+    }
   }
   
   getLobbyData(){
     if(this.state === this.states.LOBBY){
-      return JSON.stringify({ players: this.playersMap });
+      var data = this.playersMap.entries();
+      return data;
     }
     
     return { error: 'incorrect state' };
@@ -126,10 +141,27 @@ class PongGame{
   // ball location
   getPlayData(){
     if(this.state === this.states.PLAY){
-      return JSON.stringify({ players: this.playersMap, 
-              ball: this.ball });
+      // minimize data to send
+      var players = [];
+      this.playersMap.forEach((player, side) => {
+
+        var position = player.position;
+        var playerData = {side: side, position: position };
+        players.push(playerData);
+      });
+
+      var data = { players: players, ball: this.ball.position };
+      return data;
     }
     return { error: 'incorrect state' };
+  }
+  
+  getBallData(){
+    return this.ball;
+  }
+  
+  getPlayersData(){
+    return this.playersMap.entries();
   }
   
   getEndData(){
@@ -187,7 +219,7 @@ class PongGame{
       ']'
       );
     */
-    console.log('ball position y: '+ ball.position.y);
+
     if(ball.radius <= ball.position.y  && ball.position.y <= this.shortSide + ball.radius){
       this.handlePotentialBallPlayerCollision('top', ball);
     }
@@ -218,7 +250,7 @@ class PongGame{
           ball.increaseSpeed();
           if(player.direction === 'right'){
             if(ball.xVelocity < 0){
-              ball.xVelocity *= 1;
+              ball.xVelocity *= -1;
             }
           }
           if(player.direction === 'left'){
@@ -236,13 +268,13 @@ class PongGame{
           ball.xVelocity *= -1;
           ball.increaseSpeed();
           if(player.direction == 'up'){
-            if(ball.xVelocity < 0){
-              ball.yVelocity *= 1;
+            if(ball.yVelocity > 0){
+              ball.yVelocity *= -1;
             }
           }
           if(player.direction == 'down'){
-            if(ball.xVelocity > 0){
-              ball.xVelocity *= -1;
+            if(ball.yVelocity < 0){
+              ball.yVelocity *= -1;
             }
           }
           return true;
@@ -330,7 +362,9 @@ class PongGame{
   
   setPlayerPosition(x, y, side){
     var player = this.playersMap.get(side);
-    player.setPosition(x,y);
+    if(player){
+      player.setPosition(x,y);
+    }
   }
   
   removePlayer(side){
@@ -338,6 +372,7 @@ class PongGame{
       this.playersMap.set(side, null);
       this.playersMap.delete(side);
     }
+    this.io.to(this.room).emit('play-remove', side);
   }
 
 }

@@ -17,6 +17,11 @@ class GameManager{
     }
   }
   
+  hasGame(room){
+    if(this.gameMap.has(room)) return true;
+    return false;
+  }
+  
   changeGame(room, game){
     this.deleteGame(room);
     this.gameMap.set(room, game);

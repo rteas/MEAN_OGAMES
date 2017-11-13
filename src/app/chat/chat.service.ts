@@ -50,20 +50,20 @@ export class ChatService {
         this.socket = this.globalService.socketInfo;
       }
       
-    }
+  }
   
   
-  joinRoom(roomName: string): void {
-      this.socket.emit('join-room', roomName);
+  joinRoom(roomID: string): void {
+      this.socket.emit('join-room', roomID);
       /*
       if(this.socket.room){
         this.socket.leave(this.socket.room);
       }
       */
-      this.socket.room = roomName;
+      this.socket.room = roomID;
       //this.socket.join(this.socket.room);
       
-      console.log('joining room...',roomName);
+      console.log('joining room...', roomID);
       /*
       this.socket.on(roomName, (msg) => {
           console.log(msg);

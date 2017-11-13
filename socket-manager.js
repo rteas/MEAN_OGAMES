@@ -3,7 +3,8 @@ var GameManager = require('./express-games/gameManager');
 
 class SocketManager{
     
-    constructor(){
+    constructor(io){
+        this.io = io;
         this.userSocketMap = new HashMap();
         this.userRoomMap = new HashMap();
         this.gameManager = new GameManager();
@@ -13,6 +14,10 @@ class SocketManager{
     setIO(io){
         this.io = io;
         this.ioInstance = true;
+    }
+    
+    hasGame(room){
+        return this.gameManager.hasGame(room);
     }
     
     removeRoom(room){
@@ -52,35 +57,55 @@ class SocketManager{
     addPongGameListeners(username){
         // get socket
         let socket = this.userSocketMap.get(username);
-        console.log(socket);
         // add listeners to socket
         // get game selected players
         var room = this.userRoomMap.get(socket.username);
         var game = this.gameManager.getGame(room);
         
         socket.on('select-player', (data)=> {
-          if(game.addPlayer(data.side)){
-              // emit selected players
-              socket.to(room).emit('player-selected', data);
-              socket.emit('select-results', {success: true});
+          
+          var gameInstance = this.gameManager.getGame(socket.room);
+          
+          // successful player selection
+          if(gameInstance.addPlayer(data.username, data.side)){
+              var sendData = { success: true, player: data };
+              this.io.to(socket.room).emit('selection-results', sendData);
           }
+          // unsuccessful player selection
           else{
-              socket.emit('select-results', {success: false});
+              socket.emit('selection-results', {success: false });
           }
         });
         
         socket.on('play', ()=>{
             var game = this.gameManager.getGame(socket.room);
+            this.io.to(socket.room).emit('play');
             game.switchState(game.states.PLAY);
         });
         
-        socket.on('update-player', (data)=>{
+        socket.on('play-input', (data) => {
+            var game = this.gameManager.getGame(socket.room);
+            // update player locations
             console.log(data);
-        })
+            console.log(data.side);
+            //game.setPlayerPosition(data.position.x, data.position.y, data.side);
+            game.updatePlayerLocation(data.position.x, data.position.y, data.side, data.direction);
+            
+        });
+        
+        socket.on('update-lobby-input', (data) => {
+            var game = this.gameManager.getGame(socket.room);
+            var data = game.getLobbyData();
+            this.io.to(socket.room).emit('lobby-data', data);
+        });
+        
+        socket.on('update-lobby-data', (data)=>{
+            console.log(data);
+        });
         
         socket.on('close', ()=>{
             this.gameManager.deleteGame(socket.room);
-        })
+        });
         
     }
     

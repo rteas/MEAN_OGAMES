@@ -62,7 +62,7 @@ var game = gameManager.getGame('1');
 
 // socket manager class
 var SocketManager = require('./socket-manager');
-var userSockets = new SocketManager();
+
 
 // Connect to the database before starting the application server.
 mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8w', { useMongoClient: true } , function (err, database) {
@@ -83,10 +83,14 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   
   // setup socket.io
   io = socketio.listen(server);
+  var userSockets = new SocketManager(io);
+  
   
   io.on('connection', function(socket){
     
     socket.on('join-room', (room) => {
+      console.log('joining room');
+      console.log(room);
       // leave room if currently in one
       // for now, remove pong listeners as well
       if(socket.room){
@@ -101,10 +105,14 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       // initialize game & listeners here
       //console.log(socket.username);
       userSockets.addUserToRoom(socket.username, room);
-      var pongGame = new PongGame();
-      userSockets.addGameToRoom(room, pongGame);
+      
+      if(!userSockets.hasGame(room)){
+        var pongGame = new PongGame(io, room);
+        userSockets.addGameToRoom(room, pongGame);
+      }
+      
       userSockets.addPongGameListeners(socket.username);
-      io.to(room).emit('message', socket.username + ' has joined the room!');
+      io.to(socket.room).emit('message', socket.username + ' has joined the room!');
     });
     
     socket.on('leave-room', (roomname) =>{
@@ -131,8 +139,8 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     socket.on('room-message', function(data){
       
       console.log("room-msg:");
-      // console.log(data);
-      io.to(data.room).emit('message', data.message);
+      console.log(data);
+      io.to(socket.room).emit('message', data.message);
       
     });
     

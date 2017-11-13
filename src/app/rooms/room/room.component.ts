@@ -60,7 +60,6 @@ export class RoomComponent implements OnInit, OnDestroy {
       .then(room => {
         console.log(room);
         this.room = room;
-        this.chatService.joinRoom(room._id);
         this.chatService.switchChatLocation(room._id);
         this.globalService.roomInfo = room;
       })
@@ -75,7 +74,6 @@ export class RoomComponent implements OnInit, OnDestroy {
         }
       })
       .then(() => {
-        console.log("users gathered and loaded?");
         this.chatboxComponent.resizeChatBox();
       });
 

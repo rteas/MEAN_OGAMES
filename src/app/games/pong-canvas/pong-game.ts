@@ -35,7 +35,8 @@ export class PongGame {
     this.canvas = new Canvas(canvas, width, height);
     this.player = null;
     // initialize players
-    this.addPlayer("bottom", "red", "chosen");
+    
+    this.addPlayer("bottom", "red", "");
     this.addPlayer("left", "green", "");
     this.addPlayer("top", "blue", "");
     this.addPlayer("right", "purple", "");
@@ -130,9 +131,9 @@ export class PongGame {
   }
   
   setPlayer(side: string, username: string): boolean{
-    var player = this.players[side]
-    if(player){
-      player.name = username;
+    this.player = this.players[side]
+    if(this.player){
+      this.player.name = username;
       this.side = side;
       return true;
     }
@@ -140,7 +141,14 @@ export class PongGame {
   }
   
   movePlayer(x: number, y: number, player: Player){
+  
     player.move(x, y);
+    
+    if(x < 0) player.direction = 'left';
+    if(x > 0) player.direction = 'right';
+    if(y < 0) player.direction = 'up';
+    if(y > 0) player.direction = 'down';
+    
     /*
     if(player.collidesWith(this.players['left'])){
       console.log('collision detected at: ( '+ player.position.x + ',' + player.position.y + ' )');
@@ -149,9 +157,11 @@ export class PongGame {
     */
   }
   
-  setPlayerPosition(x: number, y: number, player: Player){
-    player.setPosition(x,y);
+  setPlayerPosition(x: number, y: number, side: string){
+    this.players[side].setPosition(x,y);
   }
+  
+  
   
   setBallPosition(x: number, y: number, ball: Ball){
     ball.setPosition(x,y);
@@ -226,6 +236,10 @@ export class PongGame {
     let offsetHeight = this.canvas.height/2+ this.canvas.height/10 + 5;
     this.canvas.context.font = this.canvas.height/15 +"px Arial";
     this.canvas.context.fillText("(use arrow keys)", this.canvas.width/2 , offsetHeight);
+    
+    // draw selections
+    this.highlightSelections();
+    
     // draw players
     for(let player in this.players){
       if(this.players[player]){
@@ -233,19 +247,8 @@ export class PongGame {
       }
     }
     
-    // draw selections
-    this.highlightSelections();
-    
-    // draw current selection
-    /*
-    if(!this.player){
-      this.drawPlayerSelect(this.players[this.side], 'black');
-    }
-    */
-    
+    // draw player selection
     this.drawPlayerSelect(this.players[this.side], 'black');
-
-  
   }
   
   drawPlay(){
@@ -269,6 +272,11 @@ export class PongGame {
   
   cascadePlayer(player: Player, color: string){
       this.canvas.drawColorRect(player.position.x, player.position.y, player.width, player.height, color);
+
+  }
+  
+  borderPlayer(player: Player, color: string){
+      this.canvas.drawColorRect(player.position.x, player.position.y, player.width+10, player.height+10, color);
 
   }
   
@@ -326,7 +334,7 @@ export class PongGame {
     for(let player in this.players){
       if(this.players[player]){
         if(this.players[player].name !== ""){
-          this.cascadePlayer(this.players[player], "gray");
+          this.borderPlayer(this.players[player], "black");
         }
       }
     }
