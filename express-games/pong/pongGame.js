@@ -59,6 +59,10 @@ class PongGame{
     }, 17);
   }
   
+  restartGame(){
+    this.restart = true;
+  }
+  
   // Lobby state:
   // Set all the (available) players to their selected side
   // Transition to start state when the room master clicks play
@@ -91,21 +95,24 @@ class PongGame{
     this.handlePotentialBallCollisions(this.ball);
     
     var playData = this.getPlayData();
-    console.log(playData);
+    //console.log(playData);
     
     this.io.to(this.room).emit('play-data', this.getPlayData());
-    //heights
-      /*
-    console.log(this.getPlayData());
-    console.log(this.getPlayerCount());
-    this.removePlayer("top");
-    */
     
-    /*
-    if(this.singlePlayer()){
-      this.switchState(this.states.END);
-    }
-    */
+  }
+  
+  // End state:
+  // States the winner,
+  // can restart the game at lobby state
+  end(){
+    //console.log('END state');
+    
+    if(this.restart){
+      this.restart = false;
+      // clear player mapping
+      this.playersMap.clear();
+      this.switchState(this.states.LOBBY);
+    } 
     
   }
   
@@ -128,32 +135,48 @@ class PongGame{
     }
   }
   
-  getLobbyData(){
-    if(this.state === this.states.LOBBY){
-      var data = this.playersMap.entries();
-      return data;
-    }
+  getPlayersData(){
     
-    return { error: 'incorrect state' };
+  }
+  
+  getLobbyPlayerSelected(){
+    
+  }
+  
+  getLobbyData(){
+
+      var players = [];
+      this.playersMap.forEach((player, side) => {
+
+        var position = player.position;
+        var username = player.username;
+        
+        var playerData = {side: side, position: position, username: username };
+        players.push(playerData);
+      });
+      var data = { players: players };
+
+    return data;
+  }
+  
+  getLobbyCursorData(){
+    
   }
   
   // give coordinates of players on each side
   // ball location
   getPlayData(){
-    if(this.state === this.states.PLAY){
       // minimize data to send
       var players = [];
       this.playersMap.forEach((player, side) => {
 
         var position = player.position;
-        var playerData = {side: side, position: position };
+        var playerData = { side: side, position: position };
         players.push(playerData);
       });
 
       var data = { players: players, ball: this.ball.position };
       return data;
-    }
-    return { error: 'incorrect state' };
   }
   
   getBallData(){
@@ -168,18 +191,7 @@ class PongGame{
     return { error: 'incorrect state' };
   }
   
-  // End state:
-  // States the winner,
-  // can restart the game at lobby state
-  end(){
-    console.log('END state');
-    
-    if(this.restart){
-      this.restart = false;
-      this.switchState(this.states.LOBBY);
-    } 
-    
-  }
+  
   
   // creates instance of a ball & set to random direction
   initializeBall(){
@@ -321,10 +333,6 @@ class PongGame{
       }
     }
   }
-  restart(){
-    this.restart = true;
-  }
-  
   stop(){
     clearInterval(this.gameTick);
   }
@@ -373,6 +381,10 @@ class PongGame{
       this.playersMap.delete(side);
     }
     this.io.to(this.room).emit('play-remove', side);
+    if(this.playersMap.size <= 1){
+      this.io.to(this.room).emit('play-end');
+      this.switchState(this.states.END);
+    }
   }
 
 }

@@ -23,15 +23,25 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   lobbyReady$: Subscription;
   lobbyPlay$: Subscription;
   
+  stateData$: Subscription;
+  syncData$: Subscription;
+  syncLobby$: Subscription;
+  syncPlay$: Subscription;
+  
   playData$: Subscription;
   playRemove$: Subscription;
   playEnd$: Subscription;
+  
+  restart$: Subscription;
+  
+  special$: Subscription;
   
   lobbyTimer: any;
   playTimer: any;
   
   sendTime: number = 17;
   username: string;
+  funMode: boolean;
   
   constructor(private pongService: PongCanvasService,
               private globalService: GlobalService) { }
@@ -41,13 +51,67 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     this.username = this.globalService.userInfo.username;
     this.pongGame.start();
     this.addLobbyListeners();
+    this.addPlayListeners();
+    this.addRestartListener();
     
+    this.funMode = false;
     
     this.input = new Input();
-    this.pongService.emitGameData('lobby-input', '');
 
+    // initialize data from backend
+    this.syncData$ = this.pongService.listen('sync-state').subscribe((data) =>{
+      console.log('state data: ');
+      // get username
+      // get side
+      console.log(data);
+      
+      if(data.state === 'lobby'){
+        this.pongGame.changeState('lobby');
+        
+        var playersData = data.gameData;
+          if(playersData){
+            playersData.forEach((player)=>{
+              
+              var side = player[0];
+              var username = player[1].username;
+
+              this.pongGame.setOpponent(side, username);
+              
+          });
+        }
+        
+      }
+      if(data.state === 'play'){
+        this.pongGame.changeState('play');
+        // initialize player data
+        var playersData = data.gameData;
+          if(playersData){
+            playersData.forEach((player)=>{
+              
+              var side = player[0];
+              var username = player[1].username;
+
+              this.pongGame.setOpponent(side, username);
+              
+          });
+          
+          this.pongGame.removeUnselectedPlayers();
+        }
+        
+      }
+      if(data.state === 'end'){
+        this.pongGame.changeState('end');
+      }
+    });
     
+    this.pongService.emitGameData('get-state', 'state');
     // initialize pong game event listener (lobby)
+    
+    // if state is 'play' enable play controls
+    var state = this.pongGame.getState();
+    if(state === 'play'){
+      this.startSendPlayerData();
+    }
     
     // PONG STATES:
     // lobby state:
@@ -66,6 +130,10 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
   }
   
+  hackToggle(){
+    this.pongService.emitGameData('hax', '1337');
+  }
+  
   isRoomMaster(): boolean{
     return (this.globalService.userInfo._id === this.globalService.roomInfo.owner);
   }
@@ -74,31 +142,24 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     return (this.pongGame.getState()==="lobby");
   }
   
-  
-  
-  startPlay(){
-    // signal change state in backend
-    // and frontend
+  // room master signal to start game
+  startPlayState(){
     this.pongService.emitGameData('play', 'play');
-    // remove unselected players
-    //this.pongGame.removeUnselectedPlayers();
-    //this.pongGame.changeState('play');
   }
   
   stopPongGame(){
     this.pongService.stopPongGame();
   }
   
-  stopGameLobby(){
-    this.removeLobbyListeners();
-    this.removeServerListeners();
-    
-  }
-  
   // TODO: remove listeners according to the state of the game
   ngOnDestroy(){
     this.removeLobbyListeners();
     this.removeServerListeners();
+    this.removeRestartListener();
+    if(this.syncData$){
+      this.syncData$.unsubscribe();
+    }
+    this.stopSendPlayerDataControls();
   }
   
   removeServerListeners(){
@@ -109,23 +170,15 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   //    attach a data emitter to send data to server
   //    listener to get data from the server
   
+  restart(){
+    this.pongService.emitGameData('restart', 'restart');
+  }
+  
   addLobbyListeners(){
     
-    // send data every 17ms?
-    /*
-    this.lobbyTimer = setInterval(()=>{
-      this.pongService.emitGameData('lobby-input', this.pongGame.player);
-    }, this.sendTime);
-    */
     this.lobbySelection$ = this.pongService.listen('selection-results').subscribe((data) =>{
-      console.log('selection-results');
-      console.log(data);
-      //console.log('selection data: ');
-      //console.log(data);
-      console.log(data.success);
-      
+
       if(data.success){
-        console.log('success!');
         // add player by setting the username
         let username = data.player.username;
         let side = data.player.side;
@@ -134,11 +187,8 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
         if(username === this.username){
           // set user to this side
           this.pongGame.setPlayer(side, username);
-          console.log('player selected!');
         }
-        
       }
-      
     });
     
     this.lobbyReady$ = this.pongService.listen('lobby-data').subscribe((data) =>{
@@ -153,15 +203,15 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       console.log('data');
       
       // remove unselected players
+      // allow player input data to be sent to server
       // start the game
       this.pongGame.removeUnselectedPlayers();
-      this.addPlayListeners();
+      this.startSendPlayerData();
       this.pongGame.changeState('play');
 
     });
     
   }
-  
 
   removeLobbyListeners(){
     clearInterval(this.lobbyTimer);
@@ -174,15 +224,18 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       this.lobbyPlay$.unsubscribe();
   }
   
-  addPlayListeners(){
-    console.log('play listener added');
-    
+  startSendPlayerData(){
     // send data every 17ms?
-    
     this.playTimer = setInterval(()=>{
       this.sendPlayerData();
     }, this.sendTime);
-    
+  }
+  
+  stopSendPlayerDataControls(){
+    clearInterval(this.playTimer);
+  }
+  
+  addPlayListeners(){
     
     // get game data - { side, position }
     // update game accordingly
@@ -191,27 +244,42 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       var players = data.players;
       var ball = data.ball;
       
-      // update ball
-      this.pongGame.ball.setPosition(ball.x, ball.y);
-      
-      // update player movement
-      players.forEach((player)=>{
-        this.pongGame.setPlayerPosition(player.position.x, player.position.y, player.side );
-        console.log('for-each player data:');
-        console.log(player.side);
-        console.log(player.position.x);
-        console.log(player.position.y);
-      })
-      console.log('play-data: ');
+      // update ball position
       console.log(data);
+      if(ball){
+        this.pongGame.ball.setPosition(ball.x, ball.y);
+      }
+      // update player positions
+      if(players){
+        if(this.funMode){
+          players.forEach((player)=>{
+          this.pongGame.setPlayerPosition(player.position.x, player.position.y, player.side );
+        });
+        }
+        else{
+          players.forEach((player)=>{
+          
+            if((player.side !== this.pongGame.player.side)){
+              this.pongGame.setPlayerPosition(player.position.x, player.position.y, player.side );
+            }
+  
+          });
+        }
+      }
+
     });
     
-    this.playData$ = this.pongService.listen('play-remove').subscribe((side) => {
+    this.special$ = this.pongService.listen('hax').subscribe((side) => {
+      // toggle fun mode
+      this.funMode = !this.funMode;
+    });
+    
+    this.playRemove$ = this.pongService.listen('play-remove').subscribe((side) => {
       // stop sending data to server if this player is
       // the client's player
       this.pongGame.removePlayer(side);
       if(side === this.pongGame.player.side){
-        clearInterval(this.playTimer);
+        this.stopSendPlayerDataControls();
       }
       console.log('play-removeed: '+ side);
     });
@@ -219,12 +287,11 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     // signal on end
     this.playEnd$ = this.pongService.listen('play-end').subscribe((data) => {
       
-      console.log('play-data: ');
-      console.log(data);
+      console.log('play-end: ');
+      this.stopSendPlayerDataControls();
+      this.pongGame.setWinner();
       this.pongGame.changeState('end');
-      this.removePlayListeners();
     });
-    
     
   }
   
@@ -233,9 +300,24 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
     if(this.playData$)
       this.playData$.unsubscribe();
+    if(this.playRemove$)
+      this.playRemove$.unsubscribe();
     if(this.playEnd$)
       this.playEnd$.unsubscribe();
   }
+  
+  addRestartListener(){
+    this.restart$ = this.pongService.listen('restart').subscribe((data) => {
+      this.pongGame.restart();
+    });
+  }
+  
+  removeRestartListener(){
+    if(this.restart$){
+      this.restart$.unsubscribe();
+    }
+  }
+  
   
   // listen for inputs
   @HostListener('document:keydown', ['$event'])
@@ -252,26 +334,9 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
     switch(state){
       case 'lobby': this.processLobbyInput(); break;
+      //case 'end': this.processEndInput(); break;
       // case 'play': this.processPlayInput(); break;
     }
-    
-
-    
-    /*
-    switch(this.key){
-      case 'a': 
-        console.log('left');
-        this.pongGame.movePlayer(-15,0);
-        break;
-      case 'd':
-        console.log('right');
-        this.pongGame.movePlayer(15,0);
-      default:
-        console.log('Non registered key pressed');
-        break;
-        
-    }
-    */
   }
   
   @HostListener('document:keyup', ['$event'])
@@ -344,43 +409,6 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     console.log(data);
     this.pongService.emitGameData('play-input', data);
   }
-  
-  processPlayInput(){
-    var inputs = this.input.getInputs();
-      for(var i = 0; i<inputs.length; i++){
-        if(this.pongGame.side === "top" || this.pongGame.side === "bottom"){
-          switch(inputs[i]){
-
-            case 'ArrowLeft':
-              this.pongGame.movePlayer(-this.pongGame.player.speed,0, this.pongGame.player);
-              this.sendPlayerData();
-              break;
-            case 'ArrowRight':
-              this.pongGame.movePlayer(this.pongGame.player.speed,0, this.pongGame.player);
-              this.sendPlayerData();
-              break;
-            default:
-              break;
-          }
-          
-        }
-        if(this.pongGame.side === "left" || this.pongGame.side === "right"){
-          switch(inputs[i]){
-            case 'ArrowUp':
-              this.pongGame.movePlayer(0, -this.pongGame.player.speed, this.pongGame.player);
-              this.sendPlayerData();
-            break;
-            case 'ArrowDown':
-              this.pongGame.movePlayer(0, this.pongGame.player.speed, this.pongGame.player);
-              this.sendPlayerData();
-            break;
-          }
-          
-        }
-        
-      }
-  }
-  
   
   
   moveSelection(side: string){

@@ -103,8 +103,54 @@ class SocketManager{
             console.log(data);
         });
         
+        socket.on('restart', ()=>{
+           var game = this.gameManager.getGame(socket.room);
+           //console.log(game);
+           game.restartGame();
+           //game.restart();
+           this.io.to(socket.room).emit('restart');
+        });
+        
         socket.on('close', ()=>{
             this.gameManager.deleteGame(socket.room);
+        });
+        
+        socket.on('hax', ()=> {
+            this.io.to(socket.room).emit('hax');
+        })
+        
+        
+        socket.on('get-state', ()=>{
+            var game = this.gameManager.getGame(socket.room);
+            var state = game.state;
+            console.log(state);
+            // lobby and play state
+            var stateData;
+            var gameData;
+            if(state === game.states.LOBBY){
+                stateData = 'lobby';
+                gameData = game.getPlayersData();
+            }
+            else if(state === game.states.PLAY){
+                stateData = 'play';
+                gameData = game.getPlayersData();
+            }
+            else{
+                stateData = 'end';
+                gameData = '';
+            }
+            var sendData = { state: stateData, gameData: gameData };
+            socket.emit('sync-state', sendData);
+        });
+        
+        socket.on('sync-lobby', ()=> {
+            var game = this.gameManager.getGame(socket.room);
+            this.io.to(socket.room).emit('sync-lobby-data', game.getLobbyData);
+        });
+        
+        socket.on('sync-play', () => {
+            var game = this.gameManager.getGame(socket.room);
+            this.io.to(socket.room).emit('sync-play-data', game.getPlayData);
         });
         
     }

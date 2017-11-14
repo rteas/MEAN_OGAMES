@@ -11,7 +11,7 @@ export class GameObject {
   colliderEnabled: boolean;
   boundary: Boundary;
   hasBoundary: boolean;
-  debug: boolean = true;
+  debug: boolean = false;
   
   constructor(x: number, y: number, width: number, height: number){
     this.position = new Vector(x,y);
@@ -61,21 +61,16 @@ export class GameObject {
   // move object and it's collider, 
   // checking for collision if enabled
   move(x: number, y: number){
-    /*
-    if(debug){
+    
+    if(this.debug){
       console.log('prev: ');
       console.log(this.position);
     }
-    */
+    
     
     
     this.position.x += x;
     this.position.y += y;
-    
-    /*
-    console.log('expected: ');
-    console.log(this.position);
-    */
     
     // prevent movement out of boundary
     if(this.hasBoundary){
@@ -100,10 +95,7 @@ export class GameObject {
     if(this.collider){
       this.matchColliderToObject();
     }
-    /*
-    console.log('result: ');
-    console.log(this.position);
-    */
+
   }
   
   matchColliderToObject(){

@@ -28,6 +28,7 @@ export class PongGame {
   debug: boolean = true;
   side: string;
   selectedPlayer: boolean;
+  winner: string;
   
   constructor(canvas: string, width: number, height: number){
     this.players = {};
@@ -42,9 +43,7 @@ export class PongGame {
     this.addPlayer("right", "purple", "");
     
     this.selectedPlayer = false;
-    //this.setPlayer("bottom");
-    
-    console.log(this.player);
+
     this.ball = new Ball(this.canvas.width/2, this.canvas.height/2, 10);
     this.input = new Input();
     this.side = "left";
@@ -106,14 +105,16 @@ export class PongGame {
   
   start(){
     // initialize starting state state to title
-    this.states.startState('title');
+    this.states.startState('lobby');
     
     this.gameTimer = setInterval(()=>{
       let state = this.states.getState();
       switch(state){
+        /*
         case 'title':
           this.title();
           break;
+        */
         case 'lobby':
           this.lobby();
           break;
@@ -128,6 +129,10 @@ export class PongGame {
       }
       
     }, 17);
+  }
+  
+  setOpponent(side: string, username: string){
+    this.players[side].name = username;
   }
   
   setPlayer(side: string, username: string): boolean{
@@ -161,6 +166,9 @@ export class PongGame {
     this.players[side].setPosition(x,y);
   }
   
+  resetBallPosition(ball){
+    ball.setPosition(this.canvas.width/2, this.canvas.height/2);
+  }
   
   
   setBallPosition(x: number, y: number, ball: Ball){
@@ -190,12 +198,14 @@ export class PongGame {
     }
   }
   
+  /*
   title(){
       // process game logic, inputs
       this.processTitleInput();
       // draw
       this.drawTitle();
   }
+  */
   
   lobby(){
       // process game logic, inputs
@@ -233,9 +243,9 @@ export class PongGame {
     this.canvas.context.font = this.canvas.height/10 +"px Arial";
     this.canvas.context.textAlign= "center";
     this.canvas.context.fillText("Select a side", this.canvas.width/2 , this.canvas.height/2)
-    let offsetHeight = this.canvas.height/2+ this.canvas.height/10 + 5;
-    this.canvas.context.font = this.canvas.height/15 +"px Arial";
-    this.canvas.context.fillText("(use arrow keys)", this.canvas.width/2 , offsetHeight);
+    let offsetHeight = this.canvas.height/2+ this.canvas.height/15 + 5;
+    this.canvas.context.font = this.canvas.height/20 +"px Arial";
+    this.canvas.context.fillText("(use arrow keys and press enter)", this.canvas.width/2 , offsetHeight);
     
     // draw selections
     this.highlightSelections();
@@ -261,9 +271,15 @@ export class PongGame {
       }
     }
     
-    //this.canvas.drawColorRect(this.playerSide.position.x, this.playerSide.position.y, this.playerSide.width, this.playerSide.height, 'green');
-
+    // draw ball
     this.canvas.drawCircle(this.ball.position.x, this.ball.position.y, this.ball.radius);
+  }
+  
+  drawEnd(){
+    this.canvas.clear();
+    this.canvas.context.font = this.canvas.height/10 +"px Arial";
+    this.canvas.context.textAlign= "center";
+    this.canvas.context.fillText("Winner: "+ this.winner+'!', this.canvas.width/2 , this.canvas.height/2);
   }
   
   drawPlayer(player: Player){
@@ -280,14 +296,12 @@ export class PongGame {
 
   }
   
-  drawEnd(){
-    this.canvas.clear();
-    this.canvas.context.font = this.canvas.height/10 +"px Arial";
-    this.canvas.context.textAlign= "center";
-    this.canvas.context.fillText("Game Over", this.canvas.width/2 , this.canvas.height/2)
-    let offsetHeight = this.canvas.height/2+ this.canvas.height/10 + 5;
-    this.canvas.context.font = this.canvas.height/15 +"px Arial";
-    this.canvas.context.fillText("Press 'r' to restart", this.canvas.width/2 , offsetHeight);
+  setWinner(){
+    for(let player in this.players){
+      if(this.players[player]){
+        this.winner = this.players[player].name;
+      }
+    }
   }
 
   
@@ -340,7 +354,19 @@ export class PongGame {
     }
   }
   
-  
+  restart(){
+    this.players = {};
+    this.addPlayer("bottom", "red", "");
+    this.addPlayer("left", "green", "");
+    this.addPlayer("top", "blue", "");
+    this.addPlayer("right", "purple", "");
+    this.changeState('lobby');
+    if(this.player){
+      this.player = null;
+    }
+    this.side = "left";
+    this.resetBallPosition(this.ball);
+  }
   
   drawPlayerSelect(player: Player, color: string){
     this.canvas.drawColorRect(player.position.x, player.position.y, 10,10, color);
@@ -359,6 +385,7 @@ export class PongGame {
         }
       }
   }
+  
   
   /*
   processLobbyInput(){

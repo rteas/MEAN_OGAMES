@@ -5,5 +5,7 @@
   
 </canvas>
 <hr/>
-<button *ngIf="isRoomMaster()" (click)="stopPongGame()">End</button>
-<button *ngIf="isRoomMaster()" (click)="startPlay()">Play</button>
+<!--button *ngIf="isRoomMaster()" (click)="stopPongGame()">End</button-->
+<button *ngIf="isRoomMaster()" (click) = "hackToggle()">Fun ;-)</button>
+<button *ngIf="isRoomMaster()" (click) = "startPlayState()">Play</button>
+<button *ngIf="isRoomMaster()" (click) = "restart()">Restart</button>
