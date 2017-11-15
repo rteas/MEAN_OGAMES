@@ -1,12 +1,17 @@
 var HashMap = require('hashmap');
 var GameManager = require('./express-games/gameManager');
+var PongGame = require('./express-games/pong/pongGame');
 
 class SocketManager{
     
     constructor(io){
         this.io = io;
+        // key: username, value: socket
         this.userSocketMap = new HashMap();
+        // key: user, value: room
         this.userRoomMap = new HashMap();
+        // key: room, value: an array containing usernames
+        this.roomUsersMap = new HashMap();
         this.gameManager = new GameManager();
         this.ioInstance = false;
     }
@@ -18,6 +23,10 @@ class SocketManager{
     
     hasGame(room){
         return this.gameManager.hasGame(room);
+    }
+    
+    getRoom(username){
+        return this.userRoomMap.get(username);
     }
     
     removeRoom(room){
@@ -37,12 +46,43 @@ class SocketManager{
     }
     
     addUserToRoom(username, room){
-        // if this is the first instance, make a
-        // game room
+        // if this is the first instance, make the room
+        if(!this.roomUsersMap.has(room)){
+            this.addRoom(room);
+        }
+        
+        // update the room
+        var users = this.roomUsersMap.get(room);
+        users.push();
+        
+        // update the user
         this.userRoomMap.set(username, room);
     }
     
-    removeUserFromRoom(username, room){
+    addRoom(room){
+        var emptyArray = [];
+        this.roomUsersMap.set(room, emptyArray);
+    }
+    
+    // removes user from room and clears user 
+    // room data
+    // also removes the room (and game) if the room is empty
+    removeUserFromRoom(username){
+        this.userRoomMap.delete(username);
+        var room = this.userRoomMap.get(username);
+        if(room){
+            var users = this.roomUsersMap.get(room);
+            
+            var index = users.indexOf(username);
+            
+            if(index >= 0){
+               users.splice(index, 1); 
+            }
+            
+            if(users.length === 0){
+                this.gameManager.deleteGame(room);
+            }  
+        }
         
     }
     
@@ -87,8 +127,6 @@ class SocketManager{
             var game = this.gameManager.getGame(socket.room);
             // update player locations
             console.log(data);
-            console.log(data.side);
-            //game.setPlayerPosition(data.position.x, data.position.y, data.side);
             game.updatePlayerLocation(data.position.x, data.position.y, data.side, data.direction);
             
         });
@@ -115,12 +153,20 @@ class SocketManager{
             this.gameManager.deleteGame(socket.room);
         });
         
+        socket.on('re-initialize', ()=> {
+            this.gameManager.deleteGame(socket.room);
+            var newGame = new PongGame(this.io, socket.room);
+            this.gameManager.addGameRoom(socket.room, newGame);
+            this.gameManager.startGame(socket.room);
+            this.io.to(socket.room).emit('restart', '');
+        });
+        
         socket.on('hax', ()=> {
             this.io.to(socket.room).emit('hax');
-        })
+        });
         
         
-        socket.on('get-state', ()=>{
+        socket.on('get-sync', ()=>{
             var game = this.gameManager.getGame(socket.room);
             var state = game.state;
             console.log(state);
@@ -140,7 +186,7 @@ class SocketManager{
                 gameData = '';
             }
             var sendData = { state: stateData, gameData: gameData };
-            socket.emit('sync-state', sendData);
+            socket.emit('sync', sendData);
         });
         
         socket.on('sync-lobby', ()=> {
@@ -153,12 +199,12 @@ class SocketManager{
             this.io.to(socket.room).emit('sync-play-data', game.getPlayData);
         });
         
+        
+        
     }
     
     selectPlayer(socket, data){
         
-
-          
     }
     
     pongSelect(data){
@@ -172,6 +218,7 @@ class SocketManager{
     removePongGameListeners(username){
         // get socket
         let socket = this.userSocketMap.get(username);
+        
         // remove listeners from socket
         /*
         socket.removeListener('select-player');

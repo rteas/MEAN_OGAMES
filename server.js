@@ -88,6 +88,10 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   
   io.on('connection', function(socket){
     
+    // send an event for client to send a username
+    // if applicable (only in games)
+    socket.emit('get-client-data', 'get data');
+    
     socket.on('join-room', (room) => {
       console.log('joining room');
       console.log(room);
@@ -144,6 +148,44 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       
     });
     
+    socket.on('load-client-data', (username) => {
+      
+      if(username){
+        socket.username = username;
+      }
+      
+      var room = userSockets.getRoom(username);
+      
+      if(room){
+        socket.room = room;
+        socket.join(room);
+        // TODO: make more dynamic to load listeners
+        // according to game
+        userSockets.addPongGameListeners(username);
+        socket.emit('reloaded-userdata', '');
+        io.to(socket.room).emit('message', username+' has reconnected!');
+      }
+      
+    });
+    
+    socket.on('resume-pong-game', (username)=>{
+      // set username
+      socket.username = username;
+      // set & get room, add listeners
+      socket.room = userSockets.getRoom(username);
+      if(socket.room){
+        socket.join(socket.room);
+        userSockets.addPongGameListeners(username);
+        // send request to request sync data
+        io.to(socket.room).emit('message', username+' has reconnected!');
+      }
+    });
+    
+    socket.on('quit-game', () => {
+      var username = socket.username;
+      userSockets.removeUserFromRoom(username);
+    });
+    
     socket.on('user-login', (username)=>{
       
       socket.username = username;
@@ -154,11 +196,13 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       
     });
     
+    
+    
     socket.on('disconnect', () => {
         
        if(socket.username){
          console.log(socket.username, 'disconnected');
-         userSockets.removeSocket(socket.username);
+         // userSockets.removeSocket(socket.username);
          io.emit('info', socket.username + " disconnected");
          
          // Method 1

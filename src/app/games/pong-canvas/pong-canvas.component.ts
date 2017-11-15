@@ -22,7 +22,9 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   lobbySelection$: Subscription;
   lobbyReady$: Subscription;
   lobbyPlay$: Subscription;
+  reconnect$: Subscription;
   
+  reload$: Subscription;
   stateData$: Subscription;
   syncData$: Subscription;
   syncLobby$: Subscription;
@@ -54,12 +56,26 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     this.addPlayListeners();
     this.addRestartListener();
     
+    // add a socket on reconnect
+    this.addReconnectListener();
+    /*
+    this.pongService.socket.on('reconnect', (attempts)=>{
+      console.log('====================reconnected==============================');
+      this.pongService.emitGameData('resume-pong-game', 'resume');
+      this.pongService.emitGameData('get-sync', 'state');
+    })
+    
+    this.pongService.socket.on('disconnect', (data) => {
+      console.log('====================disconnected==============================');
+    });
+    */
+    
     this.funMode = false;
     
     this.input = new Input();
-
+    
     // initialize data from backend
-    this.syncData$ = this.pongService.listen('sync-state').subscribe((data) =>{
+    this.syncData$ = this.pongService.listen('sync').subscribe((data) =>{
       console.log('state data: ');
       // get username
       // get side
@@ -104,14 +120,8 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       }
     });
     
-    this.pongService.emitGameData('get-state', 'state');
-    // initialize pong game event listener (lobby)
-    
-    // if state is 'play' enable play controls
-    var state = this.pongGame.getState();
-    if(state === 'play'){
-      this.startSendPlayerData();
-    }
+    // send a sync request
+    this.pongService.emitGameData('get-sync', 'state');
     
     // PONG STATES:
     // lobby state:
@@ -160,6 +170,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       this.syncData$.unsubscribe();
     }
     this.stopSendPlayerDataControls();
+    this.removeReconnectListener();
   }
   
   removeServerListeners(){
@@ -172,6 +183,18 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   restart(){
     this.pongService.emitGameData('restart', 'restart');
+  }
+  
+  reInitialize(){
+    this.pongService.emitGameData('re-initialize', 'reinitialize');
+  }
+  
+  
+  
+  removeReconnectListener(){
+    if(this.restart$){
+      this.restart$.unsubscribe();
+    }
   }
   
   addLobbyListeners(){
@@ -233,6 +256,18 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   stopSendPlayerDataControls(){
     clearInterval(this.playTimer);
+  }
+  
+  addReloadListener(){
+    this.reload$ = this.pongService.listen('reloaded-userdata').subscribe((data) => {
+      this.requestSync();
+    });
+  }
+  
+  addReconnectListener(){
+    this.restart$ = this.pongService.listen('get-client-data').subscribe((data) => {
+      this.pongService.emitGameData('load-client-data', this.username);
+    });
   }
   
   addPlayListeners(){
@@ -308,8 +343,12 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   addRestartListener(){
     this.restart$ = this.pongService.listen('restart').subscribe((data) => {
-      this.pongGame.restart();
+      this.requestSync();
     });
+  }
+  
+  requestSync(){
+    this.pongService.emitGameData('get-sync', 'state');
   }
   
   removeRestartListener(){

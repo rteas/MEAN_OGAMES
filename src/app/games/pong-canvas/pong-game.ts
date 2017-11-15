@@ -355,15 +355,18 @@ export class PongGame {
   }
   
   restart(){
+    if(this.player){
+      this.player = null;
+    }
+    this.removePlayer(this.side);
+    
     this.players = {};
     this.addPlayer("bottom", "red", "");
     this.addPlayer("left", "green", "");
     this.addPlayer("top", "blue", "");
     this.addPlayer("right", "purple", "");
     this.changeState('lobby');
-    if(this.player){
-      this.player = null;
-    }
+    
     this.side = "left";
     this.resetBallPosition(this.ball);
   }

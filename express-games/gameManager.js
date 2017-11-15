@@ -8,14 +8,25 @@ class GameManager{
     this.gameMap = new HashMap();
   }
   
-  // Adds & starts a game room
+  // Adds a game room
   // if it isn't already initialized
   addGameRoom(room, game){
     if(!this.gameMap.has(room)){
       this.gameMap.set(room, game);
-      game.start();
     }
   }
+  
+  startGame(room){
+    var game = this.getGame(room);
+    game.start();
+  }
+  
+  stopGame(room){
+    var game = this.getGame(room);
+    game.stop();
+  }
+  
+  
   
   hasGame(room){
     if(this.gameMap.has(room)) return true;

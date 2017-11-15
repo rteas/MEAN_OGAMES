@@ -9,3 +9,8 @@
 <button *ngIf="isRoomMaster()" (click) = "hackToggle()">Fun ;-)</button>
 <button *ngIf="isRoomMaster()" (click) = "startPlayState()">Play</button>
 <button *ngIf="isRoomMaster()" (click) = "restart()">Restart</button>
+
+<br>
+<h3 *ngIf="isRoomMaster()">Server buttons</h3>
+<button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
+<button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
