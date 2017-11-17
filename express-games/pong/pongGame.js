@@ -36,6 +36,10 @@ class PongGame{
     
   }
   
+  startPlay(){
+    this.state = this.states.PLAY;
+  }
+  
   switchState(state){
     switch(state){
       case this.states.LOBBY: this.state = state; break;
@@ -89,7 +93,7 @@ class PongGame{
   // if so, change the direction of the ball (and increase the speed) by 5%
   // every (number of player) hits
   play(){
-    //console.log('PLAY state');
+    console.log('PLAY state');
     this.moveBall(this.ball);
     //console.log(this.ball);
     this.handlePotentialBallCollisions(this.ball);

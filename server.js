@@ -112,6 +112,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       
       if(!userSockets.hasGame(room)){
         var pongGame = new PongGame(io, room);
+        pongGame.start();
         userSockets.addGameToRoom(room, pongGame);
       }
       
@@ -161,6 +162,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
         socket.join(room);
         // TODO: make more dynamic to load listeners
         // according to game
+        userSockets.addUser(username, socket);
         userSockets.addPongGameListeners(username);
         socket.emit('reloaded-userdata', '');
         io.to(socket.room).emit('message', username+' has reconnected!');

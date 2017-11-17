@@ -45,6 +45,10 @@ class SocketManager{
         this.gameManager.changeGame(room, game);
     }
     
+    addUser(username, socket){
+        this.userSocketMap.set(username, socket);
+    }
+    
     addUserToRoom(username, room){
         // if this is the first instance, make the room
         if(!this.roomUsersMap.has(room)){
@@ -119,14 +123,17 @@ class SocketManager{
         
         socket.on('play', ()=>{
             var game = this.gameManager.getGame(socket.room);
+            console.log('play state initialized');
             this.io.to(socket.room).emit('play');
             game.switchState(game.states.PLAY);
+            console.log('game state: '+game.state);
+            
         });
         
         socket.on('play-input', (data) => {
             var game = this.gameManager.getGame(socket.room);
             // update player locations
-            console.log(data);
+            // console.log(data);
             game.updatePlayerLocation(data.position.x, data.position.y, data.side, data.direction);
             
         });
