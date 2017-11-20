@@ -199,12 +199,15 @@ class PongGame{
   
   // creates instance of a ball & set to random direction
   initializeBall(){
+    this.ball = new Ball(this.gameWidth/2, this.gameHeight/2, this.ballRadius);
+    /*
     if(!this.ball){
       this.ball = new Ball(this.gameWidth/2, this.gameHeight/2, this.ballRadius);
     }
     else{
       this.ball.setPosition(this.gameWidth/2, this.gameHeight/2);
     }
+    */
   }
   
   moveBall(ball){

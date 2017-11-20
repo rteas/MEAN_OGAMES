@@ -355,6 +355,7 @@ export class PongGame {
   }
   
   restart(){
+    
     if(this.player){
       this.player = null;
     }
