@@ -6,8 +6,8 @@ class Ball extends GameObject{
   constructor(x,y, radius){
     super(x, y, radius*2, radius*2);
     this.maxSpeed = 5;
-    this.xVelocity = 3 + .5*Math.random();
-    this.yVelocity = 3 + .5*Math.random();
+    this.xVelocity = 2 + .5*Math.random();
+    this.yVelocity = 2 + .5*Math.random();
     this.radius = radius;
   }
   
