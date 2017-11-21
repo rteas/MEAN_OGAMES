@@ -97,6 +97,10 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
   }
   
+  reSync(){
+    this.pongService.emitGameData('get-sync', 'state');
+  }
+  
   hackToggle(){
     this.pongService.emitGameData('hax', '1337');
   }
@@ -107,6 +111,10 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   lobbyState(): boolean{
     return (this.pongGame.getState()==="lobby");
+  }
+  
+  playerSelected(): boolean{
+    return this.pongGame.player !== null;
   }
   
   // room master signal to start game
@@ -401,6 +409,25 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
       //case 'end': this.processEndInput(); break;
       // case 'play': this.processPlayInput(); break;
     }
+  }
+  
+  
+  isLobbyState(): boolean{
+    return this.isState('lobby');
+  }
+  
+  isPlayState(): boolean{
+    return this.isState('play');
+  }
+  
+  isEndState(): boolean{
+    return this.isState('end');
+  }
+  
+  isState(state: string): boolean{
+    var curState = this.pongGame.getState();
+    if(curState === state) return true;
+    return false;
   }
   
   @HostListener('document:keyup', ['$event'])

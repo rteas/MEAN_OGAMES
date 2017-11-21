@@ -38,10 +38,12 @@ var io;
 // test game
 var Player = require('./express-games/pong/player');
 
+/*
 var player = new Player(0,0,1,1);
 player.printPosition();
 player.setPosition(20,1);
 player.printPosition();
+*/
 
 var GameManager = require('./express-games/gameManager');
 var gameManager = new GameManager();

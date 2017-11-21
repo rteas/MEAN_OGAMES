@@ -6,11 +6,12 @@
 </canvas>
 <hr/>
 <!--button *ngIf="isRoomMaster()" (click)="stopPongGame()">End</button-->
-<button *ngIf="isRoomMaster()" (click) = "hackToggle()">Fun ;-)</button>
-<button *ngIf="isRoomMaster()" (click) = "startPlayState()">Play</button>
-<button *ngIf="isRoomMaster()" (click) = "restart()">Restart</button>
+<button class="btn btn-default" *ngIf="isRoomMaster()&&isPlayState()" (click) = "hackToggle()">Fun ;-)</button>
+<button class="btn btn-default" *ngIf="isRoomMaster()&&isLobbyState()&&playerSelected()" (click) = "startPlayState()">Play</button>
+<button class="btn btn-default" *ngIf="isRoomMaster()&&isEndState()" (click) = "restart()">Restart</button>
 
 <br>
 <h3 *ngIf="isRoomMaster()">Server buttons</h3>
 <button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
 <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
+<button *ngIf="isRoomMaster()" (click) = "reSync()">Resync</button>

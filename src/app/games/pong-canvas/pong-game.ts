@@ -25,7 +25,7 @@ export class PongGame {
   players: any;
   
   playerSpeed: number = 10;
-  debug: boolean = true;
+  debug: boolean = false;
   side: string;
   selectedPlayer: boolean;
   winner: string;
@@ -358,8 +358,8 @@ export class PongGame {
     
     if(this.player){
       this.player = null;
+      this.removePlayer(this.side);
     }
-    this.removePlayer(this.side);
     
     this.players = {};
     this.addPlayer("bottom", "red", "");
@@ -369,6 +369,7 @@ export class PongGame {
     this.changeState('lobby');
     
     this.side = "left";
+    
     this.resetBallPosition(this.ball);
   }
   

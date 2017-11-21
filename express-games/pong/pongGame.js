@@ -72,7 +72,7 @@ class PongGame{
   // Transition to start state when the room master clicks play
   lobby(){
     //console.log('LOBBY state');
-    
+    this.initializeBall();
     // add a player to the bottom
     /*
     this.addPlayer('rteas', 'bottom');
@@ -82,7 +82,7 @@ class PongGame{
     */
     
     // initialize players and values on chaning state to play
-    this.initializeBall();
+    
     
     //console.log(this.getLobbyData());
   }
@@ -93,7 +93,8 @@ class PongGame{
   // if so, change the direction of the ball (and increase the speed) by 5%
   // every (number of player) hits
   play(){
-    console.log('PLAY state');
+    
+    //console.log('PLAY state');
     this.moveBall(this.ball);
     //console.log(this.ball);
     this.handlePotentialBallCollisions(this.ball);
