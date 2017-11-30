@@ -54,7 +54,9 @@ export class RoomJoinComponent implements OnInit {
     .then((room) => {
       
       if(room){
-        this.modalRef.hide();
+        if(this.modalRef){
+          this.modalRef.hide();
+        }
         this.globalService.roomInfo = room;
         this.router.navigate(['/rooms/'+room._id]);
         
