@@ -50,3 +50,7 @@ body{
 .border-right{
     border-right: 1px white dashed;
 }
+
+.borderless td, .borderless th, .borderless thead {
+    border: none !important;
+}
