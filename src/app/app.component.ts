@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { User } from './users/user';
 import { GlobalService } from './globals.service';
+import { RoomService } from './rooms/room.service';
+import * as io from 'socket.io/node_modules/socket.io-client';
 
 declare var $: any;
 
@@ -11,13 +13,42 @@ declare var $: any;
 })
 
 // TODO: IMPLEMENT APP SHUTDOWN 
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
   
-  constructor(public globalService: GlobalService){}
+  constructor(public globalService: GlobalService,
+              private roomService: RoomService
+              ){}
   
   title = 'app';
   toggleTitle() {
         alert('toggled');
         $('#title').text('jQUERRY');
     }
+    
+  ngOnInit(){
+    console.log('initalized application');
+  }
+  
+  // remove client from room (if exists)
+  ngOnDestroy(){
+    
+    
+  }
+  
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
+    
+    console.log('clooosing');
+    /*
+    var socket = this.globalService.socketInfo;
+    if (socket) socket.emit('message', 'application closed');
+    
+    var user = this.globalService.userInfo
+    var room = this.globalService.roomInfo;
+    if(user && room){
+      this.roomService.removeUserFromRoom(room, user);
+    }
+    */
+    
+  }
 }

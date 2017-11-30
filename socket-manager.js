@@ -94,6 +94,8 @@ class SocketManager{
         this.userSocketMap.set(username, socket);
     }
     
+    
+    
     addChatListeners(username){
         let socket = this.userSocketMap.get(username);
     }
@@ -104,7 +106,10 @@ class SocketManager{
         // add listeners to socket
         // get game selected players
         var room = this.userRoomMap.get(socket.username);
+        if(!room) { console.log('no room exists'); return; }
+        
         var game = this.gameManager.getGame(room);
+        if(!game)  { console.log('no game exists'); return; }
         
         socket.on('select-player', (data)=> {
           
@@ -206,9 +211,14 @@ class SocketManager{
             this.io.to(socket.room).emit('sync-play-data', game.getPlayData);
         });
         
-        
+    }
+    
+    initializeSocket(username){
+        var socket = this.userSocketMap.get(username);
         
     }
+    
+    
     
     selectPlayer(socket, data){
         

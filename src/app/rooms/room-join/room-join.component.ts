@@ -17,6 +17,7 @@ export class RoomJoinComponent implements OnInit {
   private modalRef: BsModalRef;
   @Input() room: Room;
   user: User;
+  error: string;
   
   constructor(private modalService: BsModalService,
               private globalService: GlobalService,
@@ -25,9 +26,13 @@ export class RoomJoinComponent implements OnInit {
   
   ngOnInit() { 
     this.user = this.globalService.userInfo;
+    // must intialize password to default 'no password'
+    this.room.password = '';
   }
   
   // TODO: Serverside - implement private option
+  // Attempts to join room
+  // If a password is needed, prompt password form
   public joinRoom(template: TemplateRef<any>){
     //console.log(this.room.password?);
     
@@ -43,19 +48,19 @@ export class RoomJoinComponent implements OnInit {
   
   public enterRoom(room: Room, user: User){
     // console.log('ENTERING ROOM:'+ room._id);
-    // Check if room needs password
-    // If a password is needed, prompt password form
     
     this.roomService
     .addUserToRoom(room, user)
-    .then(() => {
+    .then((room) => {
       
       if(room){
+        this.modalRef.hide();
         this.globalService.roomInfo = room;
         this.router.navigate(['/rooms/'+room._id]);
+        
       }
       else{
-        console.log('room full');
+        this.error = "incorrect password";
       }
       
     });

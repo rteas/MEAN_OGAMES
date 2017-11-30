@@ -94,6 +94,15 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     // if applicable (only in games)
     socket.emit('get-client-data', 'get data');
     
+    socket.on('user-login', (username)=>{
+      
+      socket.username = username;
+      userSockets.addSocket(username, socket);
+      io.emit('info', socket.username + " connected.");
+      console.log('user: '+username+' conneted!');
+      
+    });
+    
     socket.on('join-room', (room) => {
       console.log('joining room');
       console.log(room);
@@ -155,19 +164,19 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       
       if(username){
         socket.username = username;
-      }
+        
+        var room = userSockets.getRoom(username);
       
-      var room = userSockets.getRoom(username);
-      
-      if(room){
-        socket.room = room;
-        socket.join(room);
-        // TODO: make more dynamic to load listeners
-        // according to game
-        userSockets.addUser(username, socket);
-        userSockets.addPongGameListeners(username);
-        socket.emit('reloaded-userdata', '');
-        io.to(socket.room).emit('message', username+' has reconnected!');
+        if(room){
+          socket.room = room;
+          socket.join(room);
+          // TODO: make more dynamic to load listeners
+          // according to game
+          userSockets.addUser(username, socket);
+          userSockets.addPongGameListeners(username);
+          socket.emit('reloaded-userdata', '');
+          io.to(socket.room).emit('message', username+' has reconnected!');
+        }
       }
       
     });
@@ -188,16 +197,6 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     socket.on('quit-game', () => {
       var username = socket.username;
       userSockets.removeUserFromRoom(username);
-    });
-    
-    socket.on('user-login', (username)=>{
-      
-      socket.username = username;
-      userSockets.addSocket(username, socket);
-      io.emit('info', socket.username + " connected.");
-      console.log('user: '+username+' conneted!');
-      userSockets.print();
-      
     });
     
     

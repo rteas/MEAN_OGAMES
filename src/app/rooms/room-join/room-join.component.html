@@ -15,8 +15,10 @@
                 <label for="roompassword"> Password: </label>
                 <input class="form-control" name="password" [(ngModel)] = "room.password" placeholder="Room Password"/>
             </div>
+            
+            <p *ngIf="error">{{error}}</p>
 
-            <button type="button" class="btn btn-primary"(click)="enterRoom(room, user);modalRef.hide();">Join</button>
+            <button type="button" class="btn btn-primary"(click)="enterRoom(room, user);">Join</button>
             <button type="button" class="btn btn-danger"(click)="modalRef.hide()">Cancel</button>
         
         </form>

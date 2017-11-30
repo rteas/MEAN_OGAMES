@@ -30,7 +30,8 @@ export class RoomService {
   // adds user id to room, updates room count
   addUserToRoom(room: Room, user: User): Promise<void | Room> {
       const apiUrl = this.roomsUrl+'/'+room._id+'/addUser';
-      return this.http.put(apiUrl, user, this.headers)
+      var data = { user_id: user._id, room_password: room.password }
+      return this.http.put(apiUrl, data, this.headers)
                         .toPromise()
                         .then(response => response.json() as Room)
                         .catch(this.handleError);

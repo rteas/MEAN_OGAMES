@@ -43,24 +43,18 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     this.selectedGame = "pong";
-    
-    this.user = this.globalService.userInfo;
 
     if(!this.globalService.userInfo){
       this.router.navigate(['/']);
     }
     
     let id = this.route.snapshot.paramMap.get('id').toString();
-    
-    if(this.chatService.username && this.user){
-      this.chatService.joinRoom(id);
-    }
 
     this.roomService.getRoom(id)
       .then(room => {
         console.log(room);
         this.room = room;
-        this.chatService.switchChatLocation(room._id);
+        this.chatService.joinRoom(room._id);
         this.globalService.roomInfo = room;
       })
       // get users from the room

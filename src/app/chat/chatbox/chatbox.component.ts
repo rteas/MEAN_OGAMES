@@ -56,8 +56,6 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
     for(var i = 0; i < messages.length; i++){
       this.addMessage(messages[i]);
     }
-    
-    
   }
   
   getUsers(){
@@ -91,10 +89,12 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
       let clientHeight = $('.chatbox-div')[0].clientHeight;
       let offsetHeight = $('.chatbox-div')[0].offsetHeight;
       
+      /*
       console.log('Scroll Top: ' + scrollTop);
       console.log('Scroll Height: ' + scrollDownMax);
       console.log('Client Height: ' + clientHeight);
       console.log('Offset Height: ' + offsetHeight);
+      */
       
       this.currentScroll = scrollTop+offsetHeight;
       

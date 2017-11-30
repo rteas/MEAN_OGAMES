@@ -155,7 +155,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
               
               // set user to this if it isn't set already
               // if it isn't already set
-              if(username = this.username){
+              if(username === this.username){
                 this.pongGame.setPlayer(side, username);
               }
               else{

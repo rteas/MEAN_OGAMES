@@ -4,6 +4,7 @@ var Room = require('../models/room');
 var User = require('../models/user');
 
 var userController = require('./userController');
+
 /*
 
 router.get('/', roomController.index);
@@ -31,6 +32,7 @@ function handleError(res, error){
 exports.index = function(req, res){
     Room.find()
     .sort([['roomName', 'ascending']])
+    .select('-password')
     .exec(function(err, rooms){
         if (err) { handleError(res, err); }
         res.status(200).json(rooms);
@@ -70,10 +72,23 @@ exports.addUser = function(req, res){
     Room.findById(req.params.id, function(err, room){
         if (err) { handleError(res, err); }
         
-        var user_id = req.body._id;
+        console.log(req.body);
+        
+        var user_id = req.body.user_id;
+        
+        // verify password if it has one
+        if(room.password){
+            var room_password = req.body.room_password;
+        
+            if(room_password !== room.password){
+                console.log('incorrect password');
+                return res.status(200).json(null);
+            }
+        }
         
         // check if user parameter is not null
         if(!user_id){
+            console.log('incorrect user_id');
             return res.status(200).json(null);
         }
         

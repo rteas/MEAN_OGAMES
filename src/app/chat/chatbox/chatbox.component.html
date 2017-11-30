@@ -3,17 +3,17 @@
 </div>
 
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
-  <div class="col-md-10 col-11 full-height nopadding" id="messages-box">
-    <p class="chatbox-header header-dark">Chat</p>
+  <div class="col-md-10 col-9 full-height nopadding border-right" id="messages-box">
+    <p class="chatbox-header border-bottom">Chat</p>
     <div class="chatbox-div" [style.height.px]="chatbodyHeight">
       <ul class="msg-list">
       </ul>
     </div>
   </div>
   
-  <div class="col-md-2 col-1 full-height nopadding" id="users-box" >
-      <p class="userbox-header header-dark">Users</p>
-      <div class="chatbox-div full-height">
+  <div class="col-md-2 col-3 full-height nopadding" id="users-box" >
+      <p class="userbox-header border-bottom">Users</p>
+      <div class="chatbox-div" [style.height.px]="chatbodyHeight">
         <ul>
           <li class="username" *ngFor="let user of users">
             {{user.username}}

@@ -67,8 +67,6 @@ export class GameObject {
       console.log(this.position);
     }
     
-    
-    
     this.position.x += x;
     this.position.y += y;
     
@@ -76,7 +74,6 @@ export class GameObject {
     if(this.hasBoundary){
       if(this.position.x > this.boundary.xmax){
         this.position.x = this.boundary.xmax;
-
       }
       if(this.position.x < this.boundary.xmin){
         this.position.x = this.boundary.xmin;

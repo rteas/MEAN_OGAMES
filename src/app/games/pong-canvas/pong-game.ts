@@ -425,56 +425,38 @@ export class PongGame {
   // ie: 'A + a + <-' will move 3x
   processPlayInput(){
     var inputs = this.input.getInputs();
-      for(var i = 0; i<inputs.length; i++){
-        if(this.side === "top" || this.side === "bottom"){
-          switch(inputs[i]){
-
-            case 'ArrowLeft':
-              this.movePlayer(-this.player.speed,0, this.player);
-              break;
-            case 'ArrowRight':
-              this.movePlayer(this.player.speed,0, this.player);
-              break;
-            default:
-              break;
-          }
-          
-        }
-        if(this.side === "left" || this.side === "right"){
-          switch(inputs[i]){
-            case 'ArrowUp':
-              this.movePlayer(0, -this.player.speed, this.player);
+    
+    if(inputs.length === 0){
+      this.player.direction = 'neutral'; 
+      return;
+    }
+    
+    for(var i = 0; i<inputs.length; i++){
+      if(this.side === "top" || this.side === "bottom"){
+        switch(inputs[i]){
+          case 'ArrowLeft':
+            this.movePlayer(-this.player.speed,0, this.player);
             break;
-            case 'ArrowDown':
-              this.movePlayer(0, this.player.speed, this.player);
+          case 'ArrowRight':
+            this.movePlayer(this.player.speed,0, this.player);
             break;
-          }
-          
+          default:
+            break;
         }
-        if(this.debug){
-          switch(inputs[i]){
-            case '1':
-              this.setPlayer('bottom', 'fakeName');
-              break;
-            case '2':
-              this.setPlayer('left', 'fakeName'); 
-              break;
-            case '3':
-              this.setPlayer('top', 'fakeName'); 
-              break;
-            case '4':
-              this.setPlayer('right', 'fakeName');
-              break;
-            case 'e':
-              this.changeState('end');
-              break;
-            default:
-              console.log('unexpected key');
-              break;
-          }
-        }
-        
       }
+      if(this.side === "left" || this.side === "right"){
+        switch(inputs[i]){
+          case 'ArrowUp':
+            this.movePlayer(0, -this.player.speed, this.player);
+            break;
+          case 'ArrowDown':
+            this.movePlayer(0, this.player.speed, this.player);
+          break;
+          default:
+            break;
+        }
+      }
+    }
   }
   
   processEndInput(){

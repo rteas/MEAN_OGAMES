@@ -63,6 +63,7 @@ export class PongCanvasService {
     this.socket.emit('leave-game');
   }
   
+  
   stopPongGame(){
     this.socket.emit('close-game');
   }

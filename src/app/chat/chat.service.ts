@@ -17,6 +17,7 @@ export class ChatService {
     username: string;
     chatLocation: string;
 
+    roomName: string;
     url: string;
     dynamicHost: string;
     dynamicPort: string;
@@ -31,6 +32,7 @@ export class ChatService {
     if(this.dynamicPort){
       this.url += ":"+this.dynamicPort;
     }
+
   }
   
   private handleError(error: any): Promise<any>{
@@ -61,6 +63,7 @@ export class ChatService {
       }
       */
       this.socket.room = roomID;
+      this.switchChatLocation(roomID);
       //this.socket.join(this.socket.room);
       
       console.log('joining room...', roomID);
