@@ -76,8 +76,8 @@ exports.addUser = function(req, res){
         
         var user_id = req.body.user_id;
         
-        // verify password if it has one
-        if(room.password){
+        // check for password if the room is not public
+        if(!room.public){
             var room_password = req.body.room_password;
         
             if(room_password !== room.password){
