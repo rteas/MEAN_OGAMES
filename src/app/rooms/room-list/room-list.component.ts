@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs';
 import { Subject }    from 'rxjs/Subject';
-import { ReactiveFormsModule } from '@angular/forms';
+
 /*
 import { debounceTime } from 'rxjs/operator/debounceTime';
 import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
@@ -40,6 +40,7 @@ export class RoomListComponent implements OnInit {
   searchTerm: string;
   searchTerms = new Subject<string>();
   
+  hasSearchInput: boolean;
   private loading: boolean = false;
   private results: Observable<Room[]>;
   private searchField: FormControl;
@@ -52,28 +53,45 @@ export class RoomListComponent implements OnInit {
               private globalService: GlobalService,
               private userService: UserService,
               private router: Router) { }
-
+  
   ngOnInit() {
-    
+    // Searches for rooms
+    // if there is input, run a search
+    // else return the default results
+    this.hasSearchInput = false;
     this.searchField = new FormControl();
     this.searchField.valueChanges
         .debounceTime(400)
         .distinctUntilChanged()
-        .switchMap( term => this.roomService.searchRoom(term))
-        .subscribe( value => console.log(value));
+        .do( () => this.loading = true )
+        .switchMap( term => {
+          this.searchTerm = term;
+          if(term.length > 0){
+            this.hasSearchInput = true;
+            return this.roomService.searchRoom(term)
+          }
+          else{
+            this.hasSearchInput = false;
+            return Observable.of([]);
+          }
+          
+        })
+        .subscribe( results => {
+          if(this.hasSearchInput){
+            this.rooms = results
+          }
+          else{
+            this.getRooms();
+          }
+          this.loading = false;
+        });
         
     
-  
+    this.getRooms();
     this.resizeInProgress = false;
     this.searchTerm = "";
     this.user = this.globalService.userInfo;
-    this.roomService
-        .getRooms()
-        .then((rooms: Room[]) => {
-          this.rooms = rooms.map((room) => {
-            return room;
-          });
-        });
+    
     $(document).ready(this.setRoomHeight());
     /*
     this.rooms$ = this.searchTerms.pipe(
@@ -82,6 +100,16 @@ export class RoomListComponent implements OnInit {
         switchMap((term: string) => this.roomService.searchRoom(term))
       );
     */
+  }
+  
+  getRooms(){
+    this.roomService
+        .getRooms()
+        .then((rooms: Room[]) => {
+          this.rooms = rooms.map((room) => {
+            return room;
+          });
+        });
   }
   
   searchRoom(term: string){
