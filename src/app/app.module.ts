@@ -14,8 +14,12 @@ import { PongCanvasService } from './games/pong-canvas/pong-canvas.service';
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
-import { FormsModule }   from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { RoomListComponent } from './rooms/room-list/room-list.component';
@@ -30,9 +34,6 @@ import { TopNavComponent } from './top-nav/top-nav.component';
 import { SlotsGameComponent } from './games/slots-game/slots-game.component';
 import { LogoutComponent } from './users/logout/logout.component';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
-
 import { RoomCreateComponent } from './rooms/room-create/room-create.component';
 import { PongGameComponent } from './games/pong-game/pong-game.component';
 import { NewsCarouselComponent } from './lobby/news-carousel/news-carousel.component';
@@ -45,6 +46,7 @@ import { WebglTutorialComponent } from './games/webgl-tutorial/webgl-tutorial.co
 import { WebglTut2Component } from './games/webgl-tut2/webgl-tut2.component';
 import { PhaserStatesComponent } from './games/phaser-states/phaser-states.component';
 import { PongCanvasComponent } from './games/pong-canvas/pong-canvas.component';
+import { RoomSearchComponent } from './rooms/room-search/room-search.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,8 @@ import { PongCanvasComponent } from './games/pong-canvas/pong-canvas.component';
     WebglTutorialComponent,
     WebglTut2Component,
     PhaserStatesComponent,
-    PongCanvasComponent
+    PongCanvasComponent,
+    RoomSearchComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -81,7 +84,9 @@ import { PongCanvasComponent } from './games/pong-canvas/pong-canvas.component';
     ModalModule.forRoot(),
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
+    HttpClientModule,
     RoutingModule
   ],
   providers: [

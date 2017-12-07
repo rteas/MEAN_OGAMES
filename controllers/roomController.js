@@ -30,13 +30,30 @@ function handleError(res, error){
 }
 
 exports.index = function(req, res){
-    Room.find()
-    .sort([['roomName', 'ascending']])
-    .select('-password')
-    .exec(function(err, rooms){
-        if (err) { handleError(res, err); }
-        res.status(200).json(rooms);
-    });
+    if(req.query.name){
+        Room.find({ 
+            name: {
+                $regex: req.query.name,
+                $options: 'i'
+            } 
+        })
+        .sort([['roomName', 'ascending']])
+        .select('-password')
+        .exec(function(err, rooms){
+            if (err) { handleError(res, err); }
+            res.status(200).json(rooms);
+        });
+    }
+    else{
+        Room.find()
+        .sort([['roomName', 'ascending']])
+        .select('-password')
+        .exec(function(err, rooms){
+            if (err) { handleError(res, err); }
+            res.status(200).json(rooms);
+        });
+    }
+    
 }
 
 exports.create = function(req, res){

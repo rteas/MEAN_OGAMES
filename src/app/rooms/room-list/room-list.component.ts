@@ -5,6 +5,23 @@ import { RoomService } from '../room.service';
 import { UserService } from '../../users/user.service';
 import { GlobalService } from '../../globals.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs';
+import { Subject }    from 'rxjs/Subject';
+import { ReactiveFormsModule } from '@angular/forms';
+/*
+import { debounceTime } from 'rxjs/operator/debounceTime';
+import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
+import { switchMap } from 'rxjs/operator/switchMap';
+*/
+
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/distinctUntilChanged';
+
+import 'rxjs/add/operator/switchMap';
+
+import { FormControl } from '@angular/forms';
 declare var $: any;
 
 @Component({
@@ -18,7 +35,18 @@ export class RoomListComponent implements OnInit {
   selectedRoom: Room;
   
   roomListHeight: number;
-  resizeInProgress: boolean = false;
+  resizeInProgress: boolean;
+  
+  searchTerm: string;
+  searchTerms = new Subject<string>();
+  
+  private loading: boolean = false;
+  private results: Observable<Room[]>;
+  private searchField: FormControl;
+  
+  rooms$: Observable<Room[]>;
+  
+  searchRooms$: Subscription;
   
   constructor(private roomService: RoomService,
               private globalService: GlobalService,
@@ -26,6 +54,18 @@ export class RoomListComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    
+    this.searchField = new FormControl();
+    this.searchField.valueChanges
+        .debounceTime(400)
+        .distinctUntilChanged()
+        .switchMap( term => this.roomService.searchRoom(term))
+        .subscribe( value => console.log(value));
+        
+    
+  
+    this.resizeInProgress = false;
+    this.searchTerm = "";
     this.user = this.globalService.userInfo;
     this.roomService
         .getRooms()
@@ -35,6 +75,17 @@ export class RoomListComponent implements OnInit {
           });
         });
     $(document).ready(this.setRoomHeight());
+    /*
+    this.rooms$ = this.searchTerms.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((term: string) => this.roomService.searchRoom(term))
+      );
+    */
+  }
+  
+  searchRoom(term: string){
+    this.roomService.searchRoom(term);
   }
   
   resizeRoomList(){
@@ -44,6 +95,14 @@ export class RoomListComponent implements OnInit {
       this.setRoomHeight();
       this.resizeInProgress = false;
     }, 250);
+  }
+  
+  isSearching(): boolean{
+    return this.searchTerm.length > 0;
+  }
+  
+  search(term: string){
+    this.searchTerm = term;
   }
   
   setRoomHeight(){
@@ -58,7 +117,6 @@ export class RoomListComponent implements OnInit {
     this.roomListHeight = windowHeight - (titleHeight + 2*roomControlHeight);
     
   }
-
   
   deleteRoom(room: Room): void{
     this.roomService.deleteRoom(room)
