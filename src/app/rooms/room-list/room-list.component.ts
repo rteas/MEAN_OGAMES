@@ -41,9 +41,8 @@ export class RoomListComponent implements OnInit {
   searchTerms = new Subject<string>();
   
   hasSearchInput: boolean;
-  private loading: boolean = false;
-  private results: Observable<Room[]>;
-  private searchField: FormControl;
+  loading: boolean;
+  searchField: FormControl;
   
   rooms$: Observable<Room[]>;
   
@@ -58,6 +57,7 @@ export class RoomListComponent implements OnInit {
     // Searches for rooms
     // if there is input, run a search
     // else return the default results
+    this.loading = false;
     this.hasSearchInput = false;
     this.searchField = new FormControl();
     this.searchField.valueChanges
