@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs';
 import { Subject }    from 'rxjs/Subject';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 /*
 import { debounceTime } from 'rxjs/operator/debounceTime';
@@ -51,7 +52,8 @@ export class RoomListComponent implements OnInit {
   constructor(private roomService: RoomService,
               private globalService: GlobalService,
               private userService: UserService,
-              private router: Router) { }
+              private router: Router,
+              private spinnerService: Ng4LoadingSpinnerService) { }
   
   ngOnInit() {
     // Searches for rooms
@@ -63,7 +65,7 @@ export class RoomListComponent implements OnInit {
     this.searchField.valueChanges
         .debounceTime(400)
         .distinctUntilChanged()
-        .do( () => this.loading = true )
+        .do( () =>this.spinnerService.show() )
         .switchMap( term => {
           this.searchTerm = term;
           if(term.length > 0){
@@ -77,13 +79,15 @@ export class RoomListComponent implements OnInit {
           
         })
         .subscribe( results => {
+          this.loading = false;
+          
           if(this.hasSearchInput){
             this.rooms = results
           }
           else{
             this.getRooms();
           }
-          this.loading = false;
+          
         });
         
     

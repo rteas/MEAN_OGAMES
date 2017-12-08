@@ -90,6 +90,8 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
   
   io.on('connection', function(socket){
     
+    // reobtain user-login from client if it exists
+    
     // send an event for client to send a username
     // if applicable (only in games)
     socket.emit('get-client-data', 'get data');
@@ -202,6 +204,11 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     
     
     socket.on('disconnect', () => {
+      
+      // TODO: Start a timer function
+      // that does an 'official' disconnection
+      // or the assumption that a user has left
+      // after a certain period of time
         
        if(socket.username){
          console.log(socket.username, 'disconnected');

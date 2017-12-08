@@ -35,7 +35,7 @@ export class RoomService {
   addUserToRoom(room: Room, user: User): Promise<void | Room> {
       const apiUrl = this.roomsUrl+'/'+room._id+'/addUser';
       var data = { user_id: user._id, room_password: room.password }
-      return this.http.put(apiUrl, data, this.headers)
+      return this.http.put(apiUrl, data, { headers: this.headers })
                         .toPromise()
                         .then(response => response.json() as Room)
                         .catch(this.handleError);
@@ -43,7 +43,7 @@ export class RoomService {
   
   removeUserFromRoom(room: Room, user: User): Promise<void> {
       const apiUrl = this.roomsUrl+'/'+room._id+'/removeUser';
-      return this.http.put(apiUrl, user, this.headers)
+      return this.http.put(apiUrl, user, { headers: this.headers })
                         .toPromise()
                         .then(response => response.json() as Room)
                         .catch(this.handleError);
@@ -62,7 +62,7 @@ export class RoomService {
   createRoom(room: Room, userId: String): Promise<void | Room>{
       const apiUrl = this.roomsUrl+'/'+room._id+'/create';
       var roomParams = { name: room.name, password: room.password, user: userId };
-      return this.http.post(apiUrl, roomParams, this.headers)
+      return this.http.post(apiUrl, roomParams, { headers: this.headers })
                     .toPromise()
                     .then(response => response.json() as Room)
                     .catch(this.handleError);

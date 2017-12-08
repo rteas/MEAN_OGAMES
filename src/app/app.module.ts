@@ -14,6 +14,8 @@ import { PongCanvasService } from './games/pong-canvas/pong-canvas.service';
 import { AppComponent } from './app.component';
 import { ContactDetailsComponent } from './contacts/contact-details/contact-details.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
+
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -82,6 +84,7 @@ import { RoomSearchComponent } from './rooms/room-search/room-search.component';
     BsDropdownModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
+    Ng4LoadingSpinnerModule.forRoot(),
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
