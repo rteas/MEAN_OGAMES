@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { GlobalService } from '../globals.service';
-import * as io from 'socket.io/node_modules/socket.io-client';
+import * as io from 'socket.io-client/dist/socket.io.slim.js';
 import { Http } from '@angular/http';
 import { User } from '../users/user';
 import { UserService } from '../users/user.service';

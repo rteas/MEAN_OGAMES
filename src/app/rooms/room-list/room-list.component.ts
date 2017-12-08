@@ -65,7 +65,6 @@ export class RoomListComponent implements OnInit {
     this.searchField.valueChanges
         .debounceTime(400)
         .distinctUntilChanged()
-        .do( () =>this.spinnerService.show() )
         .switchMap( term => {
           this.searchTerm = term;
           if(term.length > 0){

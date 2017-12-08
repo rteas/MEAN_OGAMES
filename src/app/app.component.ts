@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { User } from './users/user';
 import { GlobalService } from './globals.service';
 import { RoomService } from './rooms/room.service';
-import * as io from 'socket.io/node_modules/socket.io-client';
+import * as io from 'socket.io-client/dist/socket.io.slim.js';
 
 declare var $: any;
 

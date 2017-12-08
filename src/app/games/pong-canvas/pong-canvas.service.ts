@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as io from 'socket.io/node_modules/socket.io-client';
+import * as io from 'socket.io-client/dist/socket.io.slim.js';
 import { GlobalService } from '../../globals.service';
 import { Observable } from 'rxjs/Observable';
 

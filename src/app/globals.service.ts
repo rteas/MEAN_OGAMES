@@ -4,7 +4,7 @@ import { Room } from './rooms/room';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Game, AUTO } from 'phaser-ce';
-import * as io from 'socket.io/node_modules/socket.io-client';
+import * as io from 'socket.io-client/dist/socket.io.slim.js';
 
 @Injectable()
 export class GlobalService {
