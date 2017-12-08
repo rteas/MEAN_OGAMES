@@ -4,7 +4,7 @@
   "license": "MIT",
   "engines": {
     "node": "8.3.0",
-    "npm": "5.2.x"
+    "npm": "5.6.x"
   },
   "scripts": {
     "ng": "ng",
@@ -13,7 +13,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "preinstall": "npm install -g http-server",
-    "postinstall": "ng build --prod"
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
