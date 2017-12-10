@@ -1,12 +1,12 @@
-<div class="container-fluid">
+<div *ngIf="user" class="container-fluid">
     <h3>
-        {{globalService.userInfo.username}}
+        {{user.username}}
     </h3>
     <p>
-        Top Score: {{globalService.userInfo.topScore}}
+        Top Score: {{user.topScore}}
     </p>
-    <p>
-        Location: {{globalService.userInfo.location}}
+    <p *ngIf="room">
+        Location: {{room.name}} 
     </p>
     <p>
         Friends:
