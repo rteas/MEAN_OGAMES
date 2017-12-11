@@ -179,7 +179,9 @@ class SocketManager{
         
         
         socket.on('get-sync', ()=>{
+            console.log('sync called');
             var game = this.gameManager.getGame(socket.room);
+            if(!game) return;
             var state = game.state;
             console.log(state);
             // lobby and play state

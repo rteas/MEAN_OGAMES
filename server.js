@@ -183,19 +183,6 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       
     });
     
-    socket.on('resume-pong-game', (username)=>{
-      // set username
-      socket.username = username;
-      // set & get room, add listeners
-      socket.room = userSockets.getRoom(username);
-      if(socket.room){
-        socket.join(socket.room);
-        userSockets.addPongGameListeners(username);
-        // send request to request sync data
-        io.to(socket.room).emit('message', username+' has reconnected!');
-      }
-    });
-    
     socket.on('quit-game', () => {
       var username = socket.username;
       userSockets.removeUserFromRoom(username);

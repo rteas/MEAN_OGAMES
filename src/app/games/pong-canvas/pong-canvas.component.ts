@@ -78,7 +78,8 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     // initialize data from backend
     
     // send a sync request
-    this.pongService.emitGameData('get-sync', 'state');
+    console.log('adding sync request');
+    this.requestSync();
     
     // PONG STATES:
     // lobby state:
@@ -97,9 +98,11 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
   }
   
+  /*
   reSync(){
     this.pongService.emitGameData('get-sync', 'state');
   }
+  */
   
   hackToggle(){
     this.pongService.emitGameData('hax', '1337');
@@ -138,7 +141,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   addSyncListener(){
     this.syncData$ = this.pongService.listen('sync').subscribe((data) =>{
-      console.log('state data: ');
+      console.log('sync data: ');
       // get username
       // get side
       console.log(data);
@@ -291,6 +294,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   
   addReloadListener(){
     this.reload$ = this.pongService.listen('reloaded-userdata').subscribe((data) => {
+      console.log('reload-userdata called!');
       this.requestSync();
     });
   }
