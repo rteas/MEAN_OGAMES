@@ -280,12 +280,12 @@ class PongGame{
           ball.increaseSpeed(ball.randomIncrease(), ball.randomIncrease());
           if(player.direction === 'right'){
             if(ball.xVelocity < 0){
-              ball.xVelocity *= -1;
+              ball.increaseSpeed(-1*ball.randomIncrease(),1);
             }
           }
           else if(player.direction === 'left'){
             if(ball.xVelocity > 0 ){
-              ball.xVelocity *= -1;
+              ball.increaseSpeed(-1*ball.randomIncrease(),1);
             }
           }
           // decrease the xVelocity
@@ -313,12 +313,12 @@ class PongGame{
           ball.increaseSpeed(ball.randomIncrease(), ball.randomIncrease());
           if(player.direction == 'up'){
             if(ball.yVelocity > 0){
-              ball.yVelocity *= -1;
+              ball.increaseSpeed(1, -1*ball.randomIncrease());
             }
           }
           else if(player.direction == 'down'){
             if(ball.yVelocity < 0){
-              ball.yVelocity *= -1;
+              ball.increaseSpeed(1, -1*ball.randomIncrease());
             }
           }
           else{

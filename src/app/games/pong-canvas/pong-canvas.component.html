@@ -6,24 +6,32 @@
 </canvas>
 <hr/>
 <!--button *ngIf="isRoomMaster()" (click)="stopPongGame()">End</button-->
-<button class="btn btn-default" *ngIf="isRoomMaster()&&isPlayState()" (click) = "hackToggle()">Fun ;-)</button>
-<button class="btn btn-default" *ngIf="isRoomMaster()&&isLobbyState()&&playerSelected()" (click) = "startPlayState()">Play</button>
-<button class="btn btn-default" *ngIf="isRoomMaster()&&isEndState()" (click) = "restart()">Restart</button>
 
-<br>
-<h3 *ngIf="isRoomMaster()">Server buttons</h3>
-<button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
-<button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
-<button *ngIf="isRoomMaster()" (click) = "reSync()">Resync</button>
+<div class="row">
+  <div class="col-md-6 col-12">
+    <h3 *ngIf="!isRoomMaster">
+      You cannot start the game because you are not a room creator/master.
+    </h3>
+    <button class="btn btn-default" *ngIf="isRoomMaster()&&isPlayState()" (click) = "hackToggle()">Fun ;-)</button>
+    <button class="btn btn-default" *ngIf="isRoomMaster()&&isLobbyState()&&playerSelected()" (click) = "startPlayState()">Play</button>
+    <button class="btn btn-default" *ngIf="isRoomMaster()&&isEndState()" (click) = "restart()">Restart</button>
 
-<h3 *ngIf="!isRoomMaster">
-  You cannot start the game because you are not a room master.
-</h3>
+    <h3 *ngIf="isRoomMaster()">Server buttons</h3>
+    <button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
+    <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
+    <button *ngIf="isRoomMaster()" (click) = "reSync()">Resync</button>  
+  </div>
+  
+  <div class="col-md-6 col-12">
+    <h3>
+      Instructions:
+    </h3>
 
-<h3>
-  Instructions
-</h3>
+    <p>
+      Use keyboard arrow keys to move. Try to hit the ball!
+    </p>
 
-<p>
-  Use keyboard arrow keys to move. Try to hit the ball!
-</p>
+  </div>
+</div>
+
+
