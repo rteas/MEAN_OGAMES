@@ -266,18 +266,33 @@ class PongGame{
         //console.log("#########"+side+("#########"));
         if((player.position.x-player.width/2) <= ball.position.x && ball.position.x <= (player.position.x+player.width/2)){
           //console.log('==========ball hit!=====');
-          ball.yVelocity *= -1;
-          ball.increaseSpeed();
+          if(side === 'top'){
+            if(ball.yVelocity < 0){
+              ball.yVelocity *= -1;
+            }
+          }
+          else{
+            if(ball.yVelocity > 0) {
+              ball.yVelocity *= -1;
+            }
+          }
+          
+          ball.increaseSpeed(ball.randomIncrease(), ball.randomIncrease());
           if(player.direction === 'right'){
             if(ball.xVelocity < 0){
               ball.xVelocity *= -1;
             }
           }
-          if(player.direction === 'left'){
+          else if(player.direction === 'left'){
             if(ball.xVelocity > 0 ){
               ball.xVelocity *= -1;
             }
           }
+          // decrease the xVelocity
+          else{
+            ball.xVelocity *= .85;
+          }
+          
           return true;
         }
       }
@@ -285,17 +300,29 @@ class PongGame{
         //console.log("#########"+side+("#########"));
         if(player.position.y-player.height/2 <= ball.position.y && ball.position.y <= player.position.y+player.height/2){
           //console.log('==========ball hit!=====');
-          ball.xVelocity *= -1;
-          ball.increaseSpeed();
+          if(side === 'left'){
+            if(ball.xVelocity < 0){
+              ball.xVelocity *= -1
+            }
+          }
+          else{
+            if(ball.xVelocity > 0){
+              ball.xVelocity *= -1;
+            }
+          }
+          ball.increaseSpeed(ball.randomIncrease(), ball.randomIncrease());
           if(player.direction == 'up'){
             if(ball.yVelocity > 0){
               ball.yVelocity *= -1;
             }
           }
-          if(player.direction == 'down'){
+          else if(player.direction == 'down'){
             if(ball.yVelocity < 0){
               ball.yVelocity *= -1;
             }
+          }
+          else{
+            ball.yVelocity *= .85;
           }
           return true;
         }

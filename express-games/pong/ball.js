@@ -11,23 +11,24 @@ class Ball extends GameObject{
     this.radius = radius;
   }
   
-  increaseSpeed(){
+  // increases velocity by % parameters 1.<percent>
+  increaseSpeed(x, y){
     if(Math.abs(this.xVelocity) < this.maxSpeed){
-      this.xVelocity = this.randomIncrease(this.xVelocity);
+      this.xVelocity *= x;
       if(Math.abs(this.xVelocity) > this.maxSpeed){
         this.xVelocity = this.maxSpeed;
       }
     }
     if(Math.abs(this.yVelocity) < this.maxSpeed){
-      this.yVelocity = this.randomIncrease(this.yVelocity);
+      this.yVelocity *= y;
       if(Math.abs(this.yVelocity) > this.maxSpeed){
         this.yVelocity = this.maxSpeed;
       }
     }
   }
   
-  randomIncrease(speed){
-    return speed*(1+.05+.05*Math.random());
+  randomIncrease(){
+    return (1+.05+.05*Math.random());
   }
   
 }
