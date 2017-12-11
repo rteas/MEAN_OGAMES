@@ -94,8 +94,6 @@ class SocketManager{
         this.userSocketMap.set(username, socket);
     }
     
-    
-    
     addChatListeners(username){
         let socket = this.userSocketMap.get(username);
     }

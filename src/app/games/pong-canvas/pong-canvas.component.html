@@ -1,5 +1,5 @@
 <h3>
-  Pong
+  Pong *CURRENTLY DEBUGGING SYNC ISSUE, USE SYNC BUTTON TO MANUALLY SYNC... ;(*
 </h3>
 <canvas id="pong">
   
@@ -19,7 +19,8 @@
     <h3 *ngIf="isRoomMaster()">Server buttons</h3>
     <button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
     <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
-    <button *ngIf="isRoomMaster()" (click) = "reSync()">Resync</button>  
+    
+    <button (click) = "requestSync()">Resync</button>  
   </div>
   
   <div class="col-md-6 col-12">

@@ -130,7 +130,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       }
       
       userSockets.addPongGameListeners(socket.username);
-      io.to(socket.room).emit('message', socket.username + ' has joined the room!');
+      io.to(socket.room).emit('info', socket.username + ' has joined the room!');
     });
     
     socket.on('leave-room', (roomname) =>{
