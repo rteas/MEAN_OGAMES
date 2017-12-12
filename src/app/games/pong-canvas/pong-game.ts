@@ -427,7 +427,9 @@ export class PongGame {
     var inputs = this.input.getInputs();
     
     if(inputs.length === 0){
-      this.player.direction = 'neutral'; 
+      if(this.player){
+        this.player.direction = 'neutral';
+      }
       return;
     }
     

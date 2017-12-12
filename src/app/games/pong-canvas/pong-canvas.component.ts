@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, AfterViewInit } from '@angular/core';
 import { Canvas } from './canvas';
 import { Paddle } from './objects/paddle';
 import { Ball } from './objects/ball';
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './pong-canvas.component.html',
   styleUrls: ['./pong-canvas.component.css']
 })
-export class PongCanvasComponent implements OnInit, OnDestroy {
+export class PongCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   
   pongGame: PongGame;
   key: string;
@@ -51,11 +51,12 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pongGame = new PongGame('pong', 500,500);
     this.username = this.globalService.userInfo.username;
+    this.addSyncListener();
     this.pongGame.start();
     this.addLobbyListeners();
     this.addPlayListeners();
     this.addRestartListener();
-    this.addSyncListener();
+    
     
     // add a socket on reconnect
     this.addReconnectListener();
@@ -77,9 +78,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     
     // initialize data from backend
     
-    // send a sync request
-    console.log('adding sync request');
-    this.requestSync();
+    
     
     // PONG STATES:
     // lobby state:
@@ -96,6 +95,12 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
     // end state:
     // displays winner, allows player(s) to return to lobby
     
+  }
+  
+  ngAfterViewInit(){
+    // send a sync request
+    console.log('adding sync request');
+    this.requestSync();
   }
   
   /*
@@ -142,6 +147,8 @@ export class PongCanvasComponent implements OnInit, OnDestroy {
   addSyncListener(){
     this.syncData$ = this.pongService.listen('sync').subscribe((data) =>{
       console.log('sync data: ');
+      // clear old data by restarting the game
+      this.pongGame.restart();
       // get username
       // get side
       console.log(data);
