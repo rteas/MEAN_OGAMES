@@ -1,6 +1,3 @@
-<p>
-  Pong *Currently fixing some sync issues, you may need to manually sync by pressing the sync button*
-</p>
 <canvas id="pong">
   
 </canvas>
@@ -20,7 +17,7 @@
     <button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
     <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
     
-    <button (click) = "requestSync()">Resync</button>  
+    <button (click) = "requestSync()">Sync</button>  
   </div>
   
   <div class="col-md-6 col-12">

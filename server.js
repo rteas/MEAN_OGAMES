@@ -128,11 +128,15 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
         pongGame.start();
         userSockets.addGameToRoom(room, pongGame);
       }
-      
-      userSockets.addPongGameListeners(socket.username);
-      socket.emit('room-join-success', 'completed join');
+
       io.to(socket.room).emit('info', socket.username + ' has joined the room!');
     });
+    
+    socket.on('join-pong-game', () => {
+      userSockets.addPongGameListeners(socket.username);
+      //console.log(socket.username + ' joined pong game!');
+      socket.emit('pong-game-joined', 'success');
+    })
     
     socket.on('leave-room', (roomname) =>{
       console.log(roomname);
