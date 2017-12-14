@@ -301,6 +301,9 @@ export class PongGame {
       if(this.players[player]){
         this.winner = this.players[player].name;
       }
+      else{
+        this.winner = 'nobody';
+      }
     }
   }
 

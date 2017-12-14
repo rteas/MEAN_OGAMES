@@ -131,8 +131,10 @@ export class PongCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     this.removeRestartListener();
     this.removeSyncListener();
     this.stopSendPlayerDataControls();
+    this.removePlayListeners();
     this.removeReconnectListener();
     this.removePongServerListeners();
+    
   }
   
   addPongServerListeners(){
@@ -237,7 +239,7 @@ export class PongCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   
-  
+  // sends player input data as long as the player is present
   startSendPlayerData(){
     // send data every 17ms?
     this.playTimer = setInterval(()=>{
