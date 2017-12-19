@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
         topScore: 0,
         status: '',
         location: '',
+        locationName: '',
         friends: ['']
     };
   }
@@ -51,8 +52,7 @@ export class LoginComponent implements OnInit {
         if(user){
           this.user = user
           this.results = 'success';
-          this.globalService.userInfo = user;
-          this.globalService.saveUserData();
+          this.globalService.storeUserData(user);
           this.router.navigate(['/lobby']);
           console.log('success');
           // change user status to online

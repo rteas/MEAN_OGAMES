@@ -6,8 +6,16 @@ class Ball extends GameObject{
   constructor(x,y, radius){
     super(x, y, radius*2, radius*2);
     this.maxSpeed = 5;
-    this.xVelocity = 2.5 + .5*Math.random();
-    this.yVelocity = 2.5 + .5*Math.random();
+    
+    // randomly decide x and y direction with a random speed (2.5-3)
+    let xDirection = 1;
+    if(Math.random() > .5) xDirection *= -1;
+    this.xVelocity = xDirection*(2.5 + .5*Math.random());
+    
+    let yDirection = 1;
+    if(Math.random() > .5) yDirection *= -1;
+    this.yVelocity = yDirection*(2.5 + .5*Math.random());
+    
     this.radius = radius;
   }
   

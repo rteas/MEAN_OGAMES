@@ -14,14 +14,14 @@
       You cannot start the game because you are not a room creator/master.
     </h3>
     <button class="btn btn-default" *ngIf="isRoomMaster()&&isPlayState()" (click) = "hackToggle()">Fun ;-)</button>
-    <button class="btn btn-default" *ngIf="isRoomMaster()&&isLobbyState()&&playerSelected()" (click) = "startPlayState()">Play</button>
-    <button class="btn btn-default" *ngIf="isRoomMaster()&&isEndState()" (click) = "restart()">Restart</button>
+    <button class="btn btn-primary" *ngIf="isRoomMaster()&&isLobbyState()&&playerSelected()" (click) = "startPlayState()">Play</button>
+    <button class="btn btn-primary" *ngIf="isRoomMaster()&&isEndState()" (click) = "restart()">Restart</button>
 
     <!--h3 *ngIf="isRoomMaster()">Server buttons</h3>
     <button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
     <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button-->
     
-    <button (click) = "requestSync()">Sync</button>  
+    <button class="btn btn-default" (click) = "requestSync()">Sync</button>  
   </div>
   
   <div class="col-md-6 col-12">

@@ -32,6 +32,7 @@ export class UserCreateComponent implements OnInit {
         topScore: 0,
         status: '',
         location: '',
+        locationName: '',
         friends: ['']
     };
   }
@@ -44,7 +45,7 @@ export class UserCreateComponent implements OnInit {
     this.userService.createUser(this.user)
     .then(user => {
         if(user){
-          this.globalService.userInfo = user;
+          this.globalService.storeUserData(user);
           this.userService.loginUser(user);
           this.router.navigate(['/lobby'])
         }

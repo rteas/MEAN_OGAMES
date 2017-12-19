@@ -14,12 +14,15 @@ export class GlobalService {
   gameInfo: Game;
   socketInfo: any;
   
-  saveUserData(){
+  storeUserData(user){
+    // todo: create socket connection if it doesn't exist
+    this.userInfo = user;
     if(this.socketInfo){
       this.socketInfo.on('get-userdata', () => {
         this.socketInfo.emit('userdata', this.userInfo );
       });
     }
+    
       
   }
   

@@ -5,5 +5,6 @@ export class User {
     topScore: number;
     status: string;
     location: string;
+    locationName: string;
     friends: string[];
 }

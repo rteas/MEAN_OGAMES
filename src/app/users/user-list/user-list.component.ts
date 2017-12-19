@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
+import { RoomService } from '../../rooms/room.service';
+import { Room } from '../../rooms/room';
 
 @Component({
   selector: 'app-user-list',
@@ -11,7 +13,9 @@ import { UserService } from '../user.service';
 export class UserListComponent implements OnInit {
   users: User[];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private roomService: RoomService
+              ) { }
 
   ngOnInit() {
     this.userService
@@ -23,7 +27,14 @@ export class UserListComponent implements OnInit {
             }
             if(!user.location){
               user.location = 'unknown';
+              user.locationName = 'unknown';
             }
+            else{
+              this.roomService.getRoom(user.location)
+                  .then( room => {
+                    user.locationName = room.name;
+                    });
+                  }
             return user;
           });
         });
