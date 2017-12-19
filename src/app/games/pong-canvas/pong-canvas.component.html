@@ -17,9 +17,9 @@
     <button class="btn btn-default" *ngIf="isRoomMaster()&&isLobbyState()&&playerSelected()" (click) = "startPlayState()">Play</button>
     <button class="btn btn-default" *ngIf="isRoomMaster()&&isEndState()" (click) = "restart()">Restart</button>
 
-    <h3 *ngIf="isRoomMaster()">Server buttons</h3>
+    <!--h3 *ngIf="isRoomMaster()">Server buttons</h3>
     <button *ngIf="isRoomMaster()" (click) = "close()">Shutdown</button>
-    <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button>
+    <button *ngIf="isRoomMaster()" (click) = "reInitialize()">Re-initialize</button-->
     
     <button (click) = "requestSync()">Sync</button>  
   </div>
@@ -27,11 +27,18 @@
   <div class="col-md-6 col-12">
     <h3>
       Instructions:
+      <span><button id="instruction-button" (click)="toggleInstructions()" class="btn btn-default">Show</button></span>
     </h3>
-
-    <p>
-      Use keyboard arrow keys to move. Try to hit the ball!
-    </p>
+    <div *ngIf="showInstructions">
+      <p> You must be a room master/owner to start the game.</p>
+      <p> Room masters can start the game once they select a side.</p>
+      <p>
+        Use keyboard arrow keys to move. Try to hit the ball!
+      </p>
+    </div>
+    
+    
+    <p> TODO: Counter for game initialization </p>
 
   </div>
 </div>

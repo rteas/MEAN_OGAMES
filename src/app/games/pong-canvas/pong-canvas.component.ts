@@ -8,6 +8,8 @@ import { PongCanvasService } from './pong-canvas.service';
 import { GlobalService } from '../../globals.service';
 import { Subscription } from 'rxjs/Subscription';
 
+declare var $: any;
+
 @Component({
   selector: 'app-pong-canvas',
   templateUrl: './pong-canvas.component.html',
@@ -46,10 +48,15 @@ export class PongCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
   username: string;
   funMode: boolean;
   
+  showInstructions: boolean;
+  
   constructor(private pongService: PongCanvasService,
               private globalService: GlobalService) { }
 
   ngOnInit() {
+    
+    this.showInstructions = false;
+    
     this.pongGame = new PongGame('pong', 500,500);
     this.username = this.globalService.userInfo.username;
     this.addListeners();
@@ -95,6 +102,16 @@ export class PongCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('adding sync request');
     //this.requestSync();
     this.joinPongServer();
+  }
+  
+  toggleInstructions(){
+    this.showInstructions = !this.showInstructions;
+    if(this.showInstructions){
+      $('#instruction-button').text('Hide');
+    }
+    else{
+      $('#instruction-button').text('Show');
+    }
   }
   
   hackToggle(){

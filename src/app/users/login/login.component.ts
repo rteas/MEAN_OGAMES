@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
           this.user = user
           this.results = 'success';
           this.globalService.userInfo = user;
+          this.globalService.saveUserData();
           this.router.navigate(['/lobby']);
           console.log('success');
           // change user status to online
