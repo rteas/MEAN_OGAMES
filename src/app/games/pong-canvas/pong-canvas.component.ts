@@ -73,8 +73,6 @@ export class PongCanvasComponent implements OnInit, OnDestroy, AfterViewInit {
     
     // initialize data from backend
     
-    
-    
     // PONG STATES:
     // lobby state:
     // events emitted for player selection

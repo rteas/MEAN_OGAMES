@@ -14,4 +14,13 @@ export class GlobalService {
   gameInfo: Game;
   socketInfo: any;
   
+  saveUserData(){
+    if(this.socketInfo){
+      this.socketInfo.on('get-userdata', () => {
+        this.socketInfo.emit('userdata', this.userInfo );
+      });
+    }
+      
+  }
+  
 }

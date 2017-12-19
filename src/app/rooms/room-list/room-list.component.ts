@@ -110,6 +110,13 @@ export class RoomListComponent implements OnInit {
         .getRooms()
         .then((rooms: Room[]) => {
           this.rooms = rooms.map((room) => {
+            // get user 
+            let userID = room.owner;
+            this.userService
+                .getUser(userID)
+                .then( user => {
+                  room.ownerName = user.username;
+                })
             return room;
           });
         });

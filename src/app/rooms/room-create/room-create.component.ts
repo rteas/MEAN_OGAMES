@@ -32,6 +32,7 @@ export class RoomCreateComponent implements OnInit {
             population: 1,
             password: '',
             owner: '',
+            ownerName: this.globalService.userInfo.username,
             users: [''],
             public: true
       };

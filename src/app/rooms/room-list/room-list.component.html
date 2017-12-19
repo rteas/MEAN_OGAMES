@@ -49,6 +49,7 @@
 
           <thead class="thead-inverse stick">
             <th>Room</th>
+            <th>Owner</th>
             <th>Users</th>
             <th>        
             <input 
@@ -67,6 +68,7 @@
            <tr *ngFor="let room of rooms">
                
                 <td>{{room.name}}</td>
+                <td>{{room.ownerName}}</td>
                 <td>{{room.population}}/4</td>
                 <td>
                     <!--button class="btn btn-primary btn-left nopadding" (click)="enterRoom(room,user)">Join!</button-->
