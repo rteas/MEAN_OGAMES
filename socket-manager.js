@@ -21,6 +21,11 @@ class SocketManager{
         this.ioInstance = true;
     }
     
+    getUser(username){
+      return this.userSocketMap.get(username);
+    }
+    
+    
     hasGame(room){
         return this.gameManager.hasGame(room);
     }
@@ -91,8 +96,13 @@ class SocketManager{
     }
     
     addSocket(username, socket){
-        this.userSocketMap.set(username, socket);
+      this.initializeListeners(socket);
+      this.userSocketMap.set(username, socket);
+        
     }
+    
+
+    
     
     addChatListeners(username){
         let socket = this.userSocketMap.get(username);
@@ -252,6 +262,98 @@ class SocketManager{
     
     removeSocket(username){
         this.userSocketMap.delete(username);
+    }
+    
+    initializeListeners(socket){
+      
+      
+      socket.on('join-room', (room) => {
+        //console.log('joining room');
+        console.log(room);
+        // leave room if currently in one
+        // for now, remove pong listeners as well
+        if(socket.room){
+          this.removePongGameListeners(socket.username);
+          this.removeUserFromRoom(socket.username);
+          socket.leave(socket.room);
+        }
+        
+        socket.join(room);
+        socket.room = room;
+        
+        // initialize game & listeners here
+        //console.log(socket.username);
+        this.addUserToRoom(socket.username, room);
+        
+        if(!this.hasGame(room)){
+          var pongGame = new PongGame(this.io, room);
+          pongGame.start();
+          this.addGameToRoom(room, pongGame);
+        }
+  
+        this.io.to(socket.room).emit('info', socket.username + ' has joined the room!');
+      });
+      
+      socket.on('join-pong-game', () => {
+        this.addPongGameListeners(socket.username);
+        //console.log(socket.username + ' joined pong game!');
+        socket.emit('pong-game-joined', 'success');
+      })
+      
+      socket.on('leave-room', (roomname) =>{
+        //console.log(roomname);
+        socket.leave(roomname);
+        this.removePongGameListeners(socket.username);
+        this.removeUserFromRoom(socket.username);
+      });
+      
+      socket.on('leave-game', () =>{
+        this.removePongGameListeners(socket.username);
+      });
+      
+      socket.on('close-game', () => {
+        this.removeGame(socket.room);
+        //console.log('removed game');
+      });
+      
+      socket.on('message', (msg) => {
+        //console.log('message sending:', msg);
+        this.io.emit('message', msg);
+      });
+      
+      socket.on('room-message', (data) => {
+        
+        //console.log("room-msg:");
+        //console.log(data);
+        this.io.to(socket.room).emit('message', data.message);
+        
+      });
+      
+      socket.on('load-client-data', (username) => {
+        
+        if(username){
+          socket.username = username;
+          
+          var room = this.getRoom(username);
+        
+          if(room){
+            socket.room = room;
+            socket.join(room);
+            // TODO: make more dynamic to load listeners
+            // according to game
+            this.addUser(username, socket);
+            this.addPongGameListeners(username);
+            socket.emit('reloaded-userdata', '');
+            this.io.to(socket.room).emit('message', username+' has reconnected!');
+          }
+        }
+        
+      });
+      
+      socket.on('quit-game', () => {
+        var username = socket.username;
+        this.removeUserFromRoom(username);
+      });
     }
     
 }

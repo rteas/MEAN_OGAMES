@@ -13,16 +13,29 @@ export class GlobalService {
   roomInfo: Room;
   gameInfo: Game;
   socketInfo: any;
+  url: string;
+  
+  constructor(){
+    var dynamicHost = window.location.hostname;
+    var dynamicPort = window.location.port;
+    this.url = dynamicHost;
+    if(dynamicPort){
+      this.url += ":"+ dynamicPort;
+    }
+  }
   
   storeUserData(user){
     // todo: create socket connection if it doesn't exist
     this.userInfo = user;
-    if(this.socketInfo){
-      this.socketInfo.on('get-userdata', () => {
-        this.socketInfo.emit('userdata', this.userInfo );
-      });
+    
+    if(!this.socketInfo){
+      this.socketInfo = io(this.url);
+      this.socketInfo.emit('user-login', this.userInfo.username);
     }
     
+    this.socketInfo.on('get-login-data', () => {
+      this.socketInfo.emit('user-login', this.userInfo.username );
+    });
       
   }
   
