@@ -101,12 +101,12 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
       socket.username = username;
       userSockets.addSocket(username, socket);
       io.emit('info', socket.username + " connected.");
-      console.log('user: '+username+' conneted!');
+      //console.log('user: '+username+' conneted!');
       
     });
     
     socket.on('join-room', (room) => {
-      console.log('joining room');
+      //console.log('joining room');
       console.log(room);
       // leave room if currently in one
       // for now, remove pong listeners as well
@@ -139,7 +139,7 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     })
     
     socket.on('leave-room', (roomname) =>{
-      console.log(roomname);
+      //console.log(roomname);
       socket.leave(roomname);
       userSockets.removePongGameListeners(socket.username);
       userSockets.removeUserFromRoom(socket.username);
@@ -151,18 +151,18 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     
     socket.on('close-game', () => {
       userSockets.removeGame(socket.room);
-      console.log('removed game');
+      //console.log('removed game');
     });
     
     socket.on('message', (msg) => {
-      console.log('message sending:', msg);
+      //console.log('message sending:', msg);
       io.emit('message', msg);
     });
     
     socket.on('room-message', function(data){
       
-      console.log("room-msg:");
-      console.log(data);
+      //console.log("room-msg:");
+      //console.log(data);
       io.to(socket.room).emit('message', data.message);
       
     });

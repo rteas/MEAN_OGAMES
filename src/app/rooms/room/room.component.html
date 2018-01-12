@@ -7,8 +7,6 @@
 </ul-->
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-1 col-12">
-    </div>
     <div class="col-md-5 col-12">
       <h2 *ngIf="room">
         {{room.name}}
@@ -16,8 +14,9 @@
       
        <button class="btn btn-default" (click)="leaveRoom()">Leave Room</button>
       <div id="game-selector">
-        <h3>Current Game: {{selectedGame}}</h3>
-        <h4>NOTE: You MUST be a room master/creator to start the pong game</h4>
+        <h3>Current Game: {{selectedGame}}</h3> 
+        <app-game-selector></app-game-selector>
+        <!--
         <div class="btn-group" data-toggle="buttons">
           <label (click)="selectGame('tutorial')" class="btn btn-primary ">
             <input type="radio" name="options" id="option1" autocomplete="off" checked> Tutorial
@@ -38,12 +37,13 @@
             <input type="radio" name="options" id="option4" autocomplete="off" disabled> TBD
           </label>
         </div>
+        -->
       </div>
       
       <app-chatbox *ngIf="room" [user]="user"></app-chatbox>
     </div>
     
-    <div class="col-md-6 col-12 game-container rounded">
+    <div class="col-md-7 col-12 game-container rounded">
       <app-tutorial-game *ngIf="selectedGame==='tutorial'"></app-tutorial-game>
       <app-pong-canvas *ngIf="selectedGame==='pong'"></app-pong-canvas>
       <app-webgl-tutorial *ngIf="selectedGame==='webgl-tut'"></app-webgl-tutorial>

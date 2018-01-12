@@ -82,7 +82,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
       });
     
     $(".chatbox-div").scroll(()=>{
-      console.log('scroll detected');
+      //console.log('scroll detected');
       // check if the scroller is at the bottom
       let scrollTop = $('.chatbox-div')[0].scrollTop;
       let scrollDownMax = $('.chatbox-div')[0].scrollHeight;
@@ -100,7 +100,7 @@ export class ChatboxComponent implements OnInit, AfterContentInit, OnDestroy{
       
       this.scrolledDown = (this.currentScroll === scrollDownMax);
       
-      console.log("Current Scroll: "+ this.currentScroll);
+      //console.log("Current Scroll: "+ this.currentScroll);
     });
   }
   

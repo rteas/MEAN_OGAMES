@@ -49,6 +49,9 @@ import { WebglTut2Component } from './games/webgl-tut2/webgl-tut2.component';
 import { PhaserStatesComponent } from './games/phaser-states/phaser-states.component';
 import { PongCanvasComponent } from './games/pong-canvas/pong-canvas.component';
 import { RoomSearchComponent } from './rooms/room-search/room-search.component';
+import { AboutComponent } from './about/about.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
+import { GameSelectorComponent } from './games/game-selector/game-selector.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,10 @@ import { RoomSearchComponent } from './rooms/room-search/room-search.component';
     WebglTut2Component,
     PhaserStatesComponent,
     PongCanvasComponent,
-    RoomSearchComponent
+    RoomSearchComponent,
+    AboutComponent,
+    UserMenuComponent,
+    GameSelectorComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

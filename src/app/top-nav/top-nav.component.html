@@ -95,15 +95,18 @@
     <div class="navbar-collapse collapse dual-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" *ngIf="globalService.userInfo" routerLink="/lobby" routerLinkActive="active">Home</a>
+                <a class="nav-link" routerLink="/lobby" routerLinkActive="active">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" *ngIf="globalService.userInfo" routerLink="/users/{{globalService.userInfo._id}}"  routerLinkActive="active">Profile</a>            </li>
+                <a class="nav-link" routerLink="/users/{{globalService.userInfo._id}}"  routerLinkActive="active">Profile</a>            </li>
             <li class="nav-item">
                 <a class="nav-link" routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" *ngIf="globalService.roomInfo" routerLink="/rooms/{{globalService.roomInfo._id}}" routerLinkActive="active">Room</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
             </li>
             <!--li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -114,7 +117,7 @@
     <div class="navbar-collapse collapse dual-collapse">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item nav-name">
-                <a class="nav-link" *ngIf="globalService.userInfo" routerLink="/users/{{globalService.userInfo._id}}"  routerLinkActive="active">{{globalService.userInfo.username}}</a> 
+                <a class="nav-link" routerLink="/users/{{globalService.userInfo._id}}"  routerLinkActive="active">{{globalService.userInfo.username}}</a> 
             </li>
             <li class="nav-item nav-logout">
                 <a class="nav-link active" routerLink="/logout" routerLinkActive="active">Logout</a>

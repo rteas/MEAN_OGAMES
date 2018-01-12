@@ -9,6 +9,7 @@ import { RoomComponent } from '../rooms/room/room.component';
 import { UserListComponent } from '../users/user-list/user-list.component';
 import { UserDetailsComponent } from '../users/user-details/user-details.component';
 import { LogoutComponent } from '../users/logout/logout.component';
+import { AboutComponent } from '../about/about.component';
 
 const routes: Routes = [
     
@@ -16,6 +17,7 @@ const routes: Routes = [
     { path: 'lobby', component: LobbyComponent },
     { path: 'leaderboard', component: UserListComponent },
     { path: 'logout', component: LogoutComponent },
+    { path: 'about', component: AboutComponent },
     { path: 'users/:id', component: UserDetailsComponent },
     { path: 'rooms/:id', component: RoomComponent },
     

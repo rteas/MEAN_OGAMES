@@ -6,6 +6,16 @@
    margin: 0 !important;
 }
 
+.only-pad-left {
+    padding-left: .5em !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    
+    margin: 0 !important;
+    
+}
+
 .full-width{
     width: 100%;
 }

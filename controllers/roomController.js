@@ -89,7 +89,7 @@ exports.addUser = function(req, res){
     Room.findById(req.params.id, function(err, room){
         if (err) { handleError(res, err); }
         
-        console.log(req.body);
+        //console.log(req.body);
         
         var user_id = req.body.user_id;
         
@@ -213,7 +213,7 @@ exports.roomInfo = function(req,res){
     
     Room.findById(req.params.id, function(err, room){
         if (err) { handleError(res,err); }
-        console.log(room);
+        //console.log(room);
         res.status(200).json(room);
     });
     

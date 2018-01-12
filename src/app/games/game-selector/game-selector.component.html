@@ -1,0 +1,25 @@
+    <button type="button" class="btn btn-primary" (click)="openModal(template)">Select Game</button>
+    
+    <ng-template #template>
+      <div class="card text-center">
+        <div class="card-header">
+          Featured
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Pong</h4>
+          <p class="card-text">Players: 1-4</p>
+          <p class="card-text">Play pong with up to 4 players (todo: add picture)</p>
+          <a href="#" class="btn btn-primary">Play!</a>
+        </div>
+
+      </div>
+      
+      <div class="card text-center">
+        <div class="card-block">
+          <h4 class="card-title">Tutorial Phaser</h4>
+          <p class="card-text">Tutorial game created with phaser framework (integration with Angular)</p>
+          <a href="#" class="btn btn-primary">Play!</a>
+        </div>
+
+      </div>
+    </ng-template>

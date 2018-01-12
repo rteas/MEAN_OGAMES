@@ -3,7 +3,7 @@
 </div>
 
 <div class="row" (window:resize)="resizeChatBox()" id="chat-container" [style.height.px]="chatboxHeight">
-  <div class="col-md-10 col-9 full-height nopadding border-right" id="messages-box">
+  <div class="col-md-10 col-9 full-height only-pad-left border-right" id="messages-box">
     <p class="chatbox-header border-bottom">Chat</p>
     <div class="chatbox-div" [style.height.px]="chatbodyHeight">
       <ul class="msg-list">
@@ -24,7 +24,7 @@
   
 </div>
 <div class="row" id="chat-input">
-  <form class="col nopadding">
+  <form class="col only-pad-left">
     <div class="input-group">
       <input 
         #msg

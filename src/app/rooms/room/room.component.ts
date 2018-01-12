@@ -8,6 +8,7 @@ import 'rxjs/add/operator/switchMap';
 import { GlobalService } from '../../globals.service';
 import { ChatService } from '../../chat/chat.service';
 import { ChatboxComponent } from '../../chat/chatbox/chatbox.component';
+import { GameSelectorComponent } from '../../games/game-selector/game-selector.component';
 import { Router } from '@angular/router';
 
 // games
