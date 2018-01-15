@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   user: User;
   
   results: string;
+  errors: string;
 
   constructor(private userService: UserService,
               private http: Http,
@@ -60,9 +61,15 @@ export class LoginComponent implements OnInit {
         }
         // unsuccessful verification
         else{
-          this.results = 'incorrect username/password'
+          this.results = 'incorrect username/password';
           console.log('fail');
         }
+      })
+      .catch(error => {
+        console.log(error);
+        var json = JSON.parse(error._body);
+        var errors = json.error;
+        this.errors = errors;
       });
     
   }

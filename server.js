@@ -101,27 +101,31 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     
     socket.on('user-login', (username)=>{
       var oldSocket = socketManager.getUser(username);
+      
       // if it has a running disconnect timer, remove it
       if(oldSocket){
+        
         if(oldSocket.disconnectionTimer){
           clearTimeout(oldSocket.disconnectionTimer);
           console.log('cleared timeout!');
         }
-        socketManager.addSocket(username, socket);
-      }
-      else{
-        socketManager.addSocket(username, socket);
         
-        socket.username = username;
-        io.emit('info', socket.username + " connected.");
-        console.log('user: '+username+' conneted!');
+        if(oldSocket.id !== socket.id){
+          socketManager.removeSocket(username);
+          oldSocket.disconnect();
+        }
+        else{
+          return;
+        }
       }
-
       
-        
+      socket.username = username;
+      socketManager.addSocket(username, socket);
+      
+      io.emit('info', socket.username + " connected.");
+      console.log('user: '+username+' conneted!');
+      
     });
-    
-    
     
     socket.on('disconnect', () => {
       console.log('starting timeout');

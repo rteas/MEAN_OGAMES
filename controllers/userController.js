@@ -23,7 +23,11 @@ router.post('/:id/delete', userController.deleteUser);
 // Generic error handler used by all endpoints
 function handleError(res, error){
     console.log("ERROR: " + error);
-    res.status(500).json({"error": error});
+    res.status(500).json({error: error});
+}
+
+function handleErrors(res, errors){
+    res.status(500).json({"errors:": errors})
 }
 
 exports.index = function(req, res){
@@ -221,6 +225,10 @@ exports.loginUser = function(req, res){
         
         if(user.status === "Offline"){
             user.status = "Online";
+        }
+        else{
+            handleError(res, 'user is already logged in');
+            return;
         }
         
         user.save((err) => {

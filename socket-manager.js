@@ -98,11 +98,7 @@ class SocketManager{
     addSocket(username, socket){
       this.initializeListeners(socket);
       this.userSocketMap.set(username, socket);
-        
     }
-    
-
-    
     
     addChatListeners(username){
         let socket = this.userSocketMap.get(username);
@@ -223,24 +219,6 @@ class SocketManager{
         
     }
     
-    initializeSocket(username){
-        var socket = this.userSocketMap.get(username);
-        
-    }
-    
-    
-    
-    selectPlayer(socket, data){
-        
-    }
-    
-    pongSelect(data){
-        
-    }
-    
-    pongInput(data){
-        console.log(data);
-    }
     
     removePongGameListeners(username){
         // get socket
@@ -265,7 +243,6 @@ class SocketManager{
     }
     
     initializeListeners(socket){
-      
       
       socket.on('join-room', (room) => {
         //console.log('joining room');
