@@ -48,7 +48,6 @@ export class TopNavComponent implements OnInit {
     }
   }
   
-  
   displayCheck(){
    //alert($(window).height());
     if(this.resizeInProgress) return;

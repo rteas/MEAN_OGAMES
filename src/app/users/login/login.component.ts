@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
 import { Headers, Http } from '@angular/http';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 import { GlobalService } from '../../globals.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   user: User;
   
   results: string;
-  errors: string;
+  errors: string[] = [];
 
   constructor(private userService: UserService,
               private http: Http,
@@ -23,10 +23,14 @@ export class LoginComponent implements OnInit {
               private globalService: GlobalService) { }
 
   ngOnInit() {
+    
     if(this.globalService.userInfo){
       this.router.navigate(['/lobby']);
     }
-    
+    if(this.globalService.anotherUser){
+      alert("Another user has logged into this account \n NOTE: There can only be one user logged in per account");
+      this.globalService.anotherUser = false;
+    }
     this.initializeUser();
   }
   
@@ -68,8 +72,8 @@ export class LoginComponent implements OnInit {
       .catch(error => {
         console.log(error);
         var json = JSON.parse(error._body);
-        var errors = json.error;
-        this.errors = errors;
+        var error = json.error;
+        this.errors.push(error);
       });
     
   }

@@ -17,8 +17,8 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/cli": "^1.6.0",
     "@angular/animations": "^5.1.0",
+    "@angular/cli": "^1.6.0",
     "@angular/common": "^5.1.0",
     "@angular/compiler": "^5.1.0",
     "@angular/compiler-cli": "^5.1.0",
@@ -42,6 +42,7 @@
     "font-awesome": "^4.7.0",
     "hashmap": "^2.3.0",
     "jquery": "^3.2.1",
+    "jquery-contextmenu": "^2.6.3",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.10",
     "ng4-loading-spinner": "^1.1.1",
