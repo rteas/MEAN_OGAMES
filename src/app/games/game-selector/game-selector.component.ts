@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
@@ -23,5 +23,12 @@ export class GameSelectorComponent implements OnInit {
     this.selectedGame = this.games[0];
   }
   
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  
+  public setGame(game: string){
+    this.selectedGame = game;
+  }
   
 }

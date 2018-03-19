@@ -43,9 +43,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   
 
   ngOnInit() {
-    
     this.selectedGame = "pong";
-
     if(!this.globalService.userInfo){
       this.router.navigate(['/']);
     }
@@ -75,15 +73,14 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   }
   
-  selectGame(game: string){
-    this.selectedGame = game;
-    console.log('Selected game: '+ game);
-  }
-  
   leaveRoom(){
     this.roomService.removeUserFromRoom(this.room, this.user);
     this.globalService.roomInfo = null;
     this.router.navigate(['/lobby']);
+  }
+  
+  selectGame(game: string){
+   this.selectedGame = game; 
   }
   
   ngOnDestroy(){
