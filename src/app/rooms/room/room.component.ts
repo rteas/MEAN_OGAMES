@@ -19,7 +19,7 @@ import { PongCanvasComponent } from '../../games/pong-canvas/pong-canvas.compone
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.css'],
-  providers: [ChatboxComponent, PongCanvasComponent]
+  providers: [ChatboxComponent, PongCanvasComponent, GameSelectorComponent]
 })
 
 export class RoomComponent implements OnInit, OnDestroy {
@@ -36,6 +36,7 @@ export class RoomComponent implements OnInit, OnDestroy {
               private globalService: GlobalService,
               private chatboxComponent: ChatboxComponent,
               private pongCanvasComponent: PongCanvasComponent,
+              private gameSelectorComponent: GameSelectorComponent,
               private route: ActivatedRoute,
               private router: Router) { }
 

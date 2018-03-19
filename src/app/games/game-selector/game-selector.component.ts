@@ -22,10 +22,10 @@ export class GameSelectorComponent implements OnInit {
     // default selected game to the first game
     this.selectedGame = this.games[0];
   }
-  /*
+  
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  */
+  
   
 }
