@@ -63,7 +63,7 @@ exports.create = function(req, res){
                         password: req.body.password,
                         population: 1,
                         users: [req.body.user],
-                        owner: [req.body.user]
+                        owner: req.body.user
                     });
                     
     if (newRoom.password.length > 0){
@@ -122,7 +122,6 @@ exports.addUser = function(req, res){
         // update user location
         User.findById(user_id, function(err, user){
             if (err) { handleError(res, err); }
-            
             user.location = room._id;
             console.log("USER LOCATION: " + user.location);
             
@@ -138,7 +137,6 @@ exports.addUser = function(req, res){
                 
             });
         });
-        
         
     });
 }
