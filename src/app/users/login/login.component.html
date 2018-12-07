@@ -34,7 +34,10 @@
             <app-user-create></app-user-create>
             
         </form>
-        <p class="text-danger">{{errors}}</p>
+        <ul>
+            <li class="text-danger" *ngFor="let error of errors">{{error}}</li>
+        </ul>
+        
     </div>
     
     <h3>TODOS:</h3>

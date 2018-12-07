@@ -97,9 +97,12 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     
     // send an event for client to send a username
     // if applicable (only in games)
-    socket.emit('get-client-data', 'get data');
+    socket.emit('get-client-data', 'game-data');
     
     socket.on('user-login', (username)=>{
+      
+      setUserStatus(username, "Online");
+      
       var oldSocket = socketManager.getUser(username);
       
       // if it has a running disconnect timer, remove it
@@ -111,8 +114,9 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
         }
         
         if(oldSocket.id !== socket.id){
+          oldSocket.emit('kick', 'another login, remove from server');
           socketManager.removeSocket(username);
-          oldSocket.disconnect();
+          
         }
         else{
           return;
@@ -152,23 +156,9 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
           */
           
           // Method 2, change the user status directly in the db
-          User.findOne({'username': socket.username}, function(err, user){
-            if(err) { return; }
-            
-            if(!user){
-                return;
-            }
-            
-            if(user.status === "Online"){
-                user.status = "Offline";
-            }
-            
-            user.save((err) => {
-                if(err) { return; }
-                
-                return;
-            });
-          });
+          if(socket.username){
+            setUserStatus(socket.username, "Offline");
+          }
         }
       }, 
         DISCONNECTION_TIMER
@@ -178,6 +168,8 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
     });
     
   });
+  
+  
   
   // Test namespace
   var testNamespace = io.of('/testnamespace');
@@ -199,3 +191,22 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
 app.get('/jquery/jquery.js', function(req, res) {
     res.sendfile(__dirname + '/node_modules/jquery/dist/jquery.min.js');
 });
+
+
+var setUserStatus = (username, status) => {
+  User.findOne({'username': username}, function(err, user){
+    if(err) { return; }
+    
+    if(!user){
+        return;
+    }
+    
+    user.status = status;
+    
+    user.save((err) => {
+        if(err) { console.log(err); return; }
+        console.log(user.status);
+        return;
+    });
+  });
+}

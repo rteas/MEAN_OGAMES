@@ -222,7 +222,7 @@ exports.loginUser = function(req, res){
         if(!user){
             return res.status(200).json(null);
         }
-        
+        /*
         if(user.status === "Offline"){
             user.status = "Online";
         }
@@ -230,7 +230,7 @@ exports.loginUser = function(req, res){
             handleError(res, 'user is already logged in');
             return;
         }
-        
+        */
         user.save((err) => {
             if(err) { handleError(res,err); }
             
