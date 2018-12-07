@@ -117,12 +117,15 @@ exports.addUser = function(req, res){
             }
         }
         
-        // adds user to room
-        room.users.push(user_id);
+       
         // update user location
         User.findById(user_id, function(err, user){
             if (err) { handleError(res, err); }
-            user.location = room._id;
+            
+            
+             // adds user to room
+             user.location = room._id;
+             room.users.push(user.id);
             console.log("USER LOCATION: " + user.location);
             
             
