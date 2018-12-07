@@ -125,19 +125,19 @@ exports.addUser = function(req, res){
             user.location = room._id;
             console.log("USER LOCATION: " + user.location);
             
-            /*
+            
             user.save(function(err, user){
                 if (err) { handleError(res, err); }
                 
                 // update & save changes to room
-                room.population++;
+                room.population += 1;
                 room.save(function(err, room){
                     if (err) { handleError(res, err); }
                     return res.status(200).json(room);
                 });
                 
             });
-            */
+            
             return res.status(200).json(room);
         });
         
