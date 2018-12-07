@@ -125,6 +125,7 @@ exports.addUser = function(req, res){
             user.location = room._id;
             console.log("USER LOCATION: " + user.location);
             
+            /*
             user.save(function(err, user){
                 if (err) { handleError(res, err); }
                 
@@ -136,6 +137,8 @@ exports.addUser = function(req, res){
                 });
                 
             });
+            */
+            return res.status(200).json(room);
         });
         
     });
