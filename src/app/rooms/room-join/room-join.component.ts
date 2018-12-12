@@ -57,7 +57,9 @@ export class RoomJoinComponent implements OnInit {
         if(this.modalRef){
           this.modalRef.hide();
         }
+        this.globalService.roomInfo = room;
         this.router.navigate(['/rooms/'+room._id]);
+        
       }
       else{
         this.error = "incorrect password";

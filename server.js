@@ -40,29 +40,10 @@ var io;
 // test game
 var Player = require('./express-games/pong/player');
 
-/*
-var player = new Player(0,0,1,1);
-player.printPosition();
-player.setPosition(20,1);
-player.printPosition();
-*/
-
 var GameManager = require('./express-games/gameManager');
 var gameManager = new GameManager();
 
 var PongGame = require('./express-games/pong/pongGame');
-
-/*
-var pongGame = new PongGame();
-
-gameManager.addGameRoom('1', pongGame);
-
-var game = gameManager.getGame('1');
-
-//console.log(pongGame.states);
-
-//setTimeout(() => { gameManager.deleteGame('1')}, 5000);
-*/
 
 // socket manager class
 var SocketManager = require('./socket-manager');
@@ -156,9 +137,8 @@ mongo.connect('mongodb://public_user:test@ds111882.mlab.com:11882/heroku_s1wj5n8
           */
           
           // Method 2, change the user status directly in the db
-          if(socket.username){
-            setUserStatus(socket.username, "Offline");
-          }
+          setUserStatus(socket.username, "Offline");
+          
         }
       }, 
         DISCONNECTION_TIMER
